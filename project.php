@@ -51,10 +51,10 @@ class Projects {
       array_push($validation_errors, "Kosten fehlen!");
     }
     if (empty($project->min_grade)) {
-      array_push($validation_errors, "Mindestalter fehlt!");
+      array_push($validation_errors, "Mindestjahrgang fehlt!");
     }
     if (empty($project->max_grade)) {
-      array_push($validation_errors, "Maximalalter fehlt!");
+      array_push($validation_errors, "Maximaljahrgang fehlt!");
     }
     if (empty($project->min_participants)) {
       array_push($validation_errors, "Mindestteilnehmeranzahl fehlt!");
