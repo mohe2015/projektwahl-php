@@ -14,7 +14,8 @@ body {
   --background-color-light: hsl(240, 100%, 50%);
   --foreground-color: white;
   --hover-color: hsla(0, 100%, 53%, 1);
-  background-color: red;
+  background-color: black;
+  color: white;
 }
 
 /* fading colors */
@@ -38,7 +39,7 @@ table, th, td {
   padding: 0.5em;
 }
 
-tr:hover {background-color: #e4e4e4;}
+tr:hover {background-color: #0d0d0d;}
 
 .responsive {
   overflow-x: auto;
