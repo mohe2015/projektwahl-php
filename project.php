@@ -81,17 +81,17 @@ class Projects {
     $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,
  :max_participants, :presentation_type, :requirements, :random_assignments)');
     return $stmt->execute(array(
-      'title' => $title,
-      'info' => $info,
-      'place' => $place,
-      'costs' => $costs,
-      'min_grade' => $min_grade,
-      'max_grade' => $max_grade,
-      'min_participants' => $min_participants,
-      'max_participants' => $max_participants,
-      'presentation_type' => $presentation_type,
-      'requirements' => $requirements,
-      'random_assignments' => $random_assignments
+      'title' => $project->title,
+      'info' => $project->info,
+      'place' => $project->place,
+      'costs' => $project->costs,
+      'min_grade' => $project->min_grade,
+      'max_grade' => $project->max_grade,
+      'min_participants' => $project->min_participants,
+      'max_participants' => $project->max_participants,
+      'presentation_type' => $project->presentation_type,
+      'requirements' => $project->requirements,
+      'random_assignments' => !empty($project->random_assignments)
     ));
   }
 }
