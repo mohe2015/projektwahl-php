@@ -1,0 +1,10 @@
+<?php
+
+$database = [
+  'url'      => 'mysql:host=localhost',
+  'dbname'   => 'projektwahl',
+  'username' => 'root',
+  'password' => 'test',
+];
+
+?>

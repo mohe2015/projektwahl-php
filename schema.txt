@@ -1,0 +1,18 @@
+entities:
+
++users: name, password, type
+
++students (user): clazz, grade, is_away
+
++user in one project
++user/teacher project leader in one project
+
++projects: title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assigments_allowed
+
++teachers (user): ...
+
++admins (user): ...
+
++choices: rank
+
++any student can vote for any project
