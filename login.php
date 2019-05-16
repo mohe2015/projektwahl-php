@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once 'head.php';
 if (isset($_SESSION['name'])) {
   header("Location: /");
   die();
@@ -19,6 +19,8 @@ if (!empty($_POST)) {
     $_SESSION['name'] = $result[0]["name"];
     header("Location: /");
     die();
+  } else {
+    die("invalid password");
   }
 }
 ?>

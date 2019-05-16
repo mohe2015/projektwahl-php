@@ -14,8 +14,15 @@ body {
   --background-color-light: hsl(240, 100%, 50%);
   --foreground-color: white;
   --hover-color: hsla(0, 100%, 53%, 1);
+}
+
+body, input, textarea, select {
   background-color: black;
   color: white;
+}
+
+input, textarea, select {
+  border: 1px solid var(--background-color-light);
 }
 
 /* fading colors */

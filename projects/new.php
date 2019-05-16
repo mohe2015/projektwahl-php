@@ -1,56 +1,68 @@
 <?php
 require_once '../head.php';
+if (!isset($_SESSION['name'])) {
+  header("Location: /login.php");
+  die("not logged in");
+}
+if (!empty($_POST)) {
+  $project = new Project($_POST);
+  try {
+    Projects::save($project);
+  } catch (Exception $e) {
+    print $e->getMessage();
+  }
+}
 ?>
 
 <h1>Projekt erstellen</h1>
 
-<form>
+<form method="post">
 
 <div class="form-group">
   <label class="col">Titel*:</label>
-  <input class="col" type="text" />
+  <input class="col" type="text" name="title" />
 </div>
 
 <div class="form-group">
   <label class="col">Info*:</label>
-  <textarea class="col"></textarea>
+  <textarea class="col" name="info"></textarea>
 </div>
 
 <div class="form-group">
   <label class="col">Ich benötige:</label>
-  <textarea class="col"></textarea>
+  <textarea class="col" name="requirements"></textarea>
 </div>
 
 <div class="form-group">
   <label class="col">Präsentationsart:</label>
-  <input class="col" type="text" />
+  <input class="col" type="text" name="presentation_type" />
 </div>
 
 <div class="form-group">
   <label class="col">Ort/Raum*:</label>
-  <input class="col" type="text" />
+  <input class="col" type="text" name="room" />
 </div>
 
 <div class="form-group">
   <label class="col">Kosten:</label>
-  <input class="col" type="number" />
+  <input class="col" type="number" name="costs" />
 </div>
 
 <div class="form-group">
   <label class="col">Jahrgangsstufe*:</label>
   <div class="col">
-    <input type="number" />
+    <input type="number" name="min_grade" />
     <span>bis</span>
-    <input type="number" />
+    <input type="number" name="min_grade" />
   </div>
 </div>
 
 <div class="form-group">
   <label class="col">Teilnehmeranzahl*:</label>
   <div class="col">
-    <input type="number" />
+    <input type="number" name="min_participants" />
     <span>bis</span>
-    <input type="number" />
+    <input type="number" name="max_participants" />
   </div>
 </div>
 
@@ -70,6 +82,8 @@ require_once '../head.php';
     Zufällige Projektzuweisungen erlaubt
   </label>
 </div>
+
+<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
 
 <div class="form-group">
   <button type="submit" class="w-100">Projekt erstellen</button>
