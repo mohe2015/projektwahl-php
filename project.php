@@ -41,6 +41,36 @@ class Projects {
     if (empty($project->title)) {
       array_push($validation_errors, "Titel fehlt!");
     }
+    if (empty($project->info)) {
+      array_push($validation_errors, "Info fehlt!");
+    }
+    if (empty($project->place)) {
+      array_push($validation_errors, "Ort/Raum fehlt!");
+    }
+    if (empty($project->costs)) {
+      array_push($validation_errors, "Kosten fehlen!");
+    }
+    if (empty($project->min_grade)) {
+      array_push($validation_errors, "Mindestalter fehlt!");
+    }
+    if (empty($project->max_grade)) {
+      array_push($validation_errors, "Maximalalter fehlt!");
+    }
+    if (empty($project->min_participants)) {
+      array_push($validation_errors, "Mindestteilnehmeranzahl fehlt!");
+    }
+    if (empty($project->max_participants)) {
+      array_push($validation_errors, "Maximalteilnehmeranzahl fehlt!");
+    }
+    if (empty($project->presentation_type)) {
+      array_push($validation_errors, "Präsentationsart fehlt!");
+    }
+    if (empty($project->requirements)) {
+      array_push($validation_errors, "\"Ich benötige\" fehlt!");
+    }
+    if (empty($project->random_assignments)) {
+      array_push($validation_errors, "\"Zufällige Projektzuweisungen erlaubt\" fehlt!");
+    }
     if (!empty($validation_errors)) {
       throw new ValidationError(implode("<br>", $validation_errors));
     }
