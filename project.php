@@ -33,8 +33,13 @@ class Projects {
     global $db;
     $stmt = $db->prepare('SELECT * FROM projects WHERE title = :title');
     $stmt->execute(array('title' => $title));
-    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Project');
-    return $stmt->fetch();
+    return $stmt->fetchObject('Project');
+  }
+  public function all() {
+    global $db;
+    $stmt = $db->prepare('SELECT * FROM projects;');
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
   }
   public function validate(\Project $project) {
     $validation_errors = array();
@@ -74,7 +79,7 @@ class Projects {
     if (!empty($validation_errors)) {
       throw new ValidationError(implode("<br>", $validation_errors));
     }
-  }  
+  }
   public function save(\Project $project) {
     Projects::validate($project);
     global $db;

@@ -1,5 +1,7 @@
 <?php
 require_once '../head.php';
+$projects = Projects::all();
+print_r($projects);
 ?>
 
 <h1>Projekte</h1>
