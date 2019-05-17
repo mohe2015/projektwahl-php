@@ -20,8 +20,8 @@ $teachers = Teachers::all();
           <tr>
             <td><?php echo htmlspecialchars($teacher->name) ?></td>
             <td>
-              <a href="/project/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
-              <a href="/project/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
+              <a href="/teacher/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
+              <a href="/teacher/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach;?>

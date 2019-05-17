@@ -5,7 +5,8 @@ if (!isset($_SESSION['name'])) {
   die("not logged in");
 }
 if (!empty($_POST)) {
-  $teacher = new Teacher($_POST); // TODO check if this can modify the type
+  $teacher = new Teacher($_POST);
+  $teacher->id = $_SERVER['QUERY_STRING'];
   try {
     $teacher->password = "none"; // FIXME
     $teacher->save();
@@ -14,10 +15,12 @@ if (!empty($_POST)) {
   }
   header("Location: /teachers");
   die();
+} else {
+  $teacher = Teachers::find($_SERVER['QUERY_STRING']);
 }
 ?>
 
-<h1>Lehrer erstellen</h1>
+<h1>Lehrer ändern</h1>
 <?php
 require_once 'form.php';
 ?>
