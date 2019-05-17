@@ -1,20 +1,3 @@
-<?php
-require_once '../head.php';
-if (!isset($_SESSION['name'])) {
-  header("Location: /login.php");
-  die("not logged in");
-}
-if (!empty($_POST)) {
-  $project = new Project($_POST);
-  try {
-    Projects::save($project);
-  } catch (Exception $e) {
-    print $e->getMessage();
-  }
-}
-?>
-
-<h1>Projekt erstellen</h1>
 
 <form method="post">
 
@@ -86,7 +69,7 @@ if (!empty($_POST)) {
 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
 
 <div class="form-group">
-  <button type="submit" class="w-100">Projekt erstellen</button>
+  <button type="submit" class="w-100">Projekt speichern</button>
 </div>
 
 </form>
