@@ -9,8 +9,10 @@ if (!empty($_POST)) {
   try {
     Projects::save($project);
   } catch (Exception $e) {
-    print $e->getMessage();
+    die($e->getMessage());
   }
+  header("Location: /projects");
+  die();
 }
 ?>
 
