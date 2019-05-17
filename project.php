@@ -29,10 +29,10 @@ class Project {
   }
 }
 class Projects {
-  public function find($title) {
+  public function find($id) {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM projects WHERE title = :title');
-    $stmt->execute(array('title' => $title));
+    $stmt = $db->prepare('SELECT * FROM projects WHERE id = :id');
+    $stmt->execute(array('id' => $id));
     return $stmt->fetchObject('Project');
   }
   public function all() {
@@ -83,21 +83,40 @@ class Projects {
   public function save(\Project $project) {
     Projects::validate($project);
     global $db;
-    $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,
- :max_participants, :presentation_type, :requirements, :random_assignments)');
-    return $stmt->execute(array(
-      'title' => $project->title,
-      'info' => $project->info,
-      'place' => $project->place,
-      'costs' => $project->costs,
-      'min_grade' => $project->min_grade,
-      'max_grade' => $project->max_grade,
-      'min_participants' => $project->min_participants,
-      'max_participants' => $project->max_participants,
-      'presentation_type' => $project->presentation_type,
-      'requirements' => $project->requirements,
-      'random_assignments' => !empty($project->random_assignments)
-    ));
+    if (empty($project->id)) {
+      $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,
+      :max_participants, :presentation_type, :requirements, :random_assignments)');
+      $stmt->execute(array(
+        'title' => $project->title,
+        'info' => $project->info,
+        'place' => $project->place,
+        'costs' => $project->costs,
+        'min_grade' => $project->min_grade,
+        'max_grade' => $project->max_grade,
+        'min_participants' => $project->min_participants,
+        'max_participants' => $project->max_participants,
+        'presentation_type' => $project->presentation_type,
+        'requirements' => $project->requirements,
+        'random_assignments' => !empty($project->random_assignments)
+      ));
+      $project->id = $db->lastInsertId();
+    } else {
+      $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
+      $stmt->execute(array(
+        'id' => $project->id,
+        'title' => $project->title,
+        'info' => $project->info,
+        'place' => $project->place,
+        'costs' => $project->costs,
+        'min_grade' => $project->min_grade,
+        'max_grade' => $project->max_grade,
+        'min_participants' => $project->min_participants,
+        'max_participants' => $project->max_participants,
+        'presentation_type' => $project->presentation_type,
+        'requirements' => $project->requirements,
+        'random_assignments' => !empty($project->random_assignments)
+      ));
+    }
   }
 }
 

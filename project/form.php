@@ -3,49 +3,49 @@
 
 <div class="form-group">
   <label class="col">Titel*:</label>
-  <input class="col" type="text" name="title" value="<?php echo htmlspecialchars($_POST['title']) ?>" />
+  <input class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
 </div>
 
 <div class="form-group">
   <label class="col">Info*:</label>
-  <textarea class="col" name="info"><?php echo htmlspecialchars($_POST['info']) ?></textarea>
+  <textarea class="col" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
 </div>
 
 <div class="form-group">
   <label class="col">Ich benötige:</label>
-  <textarea class="col" name="requirements"><?php echo htmlspecialchars($_POST['requirements']) ?></textarea>
+  <textarea class="col" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
 </div>
 
 <div class="form-group">
   <label class="col">Präsentationsart:</label>
-  <input class="col" type="text" name="presentation_type" value="<?php echo htmlspecialchars($_POST['presentation_type']) ?>" />
+  <input class="col" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
 </div>
 
 <div class="form-group">
   <label class="col">Ort/Raum*:</label>
-  <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($_POST['place']) ?>" />
+  <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
 </div>
 
 <div class="form-group">
   <label class="col">Kosten:</label>
-  <input class="col" type="number" name="costs" value="<?php echo htmlspecialchars($_POST['costs']) ?>" />
+  <input class="col" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 </div>
 
 <div class="form-group">
   <label class="col">Jahrgangsstufe*:</label>
   <div class="col">
-    <input type="number" name="min_grade" value="<?php echo htmlspecialchars($_POST['min_grade']) ?>" />
+    <input type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
     <span>bis</span>
-    <input type="number" name="max_grade" value="<?php echo htmlspecialchars($_POST['max_grade']) ?>" />
+    <input type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
   </div>
 </div>
 
 <div class="form-group">
   <label class="col">Teilnehmeranzahl*:</label>
   <div class="col">
-    <input type="number" name="min_participants" value="<?php echo htmlspecialchars($_POST['min_participants']) ?>" />
+    <input type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
     <span>bis</span>
-    <input type="number" name="max_participants" value="<?php echo htmlspecialchars($_POST['max_participants']) ?>" />
+    <input type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
   </div>
 </div>
 
@@ -61,7 +61,7 @@
 
 <div class="form-group">
   <label>
-    <input type="checkbox" name="random_assignments" <?php echo (!empty($_POST['random_assignments'])) ? "checked" : "" ?>>
+    <input type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
     Zufällige Projektzuweisungen erlaubt
   </label>
 </div>

@@ -5,12 +5,15 @@ if (!isset($_SESSION['name'])) {
   die("not logged in");
 }
 if (!empty($_POST)) {
-  /*$project = new Project($_POST);
+  $project = new Project($_POST);
+  $project->id = $_SERVER['QUERY_STRING'];
   try {
     Projects::save($project);
   } catch (Exception $e) {
     print $e->getMessage();
-  }*/
+  }
+} else {
+  $project = Projects::find($_SERVER['QUERY_STRING']);
 }
 ?>
 

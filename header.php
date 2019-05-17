@@ -16,7 +16,7 @@ try {
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
-
+/*
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     title VARCHAR(256) NOT NULL,
@@ -69,7 +69,7 @@ try {
       ON DELETE RESTRICT
     );");
     $stmt->closeCursor();
-
+*/
     //$stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
     //$stmt->execute(array('name' => 'admin', 'password' => password_hash("admin", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
