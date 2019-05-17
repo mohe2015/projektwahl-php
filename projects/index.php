@@ -1,7 +1,6 @@
 <?php
 require_once '../head.php';
 $projects = Projects::all();
-print_r($projects);
 ?>
 
 <h1>Projekte</h1>
@@ -18,11 +17,16 @@ print_r($projects);
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
+        <?php foreach ($projects as $project) :?>
+          <tr>
+            <td><?php echo htmlspecialchars($project->title) ?></td>
+            <td>unbekannt</td>
+            <td>
+              <a href="#"><i class="fas fa-pen"></i></a>
+              <a href="#"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+        <?php endforeach;?>
       </tbody>
   </table>
 </div>
