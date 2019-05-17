@@ -24,37 +24,5 @@ class Teachers {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
   }
-  // TODO put into base class
-  public function save(\Teacher $student) {
-    $user->validate();
-    global $db;
-    if (empty($student->id)) {
-      $stmt = $db->prepare('INSERT INTO users (name, password, type, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :project_leader, :class, :grade, :away, :in_project)');
-      $stmt->execute(array(
-        'name' => $student->name,
-        'password' => $student->password,
-        'type' => $student->type,
-        'project_leader' => $student->project_leader,
-        'class' => $student->class,
-        'grade' => $student->grade,
-        'away' => $student->away,
-        'in_project' => $student->in_project
-      ));
-      $student->id = $db->lastInsertId();
-    } else {
-      $stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
-      $stmt->execute(array(
-        'id' => $student->id,
-        'name' => $student->name,
-        'password' => $student->password,
-        'type' => $student->type,
-        'project_leader' => $student->project_leader,
-        'class' => $student->class,
-        'grade' => $student->grade,
-        'away' => $student->away,
-        'in_project' => $student->in_project
-      ));
-    }
-  }
 }
 ?>

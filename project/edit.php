@@ -8,7 +8,7 @@ if (!empty($_POST)) {
   $project = new Project($_POST);
   $project->id = $_SERVER['QUERY_STRING'];
   try {
-    Projects::save($project);
+    $project->save();
   } catch (Exception $e) {
     die($e->getMessage());
   }

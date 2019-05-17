@@ -7,7 +7,7 @@ if (!isset($_SESSION['name'])) {
 if (!empty($_POST)) {
   $project = new Project($_POST);
   try {
-    Projects::save($project);
+    $project->save();
   } catch (Exception $e) {
     die($e->getMessage());
   }

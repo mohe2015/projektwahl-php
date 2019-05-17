@@ -66,6 +66,45 @@ class Project extends Record {
     }
     return $validation_errors;
   }
+
+  public function save() {
+    $this->validate();
+    global $db;
+    if (empty($this->id)) {
+      $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,
+      :max_participants, :presentation_type, :requirements, :random_assignments)');
+      $stmt->execute(array(
+        'title' => $this->title,
+        'info' => $this->info,
+        'place' => $this->place,
+        'costs' => $this->costs,
+        'min_grade' => $this->min_grade,
+        'max_grade' => $this->max_grade,
+        'min_participants' => $this->min_participants,
+        'max_participants' => $this->max_participants,
+        'presentation_type' => $this->presentation_type,
+        'requirements' => $this->requirements,
+        'random_assignments' => !empty($this->random_assignments)
+      ));
+      $project->id = $db->lastInsertId();
+    } else {
+      $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
+      $stmt->execute(array(
+        'id' => $this->id,
+        'title' => $this->title,
+        'info' => $this->info,
+        'place' => $this->place,
+        'costs' => $this->costs,
+        'min_grade' => $this->min_grade,
+        'max_grade' => $this->max_grade,
+        'min_participants' => $this->min_participants,
+        'max_participants' => $this->max_participants,
+        'presentation_type' => $this->presentation_type,
+        'requirements' => $this->requirements,
+        'random_assignments' => !empty($this->random_assignments)
+      ));
+    }
+  }
 }
 class Projects {
   public function find($id) {
@@ -79,45 +118,6 @@ class Projects {
     $stmt = $db->prepare('SELECT * FROM projects;');
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
-  }
-
-  public function save(\Project $project) {
-    $project->validate();
-    global $db;
-    if (empty($project->id)) {
-      $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,
-      :max_participants, :presentation_type, :requirements, :random_assignments)');
-      $stmt->execute(array(
-        'title' => $project->title,
-        'info' => $project->info,
-        'place' => $project->place,
-        'costs' => $project->costs,
-        'min_grade' => $project->min_grade,
-        'max_grade' => $project->max_grade,
-        'min_participants' => $project->min_participants,
-        'max_participants' => $project->max_participants,
-        'presentation_type' => $project->presentation_type,
-        'requirements' => $project->requirements,
-        'random_assignments' => !empty($project->random_assignments)
-      ));
-      $project->id = $db->lastInsertId();
-    } else {
-      $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
-      $stmt->execute(array(
-        'id' => $project->id,
-        'title' => $project->title,
-        'info' => $project->info,
-        'place' => $project->place,
-        'costs' => $project->costs,
-        'min_grade' => $project->min_grade,
-        'max_grade' => $project->max_grade,
-        'min_participants' => $project->min_participants,
-        'max_participants' => $project->max_participants,
-        'presentation_type' => $project->presentation_type,
-        'requirements' => $project->requirements,
-        'random_assignments' => !empty($project->random_assignments)
-      ));
-    }
   }
 }
 
