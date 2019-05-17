@@ -1,6 +1,6 @@
 <?php
 require_once '../head.php';
-$teachers = Users::all();
+$teachers = Teachers::all();
 ?>
 
 <h1>Lehrer</h1>
