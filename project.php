@@ -1,6 +1,7 @@
 <?php
-class ValidationError extends Exception { }
-class Project {
+require_once 'record.php';
+
+class Project extends Record {
   public $id;
   public $title;
   public $info;
@@ -28,6 +29,43 @@ class Project {
       $this->random_assignments = $data['random_assignments'];
     }
   }
+  public function getValidationErrors() {
+    $validation_errors = array();
+    if (empty($this->title)) {
+      array_push($validation_errors, "Titel fehlt!");
+    }
+    if (empty($this->info)) {
+      array_push($validation_errors, "Info fehlt!");
+    }
+    if (empty($this->place)) {
+      array_push($validation_errors, "Ort/Raum fehlt!");
+    }
+    if (empty($this->costs)) {
+      array_push($validation_errors, "Kosten fehlen!");
+    }
+    if (empty($this->min_grade)) {
+      array_push($validation_errors, "Mindestjahrgang fehlt!");
+    }
+    if (empty($this->max_grade)) {
+      array_push($validation_errors, "Maximaljahrgang fehlt!");
+    }
+    if (empty($this->min_participants)) {
+      array_push($validation_errors, "Mindestteilnehmeranzahl fehlt!");
+    }
+    if (empty($this->max_participants)) {
+      array_push($validation_errors, "Maximalteilnehmeranzahl fehlt!");
+    }
+    if (empty($this->presentation_type)) {
+      array_push($validation_errors, "Präsentationsart fehlt!");
+    }
+    if (empty($this->requirements)) {
+      array_push($validation_errors, "\"Ich benötige\" fehlt!");
+    }
+    if (empty($this->random_assignments)) {
+      array_push($validation_errors, "\"Zufällige Projektzuweisungen erlaubt\" fehlt!");
+    }
+    return $validation_errors;
+  }
 }
 class Projects {
   public function find($id) {
@@ -42,47 +80,9 @@ class Projects {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
   }
-  public function validate(\Project $project) {
-    $validation_errors = array();
-    if (empty($project->title)) {
-      array_push($validation_errors, "Titel fehlt!");
-    }
-    if (empty($project->info)) {
-      array_push($validation_errors, "Info fehlt!");
-    }
-    if (empty($project->place)) {
-      array_push($validation_errors, "Ort/Raum fehlt!");
-    }
-    if (empty($project->costs)) {
-      array_push($validation_errors, "Kosten fehlen!");
-    }
-    if (empty($project->min_grade)) {
-      array_push($validation_errors, "Mindestjahrgang fehlt!");
-    }
-    if (empty($project->max_grade)) {
-      array_push($validation_errors, "Maximaljahrgang fehlt!");
-    }
-    if (empty($project->min_participants)) {
-      array_push($validation_errors, "Mindestteilnehmeranzahl fehlt!");
-    }
-    if (empty($project->max_participants)) {
-      array_push($validation_errors, "Maximalteilnehmeranzahl fehlt!");
-    }
-    if (empty($project->presentation_type)) {
-      array_push($validation_errors, "Präsentationsart fehlt!");
-    }
-    if (empty($project->requirements)) {
-      array_push($validation_errors, "\"Ich benötige\" fehlt!");
-    }
-    if (empty($project->random_assignments)) {
-      array_push($validation_errors, "\"Zufällige Projektzuweisungen erlaubt\" fehlt!");
-    }
-    if (!empty($validation_errors)) {
-      throw new ValidationError(implode("<br>", $validation_errors));
-    }
-  }
+
   public function save(\Project $project) {
-    Projects::validate($project);
+    $project->validate();
     global $db;
     if (empty($project->id)) {
       $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants,

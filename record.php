@@ -1,4 +1,6 @@
 <?php
+class ValidationError extends Exception { }
+
 abstract class Record {
 
   abstract function getValidationErrors();
