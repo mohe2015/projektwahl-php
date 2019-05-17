@@ -21,7 +21,7 @@ class Student extends User {
   public function getValidationErrors() {
     $validation_errors = User::getValidationErrors();
     if (empty($this->project_leader)) {
-      array_push($validation_errors, "Projektleiter fehlt!");
+      //array_push($validation_errors, "Projektleiter fehlt!");
     }
     if (empty($this->class)) {
       array_push($validation_errors, "Klasse fehlt!");
@@ -33,7 +33,7 @@ class Student extends User {
       array_push($validation_errors, "Abwesend fehlt!");
     }
     if (empty($this->in_project)) {
-      array_push($validation_errors, "Projekt fehlt!");
+      //array_push($validation_errors, "Projekt fehlt!");
     }
     return $validation_errors;
   }
