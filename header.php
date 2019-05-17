@@ -1,5 +1,6 @@
 <?php
 require_once 'project.php';
+require_once 'user.php';
 session_start();
 if (!empty($_POST)) {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {

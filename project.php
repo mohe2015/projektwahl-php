@@ -1,6 +1,7 @@
 <?php
 class ValidationError extends Exception { }
 class Project {
+  public $id;
   public $title;
   public $info;
   public $place;
