@@ -4,7 +4,7 @@ if (!isset($_SESSION['name'])) {
   header("Location: /login.php");
   die("not logged in");
 }
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = new Project($_POST);
   try {
     $project->save();

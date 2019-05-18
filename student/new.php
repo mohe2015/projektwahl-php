@@ -4,7 +4,7 @@ if (!isset($_SESSION['name'])) {
   header("Location: /login.php");
   die("not logged in");
 }
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $student = new Student($_POST); // TODO check if this can modify the type
   try {
     $student->password = "none"; // FIXME
