@@ -3,6 +3,7 @@ require_once 'project.php';
 require_once 'user.php';
 require_once 'teacher.php';
 require_once 'student.php';
+require_once 'timers.php';
 session_start();
 if (!empty($_POST)) {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {
@@ -20,6 +21,7 @@ try {
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
 /*
+// TODO title unique
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     title VARCHAR(256) NOT NULL,
@@ -36,6 +38,7 @@ try {
     );");
     $stmt->closeCursor();
 
+// TODO name unique
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(64) NOT NULL,

@@ -5,20 +5,30 @@ if (!isset($_SESSION['name'])) {
   die("not logged in");
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $row = 1;
-  if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
-      while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-          $num = count($data);
-          echo "<p> $num Felder in Zeile $row: <br /></p>\n";
-          $row++;
-          for ($c=0; $c < $num; $c++) {
-              echo $data[$c] . "<br />\n";
-          }
-      }
-      fclose($handle);
-  } else {
-    echo "failed to open file";
+  $timers = new Timers();
+  $timers->startTimer('import');
+  try {
+    if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $num = count($data);
+            if ($num != 1) {
+              echo "nur eine Spalte erlaubt!";
+              break;
+            }
+            $teacher = new Teacher();
+            $teacher->name = $data[0];
+            $teacher->password = "none"; // FIXME
+            $teacher->save();
+        }
+        fclose($handle);
+    } else {
+      echo "failed to open file";
+    }
+  } catch (Exception $e) {
+    echo $e->getMessage();
   }
+  $timers->endTimer('import');
+  header('Server-Timing: ' . $timers->getTimers());
 }
 ?>
 <form enctype="multipart/form-data" method="POST">
