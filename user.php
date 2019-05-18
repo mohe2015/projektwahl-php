@@ -7,6 +7,16 @@ class User extends Record {
   public $password;
   public $type;
 
+  protected static $insert_stmt = null;
+
+  protected static function getInsertStatement() {
+    global $db;
+    if (null === self::$insert_stmt) {
+        self::$insert_stmt = $db->prepare('INSERT INTO users (name, password, type, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :project_leader, :class, :grade, :away, :in_project)');
+    }
+    return self::$insert_stmt;
+  }
+
   public function __construct($data = null) {
     if (is_array($data)) {
       $this->name = $data['name'];
@@ -30,11 +40,10 @@ class User extends Record {
   }
 
   public function save() {
-    $this->validate();
     global $db;
+    $this->validate();
     if (empty($this->id)) {
-      $stmt = $db->prepare('INSERT INTO users (name, password, type, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :project_leader, :class, :grade, :away, :in_project)');
-      $stmt->execute(array(
+      self::getInsertStatement()->execute(array(
         'name' => $this->name,
         'password' => $this->password,
         'type' => $this->type,
