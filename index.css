@@ -101,11 +101,11 @@ li a:hover {
   -moz-appearance: button;
   appearance: button;
   text-decoration: none;
-  padding: .8rem 2rem;
+  padding: 1rem 1rem;
   color: var(--foreground-color);
   background-color: var(--background-color);
   border: 0;
-
+  margin-bottom: 0.5em;
 }
 
 .container {

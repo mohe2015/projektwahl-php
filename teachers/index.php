@@ -6,6 +6,7 @@ $teachers = Teachers::all();
 <h1>Lehrer</h1>
 
 <a href="/teacher/new.php" class="button">Neuer Lehrer<a>
+<a href="/teachers/import.php" class="button">Lehrer importieren<a>
 
 <div class="responsive">
   <table>
