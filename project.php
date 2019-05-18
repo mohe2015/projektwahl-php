@@ -105,6 +105,14 @@ class Project extends Record {
       ));
     }
   }
+
+  public function delete() {
+    global $db;
+    $stmt = $db->prepare('DELETE FROM projects WHERE id = :id;');
+    $stmt->execute(array(
+      'id' => $this->id
+    ));
+  }
 }
 class Projects {
   public function find($id) {
