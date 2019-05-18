@@ -15,6 +15,7 @@ $students = Students::all();
     <thead>
         <tr>
           <th scope="col">Name</th>
+          <th scope="col">Klasse</th>
           <th scope="col">Aktionen</th>
         </tr>
       </thead>
@@ -22,6 +23,7 @@ $students = Students::all();
         <?php foreach ($students as $student) :?>
           <tr>
             <td><?php echo htmlspecialchars($student->name) ?></td>
+            <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
               <a href="/student/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
               <a href="/student/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
