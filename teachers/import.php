@@ -5,8 +5,10 @@ if (!isset($_SESSION['name'])) {
   die("not logged in");
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // 1.8s | 190.56 ms
   $timers = new Timers();
   $timers->startTimer('import');
+  $db->beginTransaction();
   try {
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
@@ -27,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     echo $e->getMessage();
   }
+  $db->commit();
   $timers->endTimer('import');
   header('Server-Timing: ' . $timers->getTimers());
 }
