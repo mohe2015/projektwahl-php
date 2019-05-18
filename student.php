@@ -30,7 +30,7 @@ class Student extends User {
       array_push($validation_errors, "Jahrgang fehlt!");
     }
     if (empty($this->away)) {
-      array_push($validation_errors, "Abwesend fehlt!");
+      //array_push($validation_errors, "Abwesend fehlt!");
     }
     if (empty($this->in_project)) {
       //array_push($validation_errors, "Projekt fehlt!");

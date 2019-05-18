@@ -50,7 +50,7 @@ class User extends Record {
         'project_leader' => $this->project_leader,
         'class' => $this->class,
         'grade' => $this->grade,
-        'away' => !empty($this->away) ? 1 : 0,
+        'away' => $this->away ? 1 : 0,
         'in_project' => $this->in_project
       ));
       $this->id = $db->lastInsertId();
@@ -64,7 +64,7 @@ class User extends Record {
         'project_leader' => $this->project_leader,
         'class' => $this->class,
         'grade' => $this->grade,
-        'away' => !empty($this->away) ? 1 : 0,
+        'away' => $this->away ? 1 : 0,
         'in_project' => $this->in_project
       ));
     }

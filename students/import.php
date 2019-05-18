@@ -12,14 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $num = count($data);
-            if ($num != 1) {
-              echo "nur eine Spalte erlaubt!";
+            if ($num != 3) {
+              echo "drei Spalten benötigt (Name, Klasse, Jahrgang)!";
               break;
             }
-            $teacher = new Teacher();
-            $teacher->name = $data[0];
-            $teacher->password = "none"; // FIXME
-            $teacher->save();
+            $student = new Student();
+            $student->name = $data[0];
+            $student->class = $data[1];
+            $student->grade = $data[2];
+            $student->away = false;
+            $student->password = "none"; // FIXME
+            $student->save();
         }
         fclose($handle);
     } else {
@@ -40,6 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
     <div class="form-group">
-      <button class="w-100" type="submit">Lehrer importieren</button>
+      <button class="w-100" type="submit">Schüler importieren</button>
     </div>
 </form>
