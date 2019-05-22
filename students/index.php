@@ -9,10 +9,10 @@ $students = Students::all();
 
 <h1>Schüler</h1>
 
-<a href="/student/new.php" class="button">Neuer Schüler<a>
-<a href="/students/import.php" class="button">Schüler importieren<a>
-<a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte<a>
-<a href="/students/calculate.php" class="button">Projektzuordnungen berechnen<a>
+<a href="/student/new.php" class="button">Neuer Schüler</a>
+<a href="/students/import.php" class="button">Schüler importieren</a>
+<a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
+<a href="/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
 
 <div class="responsive">
   <table>

@@ -5,7 +5,7 @@ require_once __DIR__ . '/teacher.php';
 require_once __DIR__ . '/student.php';
 require_once __DIR__ . '/timers.php';
 session_start();
-if (!empty($_POST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {
     die("CSRF token not valid");
   }
@@ -20,7 +20,7 @@ try {
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
-
+/*
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     title VARCHAR(255) UNIQUE NOT NULL,
@@ -73,7 +73,7 @@ try {
       ON DELETE RESTRICT
     );");
     $stmt->closeCursor();
-
+*/
     //$stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
     //$stmt->execute(array('name' => 'admin', 'password' => password_hash("admin", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {

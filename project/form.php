@@ -3,7 +3,7 @@
 
 <div class="form-group">
   <label class="col">Titel*:</label>
-  <input class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+  <input autofocus class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
 </div>
 
 <div class="form-group">

@@ -32,7 +32,7 @@ function active_exact($path) {
          <li><a <?php active("/teacher") ?> href="/teachers"><i class="fas fa-chalkboard-teacher"></i><span class="hidden-small"> Lehrer</span></a></li>
          <li><a <?php active("/student") ?> href="/students"><i class="fas fa-user"></i><span class="hidden-small"> Schüler</span></a></li>
          <li class="float-right"><a href="#"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl beenden</span></a></li>
-         <li class="float-right"><a href="#"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> Abmelden</span></a></li>
+         <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> Abmelden</span></a></li>
         </li>
        </ul>
     </nav>

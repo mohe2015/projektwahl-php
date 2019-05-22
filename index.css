@@ -109,31 +109,13 @@ li a:hover {
 }
 
 .container {
-  margin: 5px;
+  max-width: 50em;
+  margin: auto;
 }
 
-/* form improvements */
-/*@media screen and (min-width: 55em) {
-  .form-group {
-      display: flex;
-      flex-wrap: wrap;
-  }
-
-  label.col {
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
-  }
-
-  .col {
-    flex: 0 0 83.333333%;
-    max-width: 83.333333%;
-  }
+.col {
+  width: 100%;
 }
-@media screen and (max-width: 55em) {*/
-  .col {
-    width: 100%;
-  }
-/*}*/
 
 input, textarea, select {
   padding: 0.5em 0.5em;

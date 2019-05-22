@@ -2,7 +2,7 @@
 
 <div class="form-group">
   <label class="col">Name*:</label>
-  <input class="col" type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
+  <input autofocus class="col" type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
 </div>
 
 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />

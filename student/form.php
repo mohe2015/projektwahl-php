@@ -2,7 +2,7 @@
 
 <div class="form-group">
   <label class="col">Name*:</label>
-  <input class="col" type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
+  <input autofocus class="col" type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
 </div>
 
 <div class="form-group">
