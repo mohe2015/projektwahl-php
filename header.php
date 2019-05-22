@@ -1,9 +1,9 @@
 <?php
-require_once 'project.php';
-require_once 'user.php';
-require_once 'teacher.php';
-require_once 'student.php';
-require_once 'timers.php';
+require_once __DIR__ . '/project.php';
+require_once __DIR__ . '/user.php';
+require_once __DIR__ . '/teacher.php';
+require_once __DIR__ . '/student.php';
+require_once __DIR__ . '/timers.php';
 session_start();
 if (!empty($_POST)) {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {

@@ -1,5 +1,5 @@
 <?php
-require_once 'record.php';
+require_once __DIR__ . '/record.php';
 
 class User extends Record {
   public $id;

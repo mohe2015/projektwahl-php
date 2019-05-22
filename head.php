@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once __DIR__ . '/header.php';
 
 function startsWith($haystack, $needle)
 {
