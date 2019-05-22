@@ -1,5 +1,9 @@
 <?php
 require_once '../head.php';
+if (!isset($_SESSION['name'])) {
+  header("Location: /login.php");
+  die("not logged in");
+}
 $students = Students::all();
 ?>
 

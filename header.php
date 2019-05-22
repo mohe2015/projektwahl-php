@@ -74,7 +74,7 @@ try {
     );");
     $stmt->closeCursor();
 
-    $stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
+    //$stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
     //$stmt->execute(array('name' => 'admin', 'password' => password_hash("admin", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
     print "Error!: " . $e . "<br/>";
