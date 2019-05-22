@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     session_regenerate_id(true);
     $_SESSION['name'] = $result[0]["name"];
+    $_SESSION['type'] = $result[0]["type"];
     header("Location: /");
     die();
   } else {

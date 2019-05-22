@@ -5,6 +5,7 @@ require_once __DIR__ . '/teacher.php';
 require_once __DIR__ . '/student.php';
 require_once __DIR__ . '/timers.php';
 session_start();
+require_once __DIR__ . '/permissions.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {
     die("CSRF token not valid");
