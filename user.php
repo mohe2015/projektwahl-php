@@ -69,5 +69,13 @@ class User extends Record {
       ));
     }
   }
+
+  public function delete() {
+    global $db;
+    $stmt = $db->prepare('DELETE FROM users WHERE id = :id;');
+    $stmt->execute(array(
+      'id' => $this->id
+    ));
+  }
 }
 ?>
