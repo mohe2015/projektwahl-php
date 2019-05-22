@@ -20,11 +20,10 @@ try {
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
-/*
-// TODO title unique
+
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    title VARCHAR(256) NOT NULL,
+    title VARCHAR(255) UNIQUE NOT NULL,
     info VARCHAR(4096) NOT NULL,
     place VARCHAR(256) NOT NULL,
     costs DECIMAL(4,2) NOT NULL,
@@ -38,10 +37,9 @@ try {
     );");
     $stmt->closeCursor();
 
-// TODO name unique
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name VARCHAR(64) NOT NULL,
+    name VARCHAR(64) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     type ENUM('student', 'teacher', 'admin') NOT NULL,
     project_leader INTEGER,
@@ -75,8 +73,8 @@ try {
       ON DELETE RESTRICT
     );");
     $stmt->closeCursor();
-*/
-    //$stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
+
+    $stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
     //$stmt->execute(array('name' => 'admin', 'password' => password_hash("admin", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
     print "Error!: " . $e . "<br/>";
