@@ -12,6 +12,7 @@ $students = Students::all();
 
 <a href="/student/new.php" class="button">Neuer Schüler</a>
 <a href="/students/import.php" class="button">Schüler importieren</a>
+<a href="/students/generate_passwords.php" class="button">Passwortliste generieren</a>
 <a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
 <a href="/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
 
