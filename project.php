@@ -14,18 +14,20 @@ class Project extends Record {
   public $presentation_type;
   public $requirements;
   public $random_assignments;
-  public function __construct($data = array()) {
-    $this->title = $data['title'];
-    $this->info = $data['info'];
-    $this->place = $data['place'];
-    $this->costs = $data['costs'] ?? 0;
-    $this->min_grade = $data['min_grade'] ?? 5;
-    $this->max_grade = $data['max_grade'] ?? 13;
-    $this->min_participants = $data['min_participants'] ?? 5;
-    $this->max_participants = $data['max_participants'] ?? 25;
-    $this->presentation_type = $data['presentation_type'];
-    $this->requirements = $data['requirements'];
-    $this->random_assignments = $data['random_assignments'] ?? true;
+  public function __construct($data = null) {
+    if (is_array($data)) {
+      $this->title = $data['title'];
+      $this->info = $data['info'];
+      $this->place = $data['place'];
+      $this->costs = $data['costs'] ?? 0;
+      $this->min_grade = $data['min_grade'] ?? 5;
+      $this->max_grade = $data['max_grade'] ?? 13;
+      $this->min_participants = $data['min_participants'] ?? 5;
+      $this->max_participants = $data['max_participants'] ?? 25;
+      $this->presentation_type = $data['presentation_type'];
+      $this->requirements = $data['requirements'];
+      $this->random_assignments = $data['random_assignments'] ?? true;
+    }
   }
   public function getValidationErrors() {
     $validation_errors = array();

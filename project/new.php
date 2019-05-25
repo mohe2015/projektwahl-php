@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header("Location: /projects");
   die();
 } else {
-  $project = new Project();
+  $project = new Project(array());
 }
 ?>
 

@@ -23,7 +23,7 @@ $projects = Projects::all();
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($projects as $project) :?>
+        <?php foreach ($projects as $project): ?>
           <tr>
             <td><a href="/project/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>unbekannt</td>
