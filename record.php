@@ -1,4 +1,7 @@
 <?php
+function blank($value) {
+    return empty($value) && !is_numeric($value);
+}
 class ValidationError extends Exception { }
 
 abstract class Record {
