@@ -6,7 +6,7 @@
  * are fast enough. The code below aims for ≤ 50 milliseconds stretching time,
  * which is a good baseline for systems handling interactive logins.
  */
-$timeTarget = 0.25; // 250 milliseconds 
+$timeTarget = 0.1; // 250 milliseconds 
 
 $cost = 8;
 do {

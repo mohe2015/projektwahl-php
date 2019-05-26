@@ -8,6 +8,7 @@ class User extends Record {
   public $type;
 
   protected static $insert_stmt = null;
+  protected static $update_stmt = null;
 
   protected static function getInsertStatement() {
     global $db;
@@ -15,6 +16,14 @@ class User extends Record {
         self::$insert_stmt = $db->prepare('INSERT INTO users (name, password, type, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :project_leader, :class, :grade, :away, :in_project)');
     }
     return self::$insert_stmt;
+  }
+
+  protected static function getUpdateStatement() {
+    global $db;
+    if (null === self::$update_stmt) {
+      self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
+    }
+    return self::$update_stmt;
   }
 
   public function __construct($data = null) {
@@ -55,8 +64,7 @@ class User extends Record {
       ));
       $this->id = $db->lastInsertId();
     } else {
-      $stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
-      $stmt->execute(array(
+      self::getUpdateStatement()->execute(array(
         'id' => $this->id,
         'name' => $this->name,
         'password' => $this->password,
