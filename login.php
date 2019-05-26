@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = $stmt->fetchAll();
   if (password_verify($password, $result[0]["password"])) {
     if (password_needs_rehash($result[0]["password"], PASSWORD_DEFAULT, $options)) {
-      die("TODO: needs rehashing");
+      //echo "TODO: needs rehashing";
     }
     session_regenerate_id(true);
     $_SESSION['name'] = $result[0]["name"];
