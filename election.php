@@ -28,11 +28,23 @@ $projects = Projects::all();
             <td><a href="/project/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>unbekannt</td>
             <td>
-              <form method="post">
+              <?php
+              for ($i = 1; $i <= 5; $i++):
+              ?>
+              <form class="choice-form" method="post" style="display: inline;">
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
-                <input type="hidden" name="choice_id" value="1">
+                <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button type="submit">1.</button>
+                <button type="submit"><?php echo $i ?>.</button>
+              </form>
+              <?php
+              endfor;
+              ?>
+              <form class="choice-form" method="post" style="display: inline;">
+                <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
+                <input type="hidden" name="choice_id" value="0">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <button type="submit">X</button>
               </form>
             </td>
           </tr>
@@ -40,3 +52,20 @@ $projects = Projects::all();
       </tbody>
   </table>
 </div>
+<script>
+function onChoiceSubmit(event) {
+  event.preventDefault();
+  this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+
+  fetch("/election.php", {
+    method: 'POST',
+    body: new FormData(this)
+  }).then(function (data) {
+    console.log(data);
+  });
+
+  return false;
+}
+
+document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
+</script>
