@@ -28,12 +28,24 @@ function active_exact($path) {
     <nav>
       <ul>
          <li><a <?php active_exact("/") ?> href="/"><i class="fas fa-home"></i><span class="hidden-small"> Startseite</span></a></li>
+<?php if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
          <li><a <?php active("/project") ?> href="/projects"><i class="fas fa-users"></i><span class="hidden-small"> Projekte</span></a></li>
+<?php endif; ?>
+<?php if (in_array($_SESSION['type'], array("admin"))): ?>
          <li><a <?php active("/teacher") ?> href="/teachers"><i class="fas fa-chalkboard-teacher"></i><span class="hidden-small"> Lehrer</span></a></li>
+<?php endif; ?>
+<?php if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
          <li><a <?php active("/student") ?> href="/students"><i class="fas fa-user"></i><span class="hidden-small"> Schüler</span></a></li>
+<?php endif; ?>
+<?php if (in_array($_SESSION['type'], array("student"))): ?>
+         <li><a <?php active("/election.php") ?> href="/election.php"><i class="fas fa-poll"></i><span class="hidden-small"> Wahl</span></a></li>
+<?php endif; ?>
+<?php if (in_array($_SESSION['type'], array("admin"))): ?>
          <li class="float-right"><a href="#"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl beenden</span></a></li>
-         <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> Abmelden</span></a></li>
-        </li>
+ <?php endif; ?>
+<?php if (isset($_SESSION['name'])): ?>
+         <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> <?php echo $_SESSION['name'] ?> abmelden</span></a></li>
+<?php endif; ?>
        </ul>
     </nav>
 

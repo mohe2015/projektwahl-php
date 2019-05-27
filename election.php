@@ -5,6 +5,10 @@ if (!isset($_SESSION['name'])) {
   header("Location: /login.php");
   die("not logged in");
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  echo $_POST['project_id'];
+  echo $_POST['choice_id'];
+}
 $projects = Projects::all();
 ?>
 
