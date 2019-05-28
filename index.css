@@ -25,6 +25,8 @@ body, input, textarea, select {
 
 input, textarea, select {
   border: 1px solid var(--background-color-light);
+  padding: 0.5em 0.5em;
+  margin: 0.5em 0;
 }
 
 /* fading colors */
@@ -119,45 +121,9 @@ button[type="submit"]:disabled {
 /* container has no full width on big screens */
 .container {
   max-width: 50em;
-  margin: auto;
+  margin: 0.5em;
 }
 
 .col {
   width: 100%;
-}
-
-input, textarea, select {
-  padding: 0.5em 0.5em;
-  margin: 0.5em 0;
-}
-
-input[type=radio] {
-  position: absolute;
-  visibility: hidden;
-  display: none;
-}
-
-label {
-  color: #9a929e;
-  display: inline-block;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 5px 20px;
-}
-
-input[type=radio]:checked + label {
-  color: #ccc8ce;
-  background: #675f6b;
-}
-
-label + input[type=radio] + label {
-  border-left: solid 3px #675f6b;
-}
-
-.radio-group {
-  border: solid 3px #675f6b;
-  display: inline-block;
-  margin: 20px;
-  border-radius: 10px;
-  overflow: hidden;
 }
