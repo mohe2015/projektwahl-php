@@ -1,7 +1,7 @@
 <?php
 
 $database = [
-  'url'      => 'mysql:host=localhost',
+  'url'      => 'mysql:host=localhost;dbname=projektwahl',
   'dbname'   => 'projektwahl',
   'username' => 'root',
   'password' => 'test',

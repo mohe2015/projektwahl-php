@@ -7,7 +7,6 @@ class Student extends User {
   public $in_project;
 
   public function __construct($data = null) {
-    //User::__construct($data);
     if (is_array($data)) {
       $this->update($data);
     }
