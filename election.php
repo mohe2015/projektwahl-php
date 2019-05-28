@@ -29,13 +29,14 @@ $projects = Projects::all();
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
               <?php
+              $rank = Choices::find($_SESSION['id'], $project->id)->rank;
               for ($i = 1; $i <= 5; $i++):
               ?>
               <form class="choice-form" method="post" style="display: inline;">
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button type="submit"><?php echo $i ?>.</button>
+                <button type="submit" <?php echo $rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
               </form>
               <?php
               endfor;
@@ -44,7 +45,7 @@ $projects = Projects::all();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="0">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button type="submit">X</button>
+                <button type="submit" <?php echo $rank == 0 ? "disabled=disabled" : "" ?>>X</button>
               </form>
             </td>
           </tr>

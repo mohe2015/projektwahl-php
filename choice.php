@@ -58,8 +58,8 @@ class Choices {
     global $db;
     $stmt = $db->prepare('SELECT * FROM choices WHERE project = :project AND student = :student;');
     $stmt->execute(array(
-      'project' => $this->project,
-      'student' => $this->student
+      'project' => $project,
+      'student' => $student
     ));
     return $stmt->fetchObject('Choice');
   }
