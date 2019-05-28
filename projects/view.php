@@ -6,5 +6,5 @@ $project = Projects::find($_SERVER['QUERY_STRING']);
 ?>
 
 <?php
-require_once '../project/project.php';
+require_once '../projects/project.php';
 ?>
