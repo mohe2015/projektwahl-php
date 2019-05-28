@@ -3,3 +3,5 @@
 * generate password list needs to be a post request. maybe add a confirmation?
 * editing students
 * viewing teachers
+https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
+https://www.php.net/manual/de/sdo.sample.getset.php

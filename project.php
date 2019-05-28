@@ -14,21 +14,27 @@ class Project extends Record {
   public $presentation_type;
   public $requirements;
   public $random_assignments;
+
   public function __construct($data = null) {
     if (is_array($data)) {
-      $this->title = $data['title'];
-      $this->info = $data['info'];
-      $this->place = $data['place'];
-      $this->costs = $data['costs'] ?? 0;
-      $this->min_grade = $data['min_grade'] ?? 5;
-      $this->max_grade = $data['max_grade'] ?? 13;
-      $this->min_participants = $data['min_participants'] ?? 5;
-      $this->max_participants = $data['max_participants'] ?? 25;
-      $this->presentation_type = $data['presentation_type'];
-      $this->requirements = $data['requirements'];
-      $this->random_assignments = $data['random_assignments'] ?? true;
+      $this->update($data);
     }
   }
+
+  public function update($data) {
+    $this->title = $data['title'] ?? $this->title;
+    $this->info = $data['info'] ?? $this->info;
+    $this->place = $data['place'] ?? $this->place;
+    $this->costs = $data['costs'] ?? $this->costs ?? 0;
+    $this->min_grade = $data['min_grade'] ?? $this->min_grade ?? 5;
+    $this->max_grade = $data['max_grade'] ?? $this->max_grade ?? 13;
+    $this->min_participants = $data['min_participants'] ?? $this->min_participants ?? 5;
+    $this->max_participants = $data['max_participants'] ?? $this->max_participants ?? 25;
+    $this->presentation_type = $data['presentation_type'] ?? $this->presentation_type;
+    $this->requirements = $data['requirements'] ?? $this->requirements;
+    $this->random_assignments = $data['random_assignments'] ?? $this->random_assignments ?? true;
+  }
+
   public function getValidationErrors() {
     $validation_errors = array();
     if (empty($this->title)) {

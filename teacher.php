@@ -5,9 +5,14 @@ class Teacher extends User {
   public function __construct($data = null) {
     User::__construct($data);
     if (is_array($data)) {
-      $this->project_leader = $data['project_leader'];
+      $this->update($data);
     }
     $this->type = "teacher";
+  }
+
+  public function update($data) {
+    User::update($data);
+    $this->project_leader = $data['project_leader'] ?? $this->project_leader;
   }
 }
 
