@@ -17,12 +17,12 @@ body {
   --hover-color: hsla(0, 100%, 53%, 1);
 }
 
-/* style forms */
 body, input, textarea, select {
   background-color: black;
   color: white;
 }
 
+/* style forms */
 input, textarea, select {
   border: 1px solid var(--background-color-light);
   padding: 0.5em 0.5em;
@@ -94,7 +94,7 @@ li a:hover {
 }
 
 /* only icons on small screen */
-@media screen and (max-width: 41em) {
+@media screen and (max-width: 45em) {
   .hidden-small {
     display: none;
   }
