@@ -60,9 +60,6 @@ function onChoiceSubmit(event) {
   let oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
   let newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
 
-  console.log(oldRank);
-  console.log(newRank);
-
   this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.setAttribute('disabled', null));
 
   fetch("/election.php", {

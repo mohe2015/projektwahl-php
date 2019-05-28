@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $db->commit();
   $timers->endTimer('import');
   header('Server-Timing: ' . $timers->getTimers());
+  header("Location: /students");
+  die();
 }
 ?>
 <form enctype="multipart/form-data" method="POST">
