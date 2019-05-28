@@ -10,7 +10,7 @@ $projects = Projects::all();
 
 <h1>Projekte</h1>
 
-<a href="/project/new.php" class="button">Neues Projekt<a>
+<a href="/projects/new.php" class="button">Neues Projekt<a>
 <a href="/projects/list.php" class="button">Projektliste<a>
 
 <div class="responsive">
@@ -25,11 +25,11 @@ $projects = Projects::all();
       <tbody>
         <?php foreach ($projects as $project): ?>
           <tr>
-            <td><a href="/project/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
+            <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>unbekannt</td>
             <td>
-              <a href="/project/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a>
-              <a href="/project/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a>
+              <a href="/projects/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a>
+              <a href="/projects/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach;?>

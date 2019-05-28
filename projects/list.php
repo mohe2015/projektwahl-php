@@ -12,6 +12,6 @@ $projects = Projects::all();
 
 <?php foreach ($projects as $project) :?>
 <?php
-require_once '../project/project.php';
+require_once '../projects/project.php';
 ?>
 <?php endforeach;?>

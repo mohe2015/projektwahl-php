@@ -10,7 +10,7 @@ $students = Students::all();
 
 <h1>Schüler</h1>
 
-<a href="/student/new.php" class="button">Neuer Schüler</a>
+<a href="/students/new.php" class="button">Neuer Schüler</a>
 <a href="/students/import.php" class="button">Schüler importieren</a>
 <a href="/students/generate_passwords.php" class="button">Passwortliste generieren</a>
 <a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
@@ -31,8 +31,8 @@ $students = Students::all();
             <td><?php echo htmlspecialchars($student->name) ?></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
-              <a href="/student/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
-              <a href="/student/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
+              <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
+              <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach;?>
