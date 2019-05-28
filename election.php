@@ -9,17 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $projects = Projects::all();
 ?>
 
-<h1>Projekte</h1>
-
-<a href="/projects/new.php" class="button">Neues Projekt<a>
-<a href="/projects/list.php" class="button">Projektliste<a>
+<h1>Wahl</h1>
 
 <div class="responsive">
   <table>
     <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Vorraussichtliche Größe</th>
           <th scope="col">Aktionen</th>
         </tr>
       </thead>
@@ -27,7 +23,6 @@ $projects = Projects::all();
         <?php foreach ($projects as $project): ?>
           <tr>
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
-            <td>unbekannt</td>
             <td>
               <?php
               for ($i = 1; $i <= 5; $i++):
@@ -56,13 +51,15 @@ $projects = Projects::all();
 <script>
 function onChoiceSubmit(event) {
   event.preventDefault();
-  this.querySelector('button[type="submit"]').setAttribute('disabled', 'disabled');
+
+  this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.setAttribute('disabled', null));
 
   fetch("/election.php", {
     method: 'POST',
     body: new FormData(this)
-  }).then(function (data) {
+  }).then((data) => {
     console.log(data);
+    this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.removeAttribute('disabled'));
   });
 
   return false;
