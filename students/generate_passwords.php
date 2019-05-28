@@ -1,10 +1,7 @@
 <?php
 $allowed_users = array("admin", "teacher");
 require_once __DIR__ . '/../head.php';
-if (!isset($_SESSION['name'])) {
-  header("Location: /login.php");
-  die("not logged in");
-}
+
 $timers = new Timers();
 $timers->startTimer('all_students');
 $students = Students::all();
