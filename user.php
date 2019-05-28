@@ -28,10 +28,14 @@ class User extends Record {
 
   public function __construct($data = null) {
     if (is_array($data)) {
-      $this->name = $data['name'];
-      $this->password = $data['password'];
-      $this->type = $data['type'];
+      $this->update($data);
     }
+  }
+
+  public function update($data) {
+    $this->name = $data['name'] ?: $this->name;
+    $this->password = $data['password'] ?: $this->password;
+    $this->type = $data['type'] ?: $this->type;
   }
 
   public function getValidationErrors() {

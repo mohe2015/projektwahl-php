@@ -1,3 +1,5 @@
 * implement voting for students
 * implement calculation of project assignments
 * generate password list needs to be a post request. maybe add a confirmation?
+* editing students
+* viewing teachers

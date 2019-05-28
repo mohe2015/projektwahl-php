@@ -7,15 +7,20 @@ class Student extends User {
   public $in_project;
 
   public function __construct($data = null) {
-    User::__construct($data);
+    //User::__construct($data);
     if (is_array($data)) {
-      $this->project_leader = $data['project_leader'];
-      $this->class = $data['class'];
-      $this->grade = $data['grade'];
-      $this->away = $data['away'];
-      $this->in_project = $data['in_project'];
+      $this->update($data);
     }
     $this->type = "student";
+  }
+
+  public function update($data) {
+    User::update($data);
+    $this->project_leader = $data['project_leader'] ?: $this->project_leader;
+    $this->class = $data['class'] ?: $this->class;
+    $this->grade = $data['grade'] ?: $this->grade;
+    $this->away = $data['away'] ?: $this->away;
+    $this->in_project = $data['in_project'] ?: $this->in_project;
   }
 
   public function getValidationErrors() {
