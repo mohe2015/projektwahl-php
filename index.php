@@ -1,5 +1,5 @@
 <?php
-$allowed_users = array();
+$allowed_users = array("student", "teacher", "admin");
 require_once __DIR__ . '/head.php';
 ?>
 <h1>Willkommen</h1>
