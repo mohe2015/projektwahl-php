@@ -7,10 +7,12 @@ function startsWith($haystack, $needle)
      return (substr($haystack, 0, $length) === $needle);
 }
 
+// used to add the active class to the current tab
 function active($path) {
   echo startsWith($_SERVER["REQUEST_URI"], $path) ? 'class="active"' : '';
 }
 
+// used to add the active class to the current tab
 function active_exact($path) {
   echo $_SERVER["REQUEST_URI"] === $path ? 'class="active"' : '';
 }
@@ -28,7 +30,9 @@ function active_exact($path) {
     <nav>
       <ul>
          <li><a <?php active_exact("/") ?> href="/"><i class="fas fa-home"></i><span class="hidden-small"> Startseite</span></a></li>
-<?php if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
+<?php
+// hide links if user has no permission to access them
+if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
          <li><a <?php active("/project") ?> href="/projects"><i class="fas fa-users"></i><span class="hidden-small"> Projekte</span></a></li>
 <?php endif; ?>
 <?php if (in_array($_SESSION['type'], array("admin"))): ?>

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/record.php';
 
+// a choice of a project a student can make
 class Choice extends Record {
   public $project;
   public $student;

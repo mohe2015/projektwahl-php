@@ -1,10 +1,10 @@
 <?php
+// show error message if exception is not caught
 function myException($exception) {
   http_response_code(500);
   echo "<b>Interner Fehler: </b> " . $exception->getMessage();
   echo '<br />Eventuell musst du erst <a href="/install.php">installieren</a>';
 }
-
 set_exception_handler('myException');
 
 session_start();
@@ -16,6 +16,7 @@ require_once __DIR__ . '/choice.php';
 require_once __DIR__ . '/timers.php';
 require_once __DIR__ . '/permissions.php';
 
+// SECURITY: checks whether the CSRF token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['token'], $_POST['token'])) {
     die("CSRF token not valid");
@@ -24,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (empty($_SESSION['token'])) {
     $_SESSION['token'] = bin2hex(random_bytes(32));
 }
+
+// connect to database
 require_once 'config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(

@@ -2,6 +2,7 @@
 $allowed_users = array("student");
 require_once __DIR__ . '/head.php';
 
+// save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice = new Choice(array(
     'project' => $_POST['project_id'],
@@ -10,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ));
   $choice->save();
 }
+
 $projects = Projects::all();
 ?>
 
@@ -29,6 +31,7 @@ $projects = Projects::all();
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
               <?php
+              // the following html form code can fall back for browsers without JavaScript.
               $rank = Choices::find($_SESSION['id'], $project->id)->rank; // TODO natural join
               for ($i = 1; $i <= 5; $i++):
               ?>
@@ -60,17 +63,20 @@ function onChoiceSubmit(event) {
   let oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
   let newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
 
+  // disable buttons for updating over network
   this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.setAttribute('disabled', null));
 
   fetch("/election.php", {
     method: 'POST',
     body: new FormData(this)
   }).then((data) => {
+    // reenable buttons (except the newly selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(x => x.getAttribute('data-rank') != newRank)
       .forEach(e => e.removeAttribute('disabled'));
   },
   (error) => {
+    // reenable buttons (except the old selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(x => x.getAttribute('data-rank') != oldRank)
       .forEach(e => e.removeAttribute('disabled'));
@@ -79,5 +85,6 @@ function onChoiceSubmit(event) {
   return false;
 }
 
+// listen on all forms
 document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
 </script>

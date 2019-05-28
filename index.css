@@ -17,6 +17,7 @@ body {
   --hover-color: hsla(0, 100%, 53%, 1);
 }
 
+/* style forms */
 body, input, textarea, select {
   background-color: black;
   color: white;
@@ -67,7 +68,7 @@ li {
   float: left;
 }
 
-/* put logging out on the right */
+/* put some menu items on the right */
 .float-right {
   float: right;
 }
@@ -97,6 +98,7 @@ li a:hover {
   }
 }
 
+/* restyle button */
 .button, button[type="submit"] {
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -114,6 +116,7 @@ button[type="submit"]:disabled {
   background-color: var(--disabled-color);
 }
 
+/* container has no full width on big screens */
 .container {
   max-width: 50em;
   margin: auto;

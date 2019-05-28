@@ -2,6 +2,7 @@
 $allowed_users = array("admin");
 require_once __DIR__ . '/../head.php';
 
+// Import students from a .csv file. The file needs to have three columns (name, class, grade) and no header.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $timers = new Timers();
   $timers->startTimer('import');
