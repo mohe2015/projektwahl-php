@@ -4,6 +4,7 @@ require_once __DIR__ . '/project.php';
 require_once __DIR__ . '/user.php';
 require_once __DIR__ . '/teacher.php';
 require_once __DIR__ . '/student.php';
+require_once __DIR__ . '/choice.php';
 require_once __DIR__ . '/timers.php';
 require_once __DIR__ . '/permissions.php';
 
@@ -22,7 +23,8 @@ try {
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
-/*
+
+/* // TODO put into install.php
     $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     title VARCHAR(255) UNIQUE NOT NULL,
