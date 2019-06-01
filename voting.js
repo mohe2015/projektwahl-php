@@ -32,3 +32,10 @@ function onChoiceSubmit(event) {
 
 // listen on all forms
 document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
+
+function scrollToTop(event) {
+  console.log(event);
+  window.scroll({top: 0, left: 0, behavior: 'smooth' });
+}
+
+document.querySelector("#scroll").addEventListener("click", scrollToTop);

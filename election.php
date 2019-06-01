@@ -59,8 +59,8 @@ $projects = Projects::all();
 
 <!--<div class="snackbar show">Du hast 2 Drittwahlen ausgewählt</div>-->
 
-<div class='scrolltop'>
-    <div class='scroll icon'><i class="fa fa-4x fa-angle-up"></i></div>
+<div class='scrolltop show'>
+    <div class='scroll icon' id="scroll"><i class="fa fa-2x fa-angle-up fa-square-size"></i></div>
 </div>
 
 <!-- This is a polyfill to support the old firefox browser in the school. -->

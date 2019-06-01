@@ -130,49 +130,29 @@ button[type="submit"]:disabled {
   width: 100%;
 }
 
-
-
-
-
+.fa-square-size {
+  width: 1em;
+  text-align: center;
+}
 
 .scrolltop {
 	visibility: hidden;
-	width:100%;
-	margin:0 auto;
 	position:fixed;
-	bottom:20px;
 	right:10px;
 }
-
 .scroll {
 	position:absolute;
 	right:20px;
 	bottom:20px;
-	background:#b2b2b2;
 	background:rgba(178,178,178,0.7);
 	padding:20px;
-	text-align: center;
-	margin: 0 0 0 0;
 	cursor:pointer;
-	transition: 0.5s;
-  border-radius: 2em;
+  border-radius: 1em;
+  transition: 1s;
 }
 .scroll:hover {
 	background:rgba(178,178,178,1.0);
-	transition: 0.5s;
 }
-.scroll:hover .fa {
-	padding-top:-10px;
-}
-.scroll .fa {
-	font-size:30px;
-	margin-top:-5px;
-	margin-left:1px;
-	transition: 0.5s;
-}
-
-
-
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
 .snackbar {
@@ -193,7 +173,7 @@ button[type="submit"]:disabled {
   visibility: visible; /* Show the snackbar */
   /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
   However, delay the fade out process for 2.5 seconds */
-  animation: fadein 1s, fadeout 1s 2.5s;
+  animation: fadein 1s; /*, fadeout 1s 2.5s;*/
   animation-fill-mode: forwards;
 }
 
