@@ -12,11 +12,12 @@ function onChoiceSubmit(event) {
     body: new FormData(this),
     redirect: "error"
   }).then((data) => {
-    console.log(data);
+    //console.log(data);
     // reenable buttons (except the newly selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(x => x.getAttribute('data-rank') != newRank)
       .forEach(e => e.removeAttribute('disabled'));
+    // TODO color duplicate votes red
   },
   (error) => {
     alert(error); // TODO redirect to login if signed out
