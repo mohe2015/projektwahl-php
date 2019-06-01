@@ -18,6 +18,7 @@ function onChoiceSubmit(event) {
       .filter(x => x.getAttribute('data-rank') != newRank)
       .forEach(e => e.removeAttribute('disabled'));
     // TODO color duplicate votes red
+    this.parentNode.parentNode.setAttribute('data-rank', newRank);
   },
   (error) => {
     alert(error); // TODO redirect to login if signed out
@@ -36,6 +37,23 @@ document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submi
 function scrollToTop(event) {
   console.log(event);
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
+
+  let result = [...document.querySelectorAll('tr')];
+  result.sort(function(a, b) {
+    a = parseInt(a.getAttribute('data-rank'));
+    b = parseInt(b.getAttribute('data-rank'));
+    a = a == 0 ? 100 : a;
+    b = b == 0 ? 100 : b;
+    return a-b;
+  });
+  console.log(result);
+
+  let container = document.querySelector('tbody');
+  while (container.firstChild) {
+    container.firstChild.remove();
+  }
+
+  result.forEach(element => container.appendChild(element));
 }
 
 document.querySelector("#scroll").addEventListener("click", scrollToTop);

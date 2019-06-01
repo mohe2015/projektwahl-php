@@ -27,12 +27,14 @@ $projects = Projects::all();
       </thead>
       <tbody>
         <?php foreach ($projects as $project): ?>
-          <tr>
+          <?php
+          $rank = Choices::find($_SESSION['id'], $project->id)->rank; // TODO natural join
+          ?>
+          <tr data-rank="<?php echo $rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
               <?php
               // the following html form code can fall back for browsers without JavaScript.
-              $rank = Choices::find($_SESSION['id'], $project->id)->rank; // TODO natural join
               for ($i = 1; $i <= 5; $i++):
               ?>
               <form class="choice-form" method="post" style="display: inline;">
