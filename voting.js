@@ -38,7 +38,7 @@ function scrollToTop(event) {
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
 
   // get all table rows
-  let result = [...document.querySelectorAll('tr')];
+  let result = [...document.querySelectorAll('tr[data-rank]')];
 
   // store old positions
   result.forEach(element => element.oldBoundingBox = element.getBoundingClientRect());
@@ -49,15 +49,15 @@ function scrollToTop(event) {
     b = parseInt(b.getAttribute('data-rank'));
     a = a == 0 ? 100 : a;
     b = b == 0 ? 100 : b;
+    a = isNaN(a) ? 100 : a;
+    b = isNaN(b) ? 100 : b;
+    console.log(a);
+    console.log(b);
     return a-b;
   });
 
-
   let container = document.querySelector('tbody');
-  while (container.firstChild) {
-    container.firstChild.remove();
-  }
-
+  result.forEach(element => element.remove());
   result.forEach(element => container.appendChild(element));
 
   // store new positions
