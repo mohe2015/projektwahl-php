@@ -168,16 +168,6 @@ button[type="submit"]:disabled {
 
 
 
-
-
-
-
-
-
-
-
-
-
 .scrolltop {
 	/*display:none;*/
 	width:100%;
@@ -197,16 +187,11 @@ button[type="submit"]:disabled {
 	margin: 0 0 0 0;
 	cursor:pointer;
 	transition: 0.5s;
-	-moz-transition: 0.5s;
-	-webkit-transition: 0.5s;
-	-o-transition: 0.5s;
+  border-radius: 2em;
 }
 .scroll:hover {
 	background:rgba(178,178,178,1.0);
 	transition: 0.5s;
-	-moz-transition: 0.5s;
-	-webkit-transition: 0.5s;
-	-o-transition: 0.5s;
 }
 .scroll:hover .fa {
 	padding-top:-10px;
@@ -216,7 +201,4 @@ button[type="submit"]:disabled {
 	margin-top:-5px;
 	margin-left:1px;
 	transition: 0.5s;
-	-moz-transition: 0.5s;
-	-webkit-transition: 0.5s;
-	-o-transition: 0.5s;
 }
