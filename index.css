@@ -10,6 +10,7 @@ html {
 body {
   margin: 0;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  /* TODO: these vars are not supported by internet explorer yet and need to be transpiled */
   --background-color: hsl(240, 100%, 14%);
   --background-color-light: hsl(240, 100%, 50%);
   --foreground-color: white;

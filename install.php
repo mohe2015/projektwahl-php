@@ -57,13 +57,13 @@ try {
   $stmt->closeCursor();
 
   $stmt = $db->prepare('INSERT INTO users (name, password, type) VALUES (:name, :password, "admin")');
-  $stmt->execute(array('name' => 'admin', 'password' => password_hash("admin", PASSWORD_DEFAULT, $options)));
+  $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
     print "Fehler bei der Installation: " . $e . "<br/>";
     print 'Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href="/">Startseite</a>';
     die();
 }
 
-echo "Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: admin<br />Passwort: admin";
+echo "Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password";
 echo '<br /><a href="/">Zur Startseite</a>';
 ?>
