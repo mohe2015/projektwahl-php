@@ -35,10 +35,15 @@ function onChoiceSubmit(event) {
 document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
 
 function scrollToTop(event) {
-  console.log(event);
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
 
+  // get all table rows
   let result = [...document.querySelectorAll('tr')];
+
+  // store old positions
+  result.forEach(element => element.oldBoundingBox = element.getBoundingClientRect());
+
+  // reorder them
   result.sort(function(a, b) {
     a = parseInt(a.getAttribute('data-rank'));
     b = parseInt(b.getAttribute('data-rank'));
@@ -46,7 +51,7 @@ function scrollToTop(event) {
     b = b == 0 ? 100 : b;
     return a-b;
   });
-  console.log(result);
+
 
   let container = document.querySelector('tbody');
   while (container.firstChild) {
@@ -54,6 +59,30 @@ function scrollToTop(event) {
   }
 
   result.forEach(element => container.appendChild(element));
+
+  // store new positions
+  result.forEach(element => {
+    element.newBoundingBox = element.getBoundingClientRect()
+    const deltaY = element.oldBoundingBox.top - element.newBoundingBox.top;
+
+    requestAnimationFrame( () => {
+      // Before the DOM paints, Invert it to its old position
+      element.style.transform = `translate(0px, ${deltaY}px)`;
+      // Ensure it inverts it immediately
+      element.style.transition = 'transform 0s';
+
+      requestAnimationFrame( () => {
+        // In order to get the animation to play, we'll need to wait for
+        // the 'invert' animation frame to finish, so that its inverted
+        // position has propagated to the DOM.
+        //
+        // Then, we just remove the transform, reverting it to its natural
+        // state, and apply a transition so it does so smoothly.
+        element.style.transform  = '';
+        element.style.transition = 'transform 500ms';
+      });
+    });
+  });
 }
 
 document.querySelector("#scroll").addEventListener("click", scrollToTop);
