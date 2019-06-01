@@ -133,49 +133,17 @@ button[type="submit"]:disabled {
 
 
 
-/* The snackbar - position it at the bottom and in the middle of the screen */
-.snackbar {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  width: 100%;
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
-  text-align: center; /* Centered text */
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1; /* Add a z-index if needed */
-  left: 0;
-  bottom: 0; /* 30px from the bottom */
-}
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-.snackbar.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  animation: fadein 1s, fadeout 1s 2.5s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadein {
-  from {bottom: -2em; opacity: 0;}
-  to {bottom: 0; opacity: 1;}
-}
-@keyframes fadeout {
-  from {bottom: 0; opacity: 1;}
-  to {bottom: -2em; opacity: 0;}
-}
-
-
 
 
 .scrolltop {
-	/*display:none;*/
+	visibility: hidden;
 	width:100%;
 	margin:0 auto;
 	position:fixed;
 	bottom:20px;
 	right:10px;
 }
+
 .scroll {
 	position:absolute;
 	right:20px;
@@ -201,4 +169,39 @@ button[type="submit"]:disabled {
 	margin-top:-5px;
 	margin-left:1px;
 	transition: 0.5s;
+}
+
+
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  width: 100%;
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 0;
+  bottom: 0; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  animation: fadein 1s, fadeout 1s 2.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+  from {bottom: -2em; opacity: 0;}
+  to {bottom: 0; opacity: 1;}
+}
+@keyframes fadeout {
+  from {bottom: 0; opacity: 1;}
+  to {bottom: -2em; opacity: 0;}
 }
