@@ -120,10 +120,15 @@ button[type="submit"]:disabled {
 }
 
 /* container has no full width on big screens */
-/* TODO FIXME center */
 .container {
   max-width: 50em;
   margin: 0.5em;
+}
+
+@media screen and (min-width: 52em) {
+  .container {
+    margin: 0 auto;
+  }
 }
 
 .col {
