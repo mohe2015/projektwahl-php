@@ -163,8 +163,11 @@ button[type="submit"]:disabled {
 
 .scrolltop {
 	visibility: hidden;
+  opacity: 0;
 	position:fixed;
 	right:10px;
+  transition: visibility 0s, opacity 0.5s linear, bottom 0.5s linear;
+  bottom: -2em;
 }
 .scroll {
 	position:absolute;
@@ -195,20 +198,8 @@ button[type="submit"]:disabled {
   bottom: 0; /* 30px from the bottom */
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
 .show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  animation: fadein 1s; /*, fadeout 1s 2.5s;*/
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadein {
-  from {bottom: -2em; opacity: 0;}
-  to {bottom: 0; opacity: 1;}
-}
-@keyframes fadeout {
-  from {bottom: 0; opacity: 1;}
-  to {bottom: -2em; opacity: 0;}
+  visibility: visible;
+  opacity: 1;
+  bottom: 0;
 }
