@@ -59,11 +59,13 @@ $projects = Projects::all();
   </table>
 </div>
 
-<!--<div class="snackbar show">Du hast 2 Drittwahlen ausgewählt</div>-->
-
 <div class='scrolltop'>
     <div class='scroll icon' id="scroll"><i class="fa fa-2x fa-angle-up fa-square-size"></i></div>
 </div>
+
+</div>
+
+<div class="snackbar show">Noch nicht korrekt gewählt.</div>
 
 <!-- This is a polyfill to support the old firefox browser in the school. -->
 <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=NodeList.prototype.forEach"></script>
