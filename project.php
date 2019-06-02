@@ -133,6 +133,13 @@ class Projects {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
   }
+
+  public function allWithRanks() {
+    global $db;
+    $stmt = $db->prepare('SELECT title, choices.rank FROM projects LEFT JOIN choices ON id = choices.project AND choices.student = :student ORDER BY rank=0, rank;');
+    $stmt->execute(array('student' => $_SESSION['id']));
+    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+  }
 }
 
 ?>

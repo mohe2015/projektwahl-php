@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice->save();
 }
 
-$projects = Projects::all();
+$projects = Projects::allWithRanks();
 ?>
 
 <h1>Wahl</h1>
@@ -27,10 +27,7 @@ $projects = Projects::all();
       </thead>
       <tbody>
         <?php foreach ($projects as $project): ?>
-          <?php
-          $rank = Choices::find($_SESSION['id'], $project->id)->rank; // TODO natural join
-          ?>
-          <tr data-rank="<?php echo $rank ?>">
+          <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
               <?php
@@ -41,7 +38,7 @@ $projects = Projects::all();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button data-rank="<?php echo $i ?>" type="submit" <?php echo $rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                <button data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
               </form>
               <?php
               endfor;
@@ -50,7 +47,7 @@ $projects = Projects::all();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="0">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button data-rank="0" type="submit" <?php echo $rank == 0 ? "disabled=disabled" : "" ?>>X</button>
+                <button data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
               </form>
             </td>
           </tr>
