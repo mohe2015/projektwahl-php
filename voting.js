@@ -1,3 +1,11 @@
+function status(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return Promise.resolve(response)
+  } else {
+    return Promise.reject(new Error(response.statusText))
+  }
+}
+
 function onChoiceSubmit(event) {
   event.preventDefault();
 
@@ -11,8 +19,10 @@ function onChoiceSubmit(event) {
     method: 'POST',
     body: new FormData(this),
     redirect: "error"
-  }).then((data) => {
-    //console.log(data);
+  })
+  .then(status)
+  .then((data) => {
+    console.log(data);
     // reenable buttons (except the newly selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(x => x.getAttribute('data-rank') != newRank)
@@ -21,8 +31,8 @@ function onChoiceSubmit(event) {
     this.parentNode.parentNode.setAttribute('data-rank', newRank);
 
     document.querySelector('.scrolltop').classList.add('show');
-  },
-  (error) => {
+  })
+  .catch((error) => {
     alert(error); // TODO redirect to login if signed out
     // reenable buttons (except the old selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
