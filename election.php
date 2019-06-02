@@ -61,7 +61,7 @@ $projects = Projects::all();
 
 <!--<div class="snackbar show">Du hast 2 Drittwahlen ausgewählt</div>-->
 
-<div class='scrolltop show'>
+<div class='scrolltop'>
     <div class='scroll icon' id="scroll"><i class="fa fa-2x fa-angle-up fa-square-size"></i></div>
 </div>
 

@@ -19,6 +19,8 @@ function onChoiceSubmit(event) {
       .forEach(e => e.removeAttribute('disabled'));
     // TODO color duplicate votes red
     this.parentNode.parentNode.setAttribute('data-rank', newRank);
+
+    document.querySelector('.scrolltop').classList.add('show');
   },
   (error) => {
     alert(error); // TODO redirect to login if signed out
@@ -83,6 +85,8 @@ function scrollToTop(event) {
       });
     });
   });
+
+  document.querySelector('.scrolltop').classList.remove('show');
 }
 
 document.querySelector("#scroll").addEventListener("click", scrollToTop);
