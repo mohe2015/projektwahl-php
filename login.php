@@ -16,7 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['id'] = $result[0]["id"];
     $_SESSION['name'] = $result[0]["name"];
     $_SESSION['type'] = $result[0]["type"];
-    header("Location: /");
+    if ($result[0]["type"] === "student") {
+      header("Location: /election.php");
+    } else {
+      header("Location: /");
+    }
     die();
   } else {
     echo "invalid password";
