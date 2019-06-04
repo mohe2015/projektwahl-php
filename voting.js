@@ -74,7 +74,7 @@ function onChoiceSubmit(event) {
       document.querySelector('.scrolltop').classList.add('show');
     }
 
-    document.querySelectorAll('tr[data-rank="' + newRank + '"] button[disabled]')
+    document.querySelectorAll('tr[data-rank="' + newRank + '"] button')
     .forEach(element => {
       element.classList.remove('background-failure');
       element.classList.remove('background-success');
@@ -82,7 +82,7 @@ function onChoiceSubmit(event) {
         element.classList.add(order_count[newRank] == 1 ? 'background-success' : 'background-failure');
       }
     });
-      document.querySelectorAll('tr[data-rank="' + oldRank + '"] button[disabled]')
+      document.querySelectorAll('tr[data-rank="' + oldRank + '"] button')
       .forEach(element => {
         element.classList.remove('background-failure');
         element.classList.remove('background-success');

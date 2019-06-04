@@ -22,7 +22,7 @@ $projects = Projects::allWithRanks();
     <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Aktionen</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -49,7 +49,7 @@ $projects = Projects::allWithRanks();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="<?php echo $project->rank == $i ? ($rank_count[$i] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
               </form>
               <?php
               endfor;
@@ -58,7 +58,7 @@ $projects = Projects::allWithRanks();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="0">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
+                <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
               </form>
             </td>
           </tr>
