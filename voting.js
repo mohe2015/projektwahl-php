@@ -59,15 +59,16 @@ function onChoiceSubmit(event) {
     order_count[newRank]++;
     updateOrderCount();
     document.querySelector('.scrolltop').classList.add('show');
-    if (order_count[newRank] == 1) {
-      var element = this.querySelector('button[type="submit"]');
-      element.classList.remove('background-failure');
-      element.classList.add('background-success');
-    } else {
-      var element = this.querySelector('button[type="submit"]');
-      element.classList.remove('background-success');
-      element.classList.add('background-failure');
-    }
+    document.querySelectorAll('tr[data-rank="' + newRank + '"] button[disabled]')
+    .forEach(element => {
+      element.classList.remove(order_count[newRank] == 1 ? 'background-failure' : 'background-success');
+      element.classList.add(order_count[newRank] == 1 ? 'background-success' : 'background-failure');
+    });
+    document.querySelectorAll('tr[data-rank="' + oldRank + '"] button[disabled]')
+    .forEach(element => {
+      element.classList.remove(order_count[oldRank] == 1 ? 'background-failure' : 'background-success');
+      element.classList.add(order_count[oldRank] == 1 ? 'background-success' : 'background-failure');
+    });
   })
   .catch((error) => {
     alert(error); // TODO redirect to login if signed out
