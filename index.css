@@ -51,6 +51,10 @@ table, th, td {
   padding: 0.5em;
 }
 
+th {
+  text-align: left;
+}
+
 tr:hover {background-color: #0d0d0d;}
 
 .responsive {
@@ -210,6 +214,14 @@ button[type="submit"]:disabled {
 
 .failure {
   color: red;
+}
+
+.background-success {
+  background-color: green;
+}
+
+.background-failure {
+  background-color: red;
 }
 
 button[type="submit"]:disabled.background-success {

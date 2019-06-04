@@ -21,7 +21,7 @@ $projects = Projects::allWithRanks();
   <table>
     <thead>
         <tr>
-          <th scope="col">Name</th>
+          <th scope="col">Projektname</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -68,7 +68,7 @@ $projects = Projects::allWithRanks();
 </div>
 
 <div class='scrolltop'>
-    <div class='scroll icon' id="scroll"><i class="fa fa-2x fa-angle-up fa-square-size"></i></div>
+    <div class='scroll icon' id="scroll">Aufräumen</div>
 </div>
 
 </div>

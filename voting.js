@@ -16,17 +16,19 @@ function updateOrderCount() {
     }
   }
   if (valid) {
-    snackbar.innerHTML = "<span class=\"success\">Gültig gewählt</span> - ";
+    snackbar.classList.add('background-success');
+    snackbar.innerHTML = "Gültig gewählt - Du kannst Dich nun <a href=\"/logout.php\">abmelden</a>";
   } else {
+    snackbar.classList.remove('background-success');
     snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";
-  }
-  for (let i = 1; i <= 5; i++) {
-    let span = document.createElement("span");
-    span.innerHTML = order_count[i] + "&times;" + i + ".";
-    span.classList.add(order_count[i] == 1 ? "success" : "failure");
-    snackbar.appendChild(span);
-    if (i != 5) {
-      snackbar.appendChild(document.createTextNode(" | "));
+    for (let i = 1; i <= 5; i++) {
+      let span = document.createElement("span");
+      span.innerHTML = order_count[i] + "&times;" + i + ".";
+      span.classList.add(order_count[i] == 1 ? "success" : "failure");
+      snackbar.appendChild(span);
+      if (i != 5) {
+        snackbar.appendChild(document.createTextNode(" | "));
+      }
     }
   }
 }
