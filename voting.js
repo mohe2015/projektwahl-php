@@ -6,6 +6,31 @@ function status(response) {
   }
 }
 
+function updateOrderCount() {
+  var snackbar = document.querySelector('#snackbar');
+  let valid = true;
+  for (let i = 1; i <= 5; i++) {
+    if (order_count[i] != 1) {
+      valid = false;
+      break;
+    }
+  }
+  if (valid) {
+    snackbar.innerHTML = "<span class=\"success\">Gültig</span> - ";
+  } else {
+    snackbar.innerHTML = "<span class=\"failure\">Ungültig</span> - ";
+  }
+  for (let i = 1; i <= 5; i++) {
+    let span = document.createElement("span");
+    span.innerHTML = order_count[i] + "&times;" + i + ".";
+    span.classList.add(order_count[i] == 1 ? "success" : "failure");
+    snackbar.appendChild(span);
+    if (i != 5) {
+      snackbar.appendChild(document.createTextNode(" | "));
+    }
+  }
+}
+
 function onChoiceSubmit(event) {
   event.preventDefault();
 
@@ -30,6 +55,9 @@ function onChoiceSubmit(event) {
     // TODO color duplicate votes red
     this.parentNode.parentNode.setAttribute('data-rank', newRank);
 
+    order_count[oldRank]--;
+    order_count[newRank]++;
+    updateOrderCount();
     document.querySelector('.scrolltop').classList.add('show');
   })
   .catch((error) => {
@@ -100,3 +128,11 @@ function scrollToTop(event) {
 }
 
 document.querySelector("#scroll").addEventListener("click", scrollToTop);
+
+
+let result = [...document.querySelectorAll('tr[data-rank]')];
+var order_count = [0, 0, 0, 0, 0, 0];
+result.forEach(element => {
+  order_count[element.getAttribute('data-rank')]++;
+});
+console.log(order_count);

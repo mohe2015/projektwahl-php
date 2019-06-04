@@ -73,7 +73,7 @@ $projects = Projects::allWithRanks();
 
 </div>
 
-<div class="snackbar show">
+<div id="snackbar" class="snackbar show">
   <?php echo $rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1 ? "<span class=\"success\">Gültig</span>" : "<span class=\"failure\">Ungültig</span>" ?> -
   <span class="<?php echo $rank_count[1] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
   <span class="<?php echo $rank_count[2] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
