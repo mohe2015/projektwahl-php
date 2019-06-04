@@ -40,7 +40,7 @@ $projects = Projects::allWithRanks();
         foreach ($projects as $project): ?>
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
-            <td style="text-align: right;">
+            <td class="nowrap right">
                 <?php
                 // the following html form code can fall back for browsers without JavaScript.
                 for ($i = 1; $i <= 5; $i++):
