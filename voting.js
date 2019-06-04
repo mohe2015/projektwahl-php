@@ -72,7 +72,9 @@ function onChoiceSubmit(event) {
     updateOrderCount();
 
     let result = [...document.querySelectorAll('tr[data-rank]')];
-    if (!is_sorted(result, sortProjectRanks)) {
+    if (is_sorted(result, sortProjectRanks)) {
+      document.querySelector('.scrolltop').classList.remove('show');
+    } else {
       document.querySelector('.scrolltop').classList.add('show');
     }
 

@@ -68,7 +68,7 @@ $projects = Projects::allWithRanks();
 </div>
 
 <div class='scrolltop'>
-    <div class='scroll icon' id="scroll">Aufräumen</div>
+    <div class='scroll icon' id="scroll">Sortieren</div>
 </div>
 
 </div>
