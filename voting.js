@@ -59,6 +59,15 @@ function onChoiceSubmit(event) {
     order_count[newRank]++;
     updateOrderCount();
     document.querySelector('.scrolltop').classList.add('show');
+    if (order_count[newRank] == 1) {
+      var element = this.querySelector('button[type="submit"]');
+      element.classList.remove('background-failure');
+      element.classList.add('background-success');
+    } else {
+      var element = this.querySelector('button[type="submit"]');
+      element.classList.remove('background-success');
+      element.classList.add('background-failure');
+    }
   })
   .catch((error) => {
     alert(error); // TODO redirect to login if signed out

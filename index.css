@@ -211,3 +211,11 @@ button[type="submit"]:disabled {
 .failure {
   color: red;
 }
+
+button[type="submit"]:disabled.background-success {
+  background-color: green;
+}
+
+button[type="submit"]:disabled.background-failure {
+  background-color: red;
+}
