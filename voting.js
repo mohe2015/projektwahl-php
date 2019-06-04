@@ -31,6 +31,16 @@ function updateOrderCount() {
   }
 }
 
+function is_sorted(arr, func) {
+    var len = arr.length - 1;
+    for (var i = 0; i < len; ++i) {
+        if(func(arr[i], arr[i+1]) > 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function onChoiceSubmit(event) {
   event.preventDefault();
 
@@ -58,7 +68,12 @@ function onChoiceSubmit(event) {
     order_count[oldRank]--;
     order_count[newRank]++;
     updateOrderCount();
-    document.querySelector('.scrolltop').classList.add('show');
+
+    let result = [...document.querySelectorAll('tr[data-rank]')];
+    if (!is_sorted(result, sortProjectRanks)) {
+      document.querySelector('.scrolltop').classList.add('show');
+    }
+
     if (newRank != 0) {
       document.querySelectorAll('tr[data-rank="' + newRank + '"] button[disabled]')
       .forEach(element => {
@@ -88,6 +103,18 @@ function onChoiceSubmit(event) {
 // listen on all forms
 document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
 
+function sortProjectRanks(a, b) {
+  a = parseInt(a.getAttribute('data-rank'));
+  b = parseInt(b.getAttribute('data-rank'));
+  a = a == 0 ? 100 : a;
+  b = b == 0 ? 100 : b;
+  a = isNaN(a) ? 100 : a;
+  b = isNaN(b) ? 100 : b;
+  console.log(a);
+  console.log(b);
+  return a-b;
+}
+
 function scrollToTop(event) {
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
 
@@ -98,17 +125,7 @@ function scrollToTop(event) {
   result.forEach(element => element.oldBoundingBox = element.getBoundingClientRect());
 
   // reorder them
-  result.sort(function(a, b) {
-    a = parseInt(a.getAttribute('data-rank'));
-    b = parseInt(b.getAttribute('data-rank'));
-    a = a == 0 ? 100 : a;
-    b = b == 0 ? 100 : b;
-    a = isNaN(a) ? 100 : a;
-    b = isNaN(b) ? 100 : b;
-    console.log(a);
-    console.log(b);
-    return a-b;
-  });
+  result.sort(sortProjectRanks);
 
   let container = document.querySelector('tbody');
   result.forEach(element => element.remove());
