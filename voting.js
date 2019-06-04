@@ -74,20 +74,22 @@ function onChoiceSubmit(event) {
       document.querySelector('.scrolltop').classList.add('show');
     }
 
-    if (newRank != 0) {
-      document.querySelectorAll('tr[data-rank="' + newRank + '"] button[disabled]')
-      .forEach(element => {
-        element.classList.remove(order_count[newRank] == 1 ? 'background-failure' : 'background-success');
+    document.querySelectorAll('tr[data-rank="' + newRank + '"] button[disabled]')
+    .forEach(element => {
+      element.classList.remove('background-failure');
+      element.classList.remove('background-success');
+      if (newRank != 0) {
         element.classList.add(order_count[newRank] == 1 ? 'background-success' : 'background-failure');
-      });
-    }
-    if (oldRank != 0) {
+      }
+    });
       document.querySelectorAll('tr[data-rank="' + oldRank + '"] button[disabled]')
       .forEach(element => {
-        element.classList.remove(order_count[oldRank] == 1 ? 'background-failure' : 'background-success');
-        element.classList.add(order_count[oldRank] == 1 ? 'background-success' : 'background-failure');
+        element.classList.remove('background-failure');
+        element.classList.remove('background-success');
+        if (oldRank != 0) {
+          element.classList.add(order_count[oldRank] == 1 ? 'background-success' : 'background-failure');
+        }
       });
-    }
   })
   .catch((error) => {
     alert(error); // TODO redirect to login if signed out

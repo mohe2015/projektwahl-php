@@ -49,7 +49,7 @@ $projects = Projects::allWithRanks();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="<?php echo $rank_count[$i] == 1 ? "background-success" : "background-failure" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                <button class="<?php echo $project->rank == $i ? ($rank_count[$i] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
               </form>
               <?php
               endfor;
