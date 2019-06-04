@@ -17,6 +17,8 @@ $projects = Projects::allWithRanks();
 
 <h1>Wahl</h1>
 
+<p>Bitte wähle Deine Erst- bis Fünftwahl aus.</p>
+
 <div class="responsive">
   <table>
     <thead>
