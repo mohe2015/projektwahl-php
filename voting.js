@@ -16,9 +16,9 @@ function updateOrderCount() {
     }
   }
   if (valid) {
-    snackbar.innerHTML = "<span class=\"success\">Gültig</span> - ";
+    snackbar.innerHTML = "<span class=\"success\">Gültig gewählt</span> - ";
   } else {
-    snackbar.innerHTML = "<span class=\"failure\">Ungültig</span> - ";
+    snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";
   }
   for (let i = 1; i <= 5; i++) {
     let span = document.createElement("span");

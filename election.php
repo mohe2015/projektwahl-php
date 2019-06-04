@@ -34,10 +34,10 @@ $projects = Projects::allWithRanks();
           4 => 0,
           5 => 0
         );
-        foreach ($projects as $project): ?>
-          <?php
+        foreach ($projects as $project) {
           $rank_count[$project->rank]++;
-          ?>
+        }
+        foreach ($projects as $project): ?>
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
@@ -49,7 +49,7 @@ $projects = Projects::allWithRanks();
                 <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                 <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                <button class="<?php echo $rank_count[$i] == 1 ? "background-success" : "background-failure" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
               </form>
               <?php
               endfor;
@@ -74,7 +74,7 @@ $projects = Projects::allWithRanks();
 </div>
 
 <div id="snackbar" class="snackbar show">
-  <?php echo $rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1 ? "<span class=\"success\">Gültig</span>" : "<span class=\"failure\">Ungültig</span>" ?> -
+  <?php echo $rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1 ? "<span class=\"success\">Gültig gewählt</span>" : "<span class=\"failure\">Ungültig gewählt</span>" ?> -
   <span class="<?php echo $rank_count[1] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
   <span class="<?php echo $rank_count[2] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
   <span class="<?php echo $rank_count[3] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[3]; ?>&times;3.</span> |
