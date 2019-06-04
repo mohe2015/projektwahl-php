@@ -40,26 +40,26 @@ $projects = Projects::allWithRanks();
         foreach ($projects as $project): ?>
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
-            <td>
-              <?php
-              // the following html form code can fall back for browsers without JavaScript.
-              for ($i = 1; $i <= 5; $i++):
-              ?>
-              <form class="choice-form" method="post" style="display: inline;">
-                <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
-                <input type="hidden" name="choice_id" value="<?php echo $i ?>">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
-              </form>
-              <?php
-              endfor;
-              ?>
-              <form class="choice-form" method="post" style="display: inline;">
-                <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
-                <input type="hidden" name="choice_id" value="0">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
-              </form>
+            <td style="text-align: right;">
+                <?php
+                // the following html form code can fall back for browsers without JavaScript.
+                for ($i = 1; $i <= 5; $i++):
+                ?>
+                <form class="choice-form" method="post" style="display: inline;">
+                  <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
+                  <input type="hidden" name="choice_id" value="<?php echo $i ?>">
+                  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                </form>
+                <?php
+                endfor;
+                ?>
+                <form class="choice-form" method="post" style="display: inline;">
+                  <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
+                  <input type="hidden" name="choice_id" value="0">
+                  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
+                </form>
             </td>
           </tr>
         <?php endforeach;?>
