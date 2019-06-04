@@ -73,14 +73,26 @@ $projects = Projects::allWithRanks();
 
 </div>
 
+<?php
+if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1):
+?>
+<div id="snackbar" class="snackbar show background-success">
+  Gültig gewählt - Du kannst Dich nun <a href="/logout.php">abmelden</a>
+</div>
+<?php
+else:
+?>
 <div id="snackbar" class="snackbar show">
-  <?php echo $rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1 ? "<span class=\"success\">Gültig gewählt</span>" : "<span class=\"failure\">Ungültig gewählt</span>" ?> -
+  <span class=\"failure\">Ungültig gewählt</span> -
   <span class="<?php echo $rank_count[1] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
   <span class="<?php echo $rank_count[2] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
   <span class="<?php echo $rank_count[3] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[3]; ?>&times;3.</span> |
   <span class="<?php echo $rank_count[4] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[4]; ?>&times;4.</span> |
   <span class="<?php echo $rank_count[5] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[5]; ?>&times;5.</span>
 </div>
+<?php
+endif;
+?>
 
 <!-- This is a polyfill to support the old firefox browser in the school. -->
 <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=NodeList.prototype.forEach"></script>
