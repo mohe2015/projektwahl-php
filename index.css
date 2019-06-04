@@ -203,3 +203,11 @@ button[type="submit"]:disabled {
   opacity: 1;
   bottom: 0;
 }
+
+.success {
+  color: green;
+}
+
+.failure {
+  color: red;
+}

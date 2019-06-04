@@ -26,7 +26,18 @@ $projects = Projects::allWithRanks();
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($projects as $project): ?>
+        <?php
+        $rank_count = array(
+          1 => 0,
+          2 => 0,
+          3 => 0,
+          4 => 0,
+          5 => 0
+        );
+        foreach ($projects as $project): ?>
+          <?php
+          $rank_count[$project->rank]++;
+          ?>
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td>
@@ -62,7 +73,14 @@ $projects = Projects::allWithRanks();
 
 </div>
 
-<div class="snackbar show">Noch nicht korrekt gewählt.</div>
+<div class="snackbar show">
+  <?php echo $rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1 ? "<span class=\"success\">Gültig</span>" : "<span class=\"failure\">Ungültig</span>" ?> -
+  <span class="<?php echo $rank_count[1] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
+  <span class="<?php echo $rank_count[2] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
+  <span class="<?php echo $rank_count[3] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[3]; ?>&times;3.</span> |
+  <span class="<?php echo $rank_count[4] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[4]; ?>&times;4.</span> |
+  <span class="<?php echo $rank_count[5] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[5]; ?>&times;5.</span>
+</div>
 
 <!-- This is a polyfill to support the old firefox browser in the school. -->
 <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=NodeList.prototype.forEach"></script>
