@@ -9,6 +9,6 @@ $projects = Projects::all();
 
 <?php foreach ($projects as $project) :?>
 <?php
-require '../projects/project.php';
+require 'project.php';
 ?>
 <?php endforeach;?>

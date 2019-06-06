@@ -241,4 +241,9 @@ button[type="submit"]:disabled.background-failure {
   nav {
     display: none;
   }
+
+  body {
+    background-color: white;
+    color: black;
+  }
 }
