@@ -51,12 +51,47 @@
 
 <div class="form-group">
   <label class="col">Betreuer:</label>
+<!--
   <select class="col" name="supervisors" multiple>
     <option>Volvo</option>
     <option>Saab</option>
     <option>Opel</option>
     <option>Audi</option>
   </select>
+-->
+  <button>Keine</button>
+  <dialog id="dialog-supervisors" open>
+    <ul class="dropdown">
+      <li>
+        <input type="checkbox" value="" id="Peter">
+        <label for="Peter">
+          Peter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Bob">
+        <label for="Bob">
+          Bob
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Klaus">
+        <label for="Klaus">
+          Klaus
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+    </ul>
+    <menu>
+      <button id="cancel-supervisors">Abbbrechen</button>
+      <button id="save-supervisors">Okay</button>
+    </menu>
+  </dialog>
 </div>
 
 <div class="form-group">
@@ -73,3 +108,25 @@
 </div>
 
 </form>
+
+
+<script>
+var form = document.getElementById("form-supervisors");
+var dialog = document.getElementById("dialog-supervisors");
+
+dialog.addEventListener('close', function onClose(e) {
+  console.log(e);
+  e.preventDefault();
+});
+
+document.querySelector('#cancel-supervisors').addEventListener('click', function(event) {
+  event.preventDefault();
+  dialog.close();
+});
+
+document.querySelector('#save-supervisors').addEventListener('click', function(event) {
+  event.preventDefault();
+  dialog.close();
+});
+
+</script>
