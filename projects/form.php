@@ -86,6 +86,72 @@
           Dieter
         </label>
       </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
+      <li>
+        <input type="checkbox" value="" id="Dieter">
+        <label for="Dieter">
+          Dieter
+        </label>
+      </li>
     </ul>
     <menu>
       <button id="cancel-supervisors">Abbbrechen</button>
@@ -114,9 +180,12 @@
 var form = document.getElementById("form-supervisors");
 var dialog = document.getElementById("dialog-supervisors");
 
+document.querySelector('body').classList.add('modal-open');
+
 dialog.addEventListener('close', function onClose(e) {
   console.log(e);
   e.preventDefault();
+  document.querySelector('body').classList.remove('modal-open');
 });
 
 document.querySelector('#cancel-supervisors').addEventListener('click', function(event) {

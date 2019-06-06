@@ -277,3 +277,11 @@ dialog[open] {
     transform: translateX(0);
   }
 }
+
+body.modal-open {
+    overflow: hidden;
+}
+
+dialog {
+  overflow-y: auto;
+}
