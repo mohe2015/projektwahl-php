@@ -54,7 +54,7 @@ $users = Users::all();
 <div class="form-group">
   <label class="col">Betreuer:</label>
 
-  <select class="col" name="supervisors" multiple>
+  <select class="col" id="select-supervisors" name="supervisors" multiple>
     <?php foreach ($users as $user): ?>
       <option><?php echo $user->name ?></option>
     <?php endforeach ?>
@@ -118,5 +118,8 @@ button.addEventListener('click', function (event) {
   document.querySelector('body').classList.add('modal-open');
   dialog.show();
 });
+
+// Hide the other one if javascript loaded
+document.querySelector('#select-supervisors').hidden = true;
 
 </script>
