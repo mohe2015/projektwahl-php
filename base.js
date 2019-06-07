@@ -3,31 +3,24 @@ const $ = (selector, context = document) => context.querySelector(selector)
 const $$ = function $$ (selector, context = document) {
   const elements = Array.from(context.querySelectorAll(selector))
 
-  return {
-    elements,
+  elements.html = function(newHtml) {
+    this.forEach(element => {
+      element.innerHTML = newHtml
+    })
+    return this
+  };
 
-    html (newHtml) {
-      this.elements.forEach(element => {
-        element.innerHTML = newHtml
-      })
-
-      return this
-    },
-
-    css (newCss) {
-      this.elements.forEach(element => {
-        Object.assign(element.style, newCss)
-      })
-
-      return this
-    },
-
-    on (event, handler, options) {
-      this.elements.forEach(element => {
-        element.addEventListener(event, handler, options)
-      })
-
-      return this
-    }
-  }
+  elements.css = function (newCss) {
+    this.forEach(element => {
+      Object.assign(element.style, newCss)
+    })
+    return this
+  };
+  elements.on = function (event, handler, options) {
+    this.forEach(element => {
+      element.addEventListener(event, handler, options)
+    })
+    return this
+  };
+  return elements;
 }
