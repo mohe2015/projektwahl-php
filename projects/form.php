@@ -97,20 +97,20 @@ $users = Users::all();
 
 
 <script>
-var form = document.getElementById("form-supervisors");
-var dialog = document.getElementById("dialog-supervisors");
-var button = document.querySelector('#show-supervisors-dialog');
-var input = document.querySelector('#search-supervisors');
+var form = $("#form-supervisors");
+var dialog = $("#dialog-supervisors");
+var button = $('#show-supervisors-dialog');
+var input = $('#search-supervisors');
 
 dialog.addEventListener('close', function onClose(e) {
   console.log(e);
   e.preventDefault();
-  document.querySelector('body').classList.remove('modal-open');
+  $('body').classList.remove('modal-open');
 });
 
-document.querySelector('#save-supervisors').addEventListener('click', function(event) {
+$('#save-supervisors').addEventListener('click', function(event) {
   event.preventDefault();
-  var supervisors = [...dialog.querySelectorAll('input:checked')].map(x => x.id).join("; ") || "Keine";
+  var supervisors = $$('input:checked').map(x => x.id).join("; ") || "Keine";
   button.innerText = supervisors;
   dialog.close();
 });
@@ -122,7 +122,7 @@ button.addEventListener('click', function (event) {
 });
 
 input.addEventListener('input', function(event) {
-  var supervisors = [...dialog.querySelectorAll('input[type="checkbox"]')];
+  var supervisors = $$('input[type="checkbox"]');
   var query = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
   supervisors.forEach(e => {
     var string = e.id.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -137,6 +137,6 @@ input.addEventListener('input', function(event) {
 });
 
 // Hide the other one if javascript loaded
-document.querySelector('#select-supervisors').hidden = true;
+$('#select-supervisors').hidden = true;
 
 </script>
