@@ -74,8 +74,7 @@ $users = Users::all();
 <?php endforeach ?>
     </ul>
     <menu>
-      <button id="cancel-supervisors">Abbbrechen</button>
-      <button id="save-supervisors">Okay</button>
+      <button id="save-supervisors">Schließen</button>
     </menu>
   </dialog>
 </div>
@@ -107,13 +106,10 @@ dialog.addEventListener('close', function onClose(e) {
   document.querySelector('body').classList.remove('modal-open');
 });
 
-document.querySelector('#cancel-supervisors').addEventListener('click', function(event) {
-  event.preventDefault();
-  dialog.close();
-});
-
 document.querySelector('#save-supervisors').addEventListener('click', function(event) {
   event.preventDefault();
+  var supervisors = [...dialog.querySelectorAll('input:checked')].map(x => x.id).join("; ") || "Keine";
+  button.innerText = supervisors;
   dialog.close();
 });
 
