@@ -250,6 +250,9 @@ button[type="submit"]:disabled.background-failure {
 
 .dropdown {
   list-style-type: none;
+  max-height: 50%;
+  overflow-y: auto;
+  padding-left: 0;
 }
 
 dialog {

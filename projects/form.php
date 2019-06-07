@@ -63,6 +63,7 @@ $users = Users::all();
   <button id="show-supervisors-dialog">Keine</button>
   <dialog id="dialog-supervisors">
     <h1>Betreuer</h1>
+    <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
     <ul class="dropdown">
 <?php foreach ($users as $user): ?>
       <li>
@@ -99,6 +100,7 @@ $users = Users::all();
 var form = document.getElementById("form-supervisors");
 var dialog = document.getElementById("dialog-supervisors");
 var button = document.querySelector('#show-supervisors-dialog');
+var input = document.querySelector('#search-supervisors');
 
 dialog.addEventListener('close', function onClose(e) {
   console.log(e);
@@ -117,6 +119,19 @@ button.addEventListener('click', function (event) {
   event.preventDefault();
   document.querySelector('body').classList.add('modal-open');
   dialog.show();
+});
+
+input.addEventListener('input', function(event) {
+  var supervisors = [...dialog.querySelectorAll('input[type="checkbox"]')];
+  var query = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  supervisors.forEach(e => {
+    var string = e.id.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    if (string.toLowerCase().indexOf(query.toLowerCase()) === -1) {
+      e.parentElement.hidden = true;
+    } else {
+      e.parentElement.hidden = false;
+    }
+  });
 });
 
 // Hide the other one if javascript loaded
