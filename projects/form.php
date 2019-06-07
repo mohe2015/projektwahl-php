@@ -132,6 +132,8 @@ input.addEventListener('input', function(event) {
       e.parentElement.hidden = false;
     }
   });
+  // TODO put selected ones up
+  // myElement.innerHTML = null
 });
 
 // Hide the other one if javascript loaded
