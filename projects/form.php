@@ -1,4 +1,6 @@
-
+<?php
+$users = Users::all();
+?>
 <form method="post">
 
 <div class="form-group">
@@ -51,107 +53,25 @@
 
 <div class="form-group">
   <label class="col">Betreuer:</label>
-<!--
+
   <select class="col" name="supervisors" multiple>
-    <option>Volvo</option>
-    <option>Saab</option>
-    <option>Opel</option>
-    <option>Audi</option>
+    <?php foreach ($users as $user): ?>
+      <option><?php echo $user->name ?></option>
+    <?php endforeach ?>
   </select>
--->
-  <button>Keine</button>
-  <dialog id="dialog-supervisors" open>
+
+  <button id="show-supervisors-dialog">Keine</button>
+  <dialog id="dialog-supervisors">
+    <h1>Betreuer</h1>
     <ul class="dropdown">
+<?php foreach ($users as $user): ?>
       <li>
-        <input type="checkbox" value="" id="Peter">
-        <label for="Peter">
-          Peter
+        <input type="checkbox" value="" id="<?php echo $user->name ?>">
+        <label for="<?php echo $user->name ?>">
+          <?php echo $user->name ?>
         </label>
       </li>
-      <li>
-        <input type="checkbox" value="" id="Bob">
-        <label for="Bob">
-          Bob
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Klaus">
-        <label for="Klaus">
-          Klaus
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
-      <li>
-        <input type="checkbox" value="" id="Dieter">
-        <label for="Dieter">
-          Dieter
-        </label>
-      </li>
+<?php endforeach ?>
     </ul>
     <menu>
       <button id="cancel-supervisors">Abbbrechen</button>
@@ -179,8 +99,7 @@
 <script>
 var form = document.getElementById("form-supervisors");
 var dialog = document.getElementById("dialog-supervisors");
-
-document.querySelector('body').classList.add('modal-open');
+var button = document.querySelector('#show-supervisors-dialog');
 
 dialog.addEventListener('close', function onClose(e) {
   console.log(e);
@@ -196,6 +115,12 @@ document.querySelector('#cancel-supervisors').addEventListener('click', function
 document.querySelector('#save-supervisors').addEventListener('click', function(event) {
   event.preventDefault();
   dialog.close();
+});
+
+button.addEventListener('click', function (event) {
+  event.preventDefault();
+  document.querySelector('body').classList.add('modal-open');
+  dialog.show();
 });
 
 </script>
