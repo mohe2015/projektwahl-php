@@ -66,7 +66,7 @@ class Choices {
   }
   public function all() {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM choices;');
+    $stmt = $db->prepare('SELECT * FROM choices WHERE rank != 0 ORDER BY student;'); // TODO FIXME rank!=0 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
   }
