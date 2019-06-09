@@ -46,13 +46,13 @@ class Student extends User {
 class Students {
   public function find($id) {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM users WHERE id = :id AND type = "student"');
+    $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'student'");
     $stmt->execute(array('id' => $id));
     return $stmt->fetchObject('Student');
   }
   public function all() {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM users WHERE type = "student";');
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student';");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
   }

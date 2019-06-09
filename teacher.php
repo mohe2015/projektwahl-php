@@ -19,13 +19,13 @@ class Teacher extends User {
 class Teachers {
   public function find($id) {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM users WHERE id = :id AND type = "teacher"');
+    $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'teacher'");
     $stmt->execute(array('id' => $id));
     return $stmt->fetchObject('Teacher');
   }
   public function all() {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM users WHERE type = "teacher";');
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher';");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
   }

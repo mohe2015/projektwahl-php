@@ -94,7 +94,7 @@ class User extends Record {
 class Users {
   public function all() {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM users WHERE type = "teacher" OR type = "student";');
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
   }
