@@ -141,6 +141,7 @@ foreach ($grouped_choices as $student_id => $choices) {
 
 // project not overfilled / underfilled
 foreach ($project_grouped_choices as $project_id => $choices) {
+  // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted it
   $project = $assoc_projects[$project_id];
   fwrite($out, "\n Project_$project_id" . "_not_underfilled: ");
   foreach ($choices as $choice) {
@@ -157,8 +158,15 @@ foreach ($project_grouped_choices as $project_id => $choices) {
   fwrite($out, "\n Project_$project_id" . "_exists_or_not_exists: Project_$project_id" . "_exists + Project_$project_id" . "_not_exists = 1");
 }
 
-fwrite($out, "\nBinary");
+fwrite($out, "\nBinary\n");
 
+foreach ($project_grouped_choices as $project_id => $choices) {
+  // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted
+  fwrite($out, " Project_$project_id" . "_exists Project_$project_id" . "_not_exists");
+  foreach ($choices as $choice) {
+    fwrite($out, " " . choice2string($choice));
+  }
+}
 // TODO FIXME
 
 fwrite($out, "\nEnd");
