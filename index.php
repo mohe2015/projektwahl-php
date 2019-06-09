@@ -10,9 +10,9 @@ require_once __DIR__ . '/head.php';
 
 <p>Der Quellcode ist aus Transparenzgründen unter <a target="_blank" rel="noopener noreferrer" href="https://github.com/mohe2015/projektwahl-php">https://github.com/mohe2015/projektwahl-php</a> einzusehen.</p>
 
-CREATE EXTENSION dblink;
+You only need to change id of Admin user to something high
 
-// TODO we also need the ids
+CREATE EXTENSION dblink;
 
 INSERT INTO projects (id, title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments)
 SELECT id, title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, helper_count, random_assignment_allowed FROM dblink('dbname=projektwahl_production', 'SELECT id, title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, helper_count, random_assignment_allowed FROM projects') AS t1(id INT, title TEXT, info TEXT, place TEXT, costs DECIMAL, min_grade INT, max_grade INT, min_participants INT, max_participants INT, presentation_type TEXT, helper_count TEXT, random_assignment_allowed BOOLEAN);
