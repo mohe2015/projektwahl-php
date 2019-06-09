@@ -97,7 +97,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     $grouped_choices[$student_id] = array();
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
-        //continue;
+        continue;
       }
       if ($student->grade < $project->min_grade) {
         continue;
@@ -196,16 +196,18 @@ fclose($solution_file);
 
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
+  $sum = 0;
+  foreach ($choices as $choice) {
+    if ($solution[choice2string($choice)] === 1) {
+      $sum++;
+      print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
+    }
+  }
   if ($solution["P$project_id" . "_e"] === 1) {
-    print($project->title . " findet statt.\n");
+    print($project->title . " findet statt. ($sum / $project->max_participants)\n");
   }
   if ($solution["P$project_id" . "_ne"] === 1) {
     print($project->title . " findet NICHT statt.\n");
-  }
-  foreach ($choices as $choice) {
-    if ($solution[choice2string($choice)] === 1) {
-      print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
-    }
   }
 }
 
