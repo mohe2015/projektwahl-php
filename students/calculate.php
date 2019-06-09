@@ -69,6 +69,8 @@ foreach ($choices as $choice) {
   }
 }
 
+$test = array();
+
 foreach ($grouped_choices as $student_id => $choices) {
   $student = $assoc_students[$student_id];
   $rank_count = array(
@@ -89,6 +91,7 @@ foreach ($grouped_choices as $student_id => $choices) {
       fwrite($out, " + " . choice2string($choice));
     }
   } else {
+    print($student->name . "\n");
     fwrite($out, "\n S$student_id" . "_P: ");
     // invalid vote
     $grouped_choices[$student_id] = array();
@@ -109,6 +112,9 @@ foreach ($grouped_choices as $student_id => $choices) {
       ));
       $grouped_choices[$student_id][] = $choice;
       fwrite($out, " + " . choice2string($choice));
+      if (!$project->random_assignments) {
+        $test[] = choice2string($choice);
+      }
     }
   }
   $project_leader = $student->project_leader;
@@ -182,7 +188,7 @@ while (!feof($solution_file))  {
     $name = $parts[1];
     $value = (int)$parts[3];
     $solution[$name] = $value;
-    print($name . ":" . $value . "\n");
+    //print($name . ":" . $value . "\n");
   }
 }
 
@@ -200,6 +206,12 @@ foreach ($assoc_projects as $project_id => $project) {
     if ($solution[choice2string($choice)] === 1) {
       print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
     }
+  }
+}
+
+foreach ($test as $test_element) {
+  if ($solution[$test_element] === 1) {
+    print("JO " . $test_element . "\n");
   }
 }
 
