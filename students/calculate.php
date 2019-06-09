@@ -20,6 +20,21 @@ function rank2points($rank) {
   }
 }
 
+function choice2string($choice) {
+  return "Student_$choice->student" . "_Project_$choice->project". "_Rank_$choice->rank";
+}
+
+// TODO put in Students::
+$stmt = $db->prepare('SELECT * FROM users WHERE type = "student";');
+$stmt->execute();
+$assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
+
+// TODO put in Projects::
+$stmt = $db->prepare('SELECT * FROM projects;');
+$stmt->execute();
+$assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project');
+
+
 // http://www.gnu.org/software/glpk/
 // http://lpsolve.sourceforge.net/
 // https://github.com/coin-or/Cbc
@@ -27,8 +42,6 @@ function rank2points($rank) {
 
 // maximize rating points
 
-// TODO assumed that student leaders always are student leaders
-// TODO assumed that all projects exist (TODO remove the ones that cannot possibly exist)
 //$out = fopen('problem.lp', 'w'); // TODO temp file
 $out = fopen('php://output', 'w');
 fwrite($out, "Maximize\n");
@@ -36,7 +49,7 @@ fwrite($out, " obj:");
 
 $choices = Choices::all();
 foreach ($choices as $choice) {
-  fwrite($out, " + " . rank2points($choice->rank) . " Student_$choice->student" . "_Project_$choice->project". "_Rank_$choice->rank");
+  fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
 }
 fwrite($out, "\nSubject To:\n");
 
@@ -57,8 +70,16 @@ foreach ($grouped_choices as $choices) {
     $rank_count[$choice->rank]++;
   }
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
-    fwrite($out, "valid");
+    // valid vote
+    fwrite($out, " Student_$choice->student" . "_in_one_Project: 1 =");
+    foreach ($choices as $choice) {
+      fwrite($out, " + " . choice2string($choice));
+    }
+  } else {
+    // invalid vote
+    // TODO FIXME
   }
+  var_dump($grouped_choices);
 }
 
 fclose($out);
