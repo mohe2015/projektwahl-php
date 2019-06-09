@@ -38,10 +38,9 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // http://lpsolve.sourceforge.net/
 // https://github.com/coin-or/Cbc
 
-// glpsol --lp calculate.php
+// glpsol --lp calculate.lp
 // cbc calculate.lp
 
-//$out = fopen('problem.lp', 'w'); // TODO temp file
 
 // TODO FIXME away students
 global $db;
@@ -50,6 +49,7 @@ $stmt->execute();
 $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
 // maximize rating points
+//$out = fopen('problem.lp', 'w'); // TODO temp file
 $out = fopen('php://output', 'w');
 fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
@@ -113,7 +113,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
   }
   $project_leader = $student->project_leader;
   if ($project_leader) {
-    fwrite($out, " + P$project_leader" . "_e"); // TODO check if it works
+    fwrite($out, " + P$project_leader" . "_e");
   }
   fwrite($out, " = 1");
 
