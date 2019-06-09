@@ -49,8 +49,8 @@ $stmt->execute();
 $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
 // maximize rating points
-//$out = fopen('problem.lp', 'w'); // TODO temp file
-$out = fopen('php://output', 'w');
+$out = fopen('/tmp/problem.lp', 'w'); // TODO temp file
+//$out = fopen('php://output', 'w');
 fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
 foreach ($choices as $choice) {
@@ -171,4 +171,6 @@ foreach ($project_grouped_choices as $project_id => $choices) {
 
 fwrite($out, "\nEnd\n");
 fclose($out);
+
+passthru("glpsol --lp /tmp/problem.lp");
 ?>
