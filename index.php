@@ -10,8 +10,6 @@ require_once __DIR__ . '/head.php';
 
 <p>Der Quellcode ist aus Transparenzgründen unter <a target="_blank" rel="noopener noreferrer" href="https://github.com/mohe2015/projektwahl-php">https://github.com/mohe2015/projektwahl-php</a> einzusehen.</p>
 
-You only need to change id of Admin user to something high
-
 CREATE EXTENSION dblink;
 
 INSERT INTO projects (id, title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments)
@@ -19,7 +17,7 @@ SELECT id, title, info, place, costs, min_grade, max_grade, min_participants, ma
 
 INSERT INTO users (id, name, password, type, project_leader, class, grade, away)
 SELECT id, name, password, 'student', project_leader, class, grade, away FROM dblink('dbname=projektwahl_production', 'SELECT
-id, name, password_digest, clazz, grade, is_away, project_leader_id FROM users') AS t1(id INT,
+id, name, password_digest, clazz, grade, is_away, project_leader_id FROM users WHERE type = \'Student\'') AS t1(id INT,
 name TEXT, password TEXT, class TEXT, grade INT, away BOOL, project_leader INT);
 
 INSERT INTO choices (rank, project, student)
