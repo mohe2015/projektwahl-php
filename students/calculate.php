@@ -174,18 +174,18 @@ foreach ($assoc_projects as $project_id => $project) {
 fwrite($out, "\nEnd\n");
 fclose($out);
 
-passthru("glpsol --lp /tmp/problem.lp -w /tmp/solution.txt");
+passthru("glpsol --lp /tmp/problem.lp -o /tmp/solution.txt");
 
 $solution = fopen("/tmp/solution.txt", "r");
 
 while (!feof($solution))  {
   $result = fgets($solution);
-  if (startsWith($result, "j ")) {
-    $tmp = explode(" ", substr($result, 2));
-    $index = (int)$tmp[0];
-    $value = (int)$tmp[1];
+  $parts = preg_split('/\s+/', $result, -1, PREG_SPLIT_NO_EMPTY);
+  if (count($parts) === 6 && $parts[2] === "*") {
+    $name = $parts[1];
+    $value = (int)$parts[3];
     if ($value === 1) {
-      print "$vars[$index]:$value\n";
+      print "$name:$value\n";
     }
   }
 }
