@@ -60,7 +60,7 @@ foreach ($choices as $choice) {
   }
   fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
 }
-fwrite($out, "\nSubject To:");
+fwrite($out, "\nSubject To");
 
 $grouped_choices = array();
 foreach ($choices as $choice) {
@@ -84,7 +84,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
     $rank_count[$choice->rank]++;
   }
   // student in exactly one project
-  fwrite($out, "\n Student_$student_id" . "_in_one_Project: 1 =");
+  fwrite($out, "\n Student_$student_id" . "_in_one_Project: ");
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
     // valid vote
     foreach ($choices as $choice) {
@@ -116,6 +116,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
   if ($project_leader) {
     fwrite($out, " + Project_$project_leader" . "_exists"); // TODO check if it works
   }
+  fwrite($out, " = 1");
 
   // student only in project if it exists
   foreach ($choices as $choice) {
@@ -127,7 +128,8 @@ foreach ($grouped_choices as $student_id => &$choices) {
     #   in project (1)     and project exists (0)
     # 2
     #   in project (1)     and project doesn't exist (1)
-    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists: 0 <= " . choice2string($choice) . " + Project_$choice->project" . "_not_exists <= 1");
+    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists_upper_Bound: " . choice2string($choice) . " + Project_$choice->project" . "_not_exists <= 1");
+    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists2_lower_Bound: " . choice2string($choice) . " + Project_$choice->project" . "_not_exists >= 0");
   }
 }
 unset($choices); // break the reference with the last element
@@ -167,9 +169,7 @@ foreach ($project_grouped_choices as $project_id => $choices) {
     fwrite($out, " " . choice2string($choice));
   }
 }
-// TODO FIXME
 
-fwrite($out, "\nEnd");
-
+fwrite($out, "\nEnd\n");
 fclose($out);
 ?>
