@@ -49,15 +49,26 @@ fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
 
 // TODO FIXME away students
-$choices = Choices::all();
+global $db;
+$stmt = $db->prepare('SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = "student" ORDER BY id;'); // TODO FIXME rank!=0
+$stmt->execute();
+$choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
+
 foreach ($choices as $choice) {
+  if ($choice->rank === NULL) {
+    continue;
+  }
   fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
 }
-fwrite($out, "\nSubject To:\n");
+fwrite($out, "\nSubject To:");
 
 $grouped_choices = array();
 foreach ($choices as $choice) {
-    $grouped_choices[$choice->student][] = $choice;
+  if ($choice->rank === NULL) {
+    $grouped_choices[$choice->id] = array();
+  } else {
+    $grouped_choices[$choice->id][] = $choice;
+  }
 }
 
 // TODO fixme no votes -> no student in that array
@@ -73,9 +84,9 @@ foreach ($grouped_choices as $student_id => $choices) {
   foreach ($choices as $choice) {
     $rank_count[$choice->rank]++;
   }
+  fwrite($out, "\n Student_$student_id" . "_in_one_Project: 1 =");
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
     // valid vote
-    fwrite($out, " Student_$choice->student" . "_in_one_Project: 1 =");
     foreach ($choices as $choice) {
       fwrite($out, " + " . choice2string($choice));
     }
