@@ -21,7 +21,7 @@ function rank2points($rank) {
 }
 
 function choice2string($choice) {
-  return "Student_$choice->student" . "_Project_$choice->project". "_Rank_$choice->rank";
+  return "Student_$choice->student" . "_in_Project_$choice->project";
 }
 
 // TODO put in Students::
@@ -71,7 +71,6 @@ foreach ($choices as $choice) {
   }
 }
 
-// TODO fixme no votes -> no student in that array
 foreach ($grouped_choices as $student_id => $choices) {
   $student = $assoc_students[$student_id];
   $rank_count = array(
@@ -84,6 +83,7 @@ foreach ($grouped_choices as $student_id => $choices) {
   foreach ($choices as $choice) {
     $rank_count[$choice->rank]++;
   }
+  // student in exactly one project
   fwrite($out, "\n Student_$student_id" . "_in_one_Project: 1 =");
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
     // valid vote
@@ -117,7 +117,32 @@ foreach ($grouped_choices as $student_id => $choices) {
     fwrite($out, " + Project_$project_leader" . "_exists"); // TODO check if it works
   }
 
+  // student only in project if it exists
+  foreach ($choices as $choice) {
+    # 0 or 1
+    # 0
+    #   not in project (0) and project exists (0)
+    # 1
+    #   not in project (0) and project doesn't exist (1)
+    #   in project (1)     and project exists (0)
+    # 2
+    #   in project (1)     and project doesn't exist (1)
+    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists: 0 <= " . choice2string($choice) . " + Project_$choice->project" . "_not_exists <= 1");
+  }
+}
 
+$project_grouped_choices = array();
+foreach ($grouped_choices as $student_id => $choices) {
+  foreach ($choices as $choice) {
+    $project_grouped_choices[$choice->project][] = $choice;
+  }
+}
+
+var_dump($project_grouped_choices);
+
+// project not overfilled / underfilled
+foreach ($assoc_projects as $project_id => $project) {
+  // TODO loop over ratings and add them
 }
 
 fclose($out);
