@@ -67,7 +67,7 @@ class Project extends Record {
     if (empty($this->requirements)) {
       //array_push($validation_errors, "\"Ich benötige\" fehlt!");
     }
-    if (empty($this->random_assignments)) {
+    if (!isset($this->random_assignments)) {
       array_push($validation_errors, "\"Zufällige Projektzuweisungen erlaubt\" fehlt!");
     }
     return $validation_errors;
@@ -90,7 +90,7 @@ class Project extends Record {
         'max_participants' => $this->max_participants,
         'presentation_type' => $this->presentation_type,
         'requirements' => $this->requirements,
-        'random_assignments' => !empty($this->random_assignments)
+        'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       $project->id = $db->lastInsertId();
     } else {
@@ -107,7 +107,7 @@ class Project extends Record {
         'max_participants' => $this->max_participants,
         'presentation_type' => $this->presentation_type,
         'requirements' => $this->requirements,
-        'random_assignments' => !empty($this->random_assignments)
+        'random_assignments' => $this->random_assignments ? 1 : 0
       ));
     }
   }
