@@ -139,12 +139,29 @@ foreach ($grouped_choices as $student_id => $choices) {
   }
 }
 
-var_dump($project_grouped_choices);
-
 // project not overfilled / underfilled
-foreach ($assoc_projects as $project_id => $project) {
-  // TODO loop over ratings and add them
+foreach ($project_grouped_choices as $project_id => $choices) {
+  $project = $assoc_projects[$project_id];
+  fwrite($out, "\n Project_$project_id" . "_not_underfilled: ");
+  foreach ($choices as $choice) {
+    fwrite($out, " + " . choice2string($choice));
+  }
+  fwrite($out, " + $project->min_participants Project_$choice->project" . "_not_exists >= $project->min_participants");
+
+  fwrite($out, "\n Project_$project_id" . "_not_overfilled: ");
+  foreach ($choices as $choice) {
+    fwrite($out, " + " . choice2string($choice));
+  }
+  fwrite($out, " + $project->max_participants Project_$choice->project" . "_not_exists <= $project->max_participants");
+
+  fwrite($out, "\n Project_$project_id" . "_exists_or_not_exists: Project_$project_id" . "_exists + Project_$project_id" . "_not_exists = 1");
 }
+
+fwrite($out, "\nBinary");
+
+// TODO FIXME
+
+fwrite($out, "\nEnd");
 
 fclose($out);
 ?>
