@@ -41,7 +41,6 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // glpsol --lp calculate.lp
 // cbc calculate.lp
 
-
 // TODO FIXME away students
 global $db;
 $stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' AND away = FALSE ORDER BY id;"); // TODO FIXME rank!=0
@@ -50,7 +49,7 @@ $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
 // maximize rating points
 $out = fopen('/tmp/problem.lp', 'w'); // TODO temp file
-//$out = fopen('php://output', 'w');
+$stdout = fopen('php://output', 'w');
 fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
 foreach ($choices as $choice) {
@@ -95,7 +94,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     $grouped_choices[$student_id] = array();
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
-        continue;
+        //continue;
       }
       if ($student->grade < $project->min_grade) {
         continue;
