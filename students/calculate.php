@@ -159,15 +159,11 @@ foreach ($assoc_projects as $project_id => $project) {
 
 fwrite($out, "\nBinary\n");
 
-$vars = array();
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
   fwrite($out, " P$project_id" . "_e P$project_id" . "_ne");
-  $vars[] = "P$project_id" . "_e";
-  $vars[] = "P$project_id" . "_ne";
   foreach ($choices as $choice) {
     fwrite($out, " " . choice2string($choice));
-    $vars[] = choice2string($choice);
   }
 }
 
@@ -176,20 +172,35 @@ fclose($out);
 
 passthru("glpsol --lp /tmp/problem.lp -o /tmp/solution.txt");
 
-$solution = fopen("/tmp/solution.txt", "r");
+$solution_file = fopen("/tmp/solution.txt", "r");
 
-while (!feof($solution))  {
-  $result = fgets($solution);
+$solution = array();
+while (!feof($solution_file))  {
+  $result = fgets($solution_file);
   $parts = preg_split('/\s+/', $result, -1, PREG_SPLIT_NO_EMPTY);
   if (count($parts) === 6 && $parts[2] === "*") {
     $name = $parts[1];
     $value = (int)$parts[3];
-    if ($value === 1) {
-      print "$name:$value\n";
-    }
+    $solution[$name] = $value;
+    print($name . ":" . $value . "\n");
   }
 }
 
-fclose($solution);
+fclose($solution_file);
+
+foreach ($assoc_projects as $project_id => $project) {
+  $choices = $project_grouped_choices[$project_id];
+  if ($solution["P$project_id" . "_e"] === 1) {
+    print($project->title . " findet statt.\n");
+  }
+  if ($solution["P$project_id" . "_ne"] === 1) {
+    print($project->title . " findet NICHT statt.\n");
+  }
+  foreach ($choices as $choice) {
+    if ($solution[choice2string($choice)] === 1) {
+      print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
+    }
+  }
+}
 
 ?>
