@@ -26,7 +26,7 @@ function choice2string($choice) {
 
 // TODO put in Students::
 // TODO fixme away students
-$stmt = $db->prepare('SELECT * FROM users WHERE type = "student";');
+$stmt = $db->prepare("SELECT * FROM users WHERE type = 'student';");
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
 
@@ -47,7 +47,7 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 
 // TODO FIXME away students
 global $db;
-$stmt = $db->prepare('SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = "student" ORDER BY id;'); // TODO FIXME rank!=0
+$stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' ORDER BY id;"); // TODO FIXME rank!=0
 $stmt->execute();
 $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
