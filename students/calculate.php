@@ -83,17 +83,19 @@ foreach ($grouped_choices as $student_id => &$choices) {
     $rank_count[$choice->rank]++;
   }
   // student in exactly one project
-  fwrite($out, "\n S$student_id" . "_P: ");
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
+    fwrite($out, "\n S$student_id" . "_P: ");
     // valid vote
     foreach ($choices as $choice) {
       fwrite($out, " + " . choice2string($choice));
     }
   } else {
+    continue;
+    fwrite($out, "\n S$student_id" . "_P: ");
     // invalid vote
     $choices = array();
     foreach ($assoc_projects as $project_id => $project) {
-      if (!$project->random_assignments) { // TODO testing
+      if (!$project->random_assignments) {
         continue;
       }
       if ($student->grade < $project->min_grade) {
@@ -172,5 +174,5 @@ foreach ($project_grouped_choices as $project_id => $choices) {
 fwrite($out, "\nEnd\n");
 fclose($out);
 
-passthru("glpsol --lp /tmp/problem.lp");
+passthru("glpsol --lp /tmp/problem.lp -w /tmp/solution.txt");
 ?>
