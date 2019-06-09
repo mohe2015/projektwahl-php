@@ -1,12 +1,6 @@
 <?php
 require_once __DIR__ . '/header.php';
 
-function startsWith($haystack, $needle)
-{
-     $length = strlen($needle);
-     return (substr($haystack, 0, $length) === $needle);
-}
-
 // used to add the active class to the current tab
 function active($path) {
   echo startsWith($_SERVER["REQUEST_URI"], $path) ? 'class="active"' : '';

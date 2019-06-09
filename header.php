@@ -7,6 +7,14 @@ function myException($exception) {
 }
 set_exception_handler('myException');
 
+
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+
 session_start();
 require_once __DIR__ . '/project.php';
 require_once __DIR__ . '/user.php';

@@ -159,11 +159,15 @@ foreach ($assoc_projects as $project_id => $project) {
 
 fwrite($out, "\nBinary\n");
 
+$vars = array();
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
   fwrite($out, " P$project_id" . "_e P$project_id" . "_ne");
+  $vars[] = "P$project_id" . "_e";
+  $vars[] = "P$project_id" . "_ne";
   foreach ($choices as $choice) {
     fwrite($out, " " . choice2string($choice));
+    $vars[] = choice2string($choice);
   }
 }
 
@@ -171,4 +175,21 @@ fwrite($out, "\nEnd\n");
 fclose($out);
 
 passthru("glpsol --lp /tmp/problem.lp -w /tmp/solution.txt");
+
+$solution = fopen("/tmp/solution.txt", "r");
+
+while (!feof($solution))  {
+  $result = fgets($solution);
+  if (startsWith($result, "j ")) {
+    $tmp = explode(" ", substr($result, 2));
+    $index = (int)$tmp[0];
+    $value = (int)$tmp[1];
+    if ($value === 1) {
+      print "$vars[$index]:$value\n";
+    }
+  }
+}
+
+fclose($solution);
+
 ?>
