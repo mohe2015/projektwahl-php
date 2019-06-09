@@ -25,6 +25,7 @@ function choice2string($choice) {
 }
 
 // TODO put in Students::
+// TODO fixme away students
 $stmt = $db->prepare('SELECT * FROM users WHERE type = "student";');
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
@@ -47,6 +48,7 @@ $out = fopen('php://output', 'w');
 fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
 
+// TODO FIXME away students
 $choices = Choices::all();
 foreach ($choices as $choice) {
   fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
@@ -58,7 +60,9 @@ foreach ($choices as $choice) {
     $grouped_choices[$choice->student][] = $choice;
 }
 
-foreach ($grouped_choices as $choices) {
+// TODO fixme no votes -> no student in that array
+foreach ($grouped_choices as $student_id => $choices) {
+  $student = $assoc_students[$student_id];
   $rank_count = array(
     1 => 0,
     2 => 0,
@@ -77,9 +81,32 @@ foreach ($grouped_choices as $choices) {
     }
   } else {
     // invalid vote
-    // TODO FIXME
+    $choices = array();
+    foreach ($assoc_projects as $project_id => $project) {
+      if (!$project->random_assignments) { // TODO testing
+        continue;
+      }
+      if ($student->grade < $project->min_grade) {
+        continue;
+      }
+      if ($student->grade > $project->max_grade) {
+        continue;
+      }
+      $choice = new Choice(array(
+        'project' => $project_id,
+        'student' => $student_id,
+        'rank' => -1,
+      ));
+      $choices[] = $choice;
+      fwrite($out, " + " . choice2string($choice));
+    }
   }
-  var_dump($grouped_choices);
+  $project_leader = $student->project_leader;
+  if ($project_leader) {
+    fwrite($out, " + Project_$project_leader" . "_exists"); // TODO check if it works
+  }
+
+
 }
 
 fclose($out);
