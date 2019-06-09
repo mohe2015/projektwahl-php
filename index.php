@@ -17,7 +17,7 @@ SELECT id, title, info, place, costs, min_grade, max_grade, min_participants, ma
 
 INSERT INTO users (id, name, password, type, project_leader, class, grade, away)
 SELECT id, name, password, 'student', project_leader, class, grade, away FROM dblink('dbname=projektwahl_production', 'SELECT
-id, name, password_digest, clazz, grade, is_away, project_leader_id FROM users WHERE type = \'Student\'') AS t1(id INT,
+id, name, password_digest, clazz, grade, is_away, project_leader_id FROM users WHERE type = ''Student''') AS t1(id INT,
 name TEXT, password TEXT, class TEXT, grade INT, away BOOL, project_leader INT);
 
 INSERT INTO choices (rank, project, student)
