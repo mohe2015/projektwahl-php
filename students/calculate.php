@@ -21,7 +21,7 @@ function rank2points($rank) {
 }
 
 function choice2string($choice) {
-  return "Student_$choice->student" . "_in_Project_$choice->project";
+  return "S$choice->student" . "_P$choice->project";
 }
 
 // TODO put in Students::
@@ -39,14 +39,11 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // http://www.gnu.org/software/glpk/
 // http://lpsolve.sourceforge.net/
 // https://github.com/coin-or/Cbc
-// https://scip.zib.de/
 
-// maximize rating points
+// glpsol --lp calculate.php
+// cbc calculate.lp
 
 //$out = fopen('problem.lp', 'w'); // TODO temp file
-$out = fopen('php://output', 'w');
-fwrite($out, "Maximize\n");
-fwrite($out, " obj:");
 
 // TODO FIXME away students
 global $db;
@@ -54,6 +51,10 @@ $stmt = $db->prepare('SELECT users.*, choices.* FROM users LEFT JOIN choices ON 
 $stmt->execute();
 $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
+// maximize rating points
+$out = fopen('php://output', 'w');
+fwrite($out, "Maximize\n");
+fwrite($out, " obj:");
 foreach ($choices as $choice) {
   if ($choice->rank === NULL) {
     continue;
@@ -84,7 +85,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
     $rank_count[$choice->rank]++;
   }
   // student in exactly one project
-  fwrite($out, "\n Student_$student_id" . "_in_one_Project: ");
+  fwrite($out, "\n S$student_id" . "_P: ");
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
     // valid vote
     foreach ($choices as $choice) {
@@ -114,7 +115,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
   }
   $project_leader = $student->project_leader;
   if ($project_leader) {
-    fwrite($out, " + Project_$project_leader" . "_exists"); // TODO check if it works
+    fwrite($out, " + P$project_leader" . "_e"); // TODO check if it works
   }
   fwrite($out, " = 1");
 
@@ -128,8 +129,8 @@ foreach ($grouped_choices as $student_id => &$choices) {
     #   in project (1)     and project exists (0)
     # 2
     #   in project (1)     and project doesn't exist (1)
-    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists_upper_Bound: " . choice2string($choice) . " + Project_$choice->project" . "_not_exists <= 1");
-    fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists2_lower_Bound: " . choice2string($choice) . " + Project_$choice->project" . "_not_exists >= 0");
+    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e1: " . choice2string($choice) . " + P$choice->project" . "_ne <= 1");
+    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e2: " . choice2string($choice) . " + P$choice->project" . "_ne >= 0");
   }
 }
 unset($choices); // break the reference with the last element
@@ -145,26 +146,26 @@ foreach ($grouped_choices as $student_id => $choices) {
 foreach ($project_grouped_choices as $project_id => $choices) {
   // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted it
   $project = $assoc_projects[$project_id];
-  fwrite($out, "\n Project_$project_id" . "_not_underfilled: ");
+  fwrite($out, "\n P$project_id" . "_u: ");
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
   }
-  fwrite($out, " + $project->min_participants Project_$choice->project" . "_not_exists >= $project->min_participants");
+  fwrite($out, " + $project->min_participants P$choice->project" . "_ne >= $project->min_participants");
 
-  fwrite($out, "\n Project_$project_id" . "_not_overfilled: ");
+  fwrite($out, "\n P$project_id" . "_o: ");
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
   }
-  fwrite($out, " + $project->max_participants Project_$choice->project" . "_not_exists <= $project->max_participants");
+  fwrite($out, " + $project->max_participants P$choice->project" . "_ne <= $project->max_participants");
 
-  fwrite($out, "\n Project_$project_id" . "_exists_or_not_exists: Project_$project_id" . "_exists + Project_$project_id" . "_not_exists = 1");
+  fwrite($out, "\n P$project_id" . "_e_o_ne: P$project_id" . "_e + P$project_id" . "_ne = 1");
 }
 
 fwrite($out, "\nBinary\n");
 
 foreach ($project_grouped_choices as $project_id => $choices) {
   // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted
-  fwrite($out, " Project_$project_id" . "_exists Project_$project_id" . "_not_exists");
+  fwrite($out, " P$project_id" . "_e P$project_id" . "_ne");
   foreach ($choices as $choice) {
     fwrite($out, " " . choice2string($choice));
   }
