@@ -143,9 +143,8 @@ foreach ($grouped_choices as $student_id => $choices) {
 }
 
 // project not overfilled / underfilled
-foreach ($project_grouped_choices as $project_id => $choices) {
-  // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted it
-  $project = $assoc_projects[$project_id];
+foreach ($assoc_projects as $project_id => $project) {
+  $choices = $project_grouped_choices[$project_id];
   fwrite($out, "\n P$project_id" . "_u: ");
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
@@ -163,7 +162,8 @@ foreach ($project_grouped_choices as $project_id => $choices) {
 
 fwrite($out, "\nBinary\n");
 
-foreach ($project_grouped_choices as $project_id => $choices) {
+foreach ($assoc_projects as $project_id => $project) {
+  $choices = $project_grouped_choices[$project_id];
   // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted
   fwrite($out, " P$project_id" . "_e P$project_id" . "_ne");
   foreach ($choices as $choice) {
