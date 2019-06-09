@@ -70,7 +70,7 @@ foreach ($choices as $choice) {
   }
 }
 
-foreach ($grouped_choices as $student_id => &$choices) {
+foreach ($grouped_choices as $student_id => $choices) {
   $student = $assoc_students[$student_id];
   $rank_count = array(
     1 => 0,
@@ -90,10 +90,9 @@ foreach ($grouped_choices as $student_id => &$choices) {
       fwrite($out, " + " . choice2string($choice));
     }
   } else {
-    continue;
     fwrite($out, "\n S$student_id" . "_P: ");
     // invalid vote
-    $choices = array();
+    $grouped_choices[$student_id] = array();
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
         continue;
@@ -109,7 +108,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
         'student' => $student_id,
         'rank' => -1,
       ));
-      $choices[] = $choice;
+      $grouped_choices[$student_id][] = $choice;
       fwrite($out, " + " . choice2string($choice));
     }
   }
@@ -120,7 +119,7 @@ foreach ($grouped_choices as $student_id => &$choices) {
   fwrite($out, " = 1");
 
   // student only in project if it exists
-  foreach ($choices as $choice) {
+  foreach ($grouped_choices[$student_id] as $choice) {
     # 0 or 1
     # 0
     #   not in project (0) and project exists (0)
@@ -133,7 +132,6 @@ foreach ($grouped_choices as $student_id => &$choices) {
     fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e2: " . choice2string($choice) . " + P$choice->project" . "_ne >= 0");
   }
 }
-unset($choices); // break the reference with the last element
 
 $project_grouped_choices = array();
 foreach ($grouped_choices as $student_id => $choices) {
@@ -164,7 +162,6 @@ fwrite($out, "\nBinary\n");
 
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
-  // TODO verify that the above loop really loops over all projects that exist (I think it doesn't if nobody is in the age range or nobody didnt vote and nobody voted
   fwrite($out, " P$project_id" . "_e P$project_id" . "_ne");
   foreach ($choices as $choice) {
     fwrite($out, " " . choice2string($choice));
