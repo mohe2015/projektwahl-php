@@ -71,7 +71,7 @@ foreach ($choices as $choice) {
   }
 }
 
-foreach ($grouped_choices as $student_id => $choices) {
+foreach ($grouped_choices as $student_id => &$choices) {
   $student = $assoc_students[$student_id];
   $rank_count = array(
     1 => 0,
@@ -130,6 +130,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     fwrite($out, "\n Student_$choice->student" . "_only_in_Project_$choice->project" . "_if_exists: 0 <= " . choice2string($choice) . " + Project_$choice->project" . "_not_exists <= 1");
   }
 }
+unset($choices); // break the reference with the last element
 
 $project_grouped_choices = array();
 foreach ($grouped_choices as $student_id => $choices) {
