@@ -212,9 +212,7 @@ foreach ($assoc_projects as $project_id => $project) {
 }
 
 foreach ($test as $test_element) {
-  if ($solution[$test_element] === 1) {
-    print("\n " . $test_element . " = 0");
-  }
+  fwrite($out, "\n " . $test_element . " = 0");
 }
 
 fwrite($out, "\nBounds");
