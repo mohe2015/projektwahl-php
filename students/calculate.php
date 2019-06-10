@@ -51,7 +51,7 @@ $recorded = array();
 function choice2string($choice) {
   if ($choice->rank == -1) {
     $recorded_rank_1[] = "S$choice->student" . "_P$choice->project";
-    return "S$choice->student" . "bP$choice->project";
+    return "S$choice->student" . "cP$choice->project";
   } else {
     $recorded = "S$choice->student" . "_P$choice->project";
     return "S$choice->student" . "bP$choice->project";
@@ -85,25 +85,6 @@ $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 $problem_filename = tempnam("/tmp", "problem");
 $out = fopen($problem_filename, 'w');
 $stdout = fopen('php://output', 'w');
-fwrite($out, "Maximize\n");
-fwrite($out, " obj:");
-foreach ($choices as $choice) {
-  if ($choice->rank === NULL) {
-    continue;
-  }
-  // TODO FIXME FDJFSDKLFJSDKLFJSDLFKJSFLKSFJSDFKLDSJFSDLKF don't count invalid votes
-  fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
-}
-foreach ($assoc_projects as $project_id => $project) {
-  fwrite($out, " - 11000 P$project_id" . "_o");
-  //fwrite($out, " - 11000 P$project_id" . "_u");
-}
-foreach ($assoc_students as $student_id => $student) {
-  //fwrite($out, " - 11000 S$student_id" . "_f1");
-  //fwrite($out, " - 11000 S$student_id" . "_f2");
-  //fwrite($out, " - 11000 S$student_id" . "_f3");
-}
-fwrite($out, "\nSubject To");
 
 $grouped_choices = array();
 foreach ($choices as $choice) {
@@ -113,8 +94,6 @@ foreach ($choices as $choice) {
     $grouped_choices[$choice->id][] = $choice;
   }
 }
-
-$test = array();
 
 foreach ($grouped_choices as $student_id => $choices) {
   $student = $assoc_students[$student_id];
@@ -128,8 +107,37 @@ foreach ($grouped_choices as $student_id => $choices) {
   foreach ($choices as $choice) {
     $rank_count[$choice->rank]++;
   }
-  // student in exactly one project
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
+    $student->valid = true;
+  } else {
+    $student->valid = false;
+  }
+}
+
+fwrite($out, "Maximize\n");
+fwrite($out, " obj:");
+foreach ($choices as $choice) {
+  $student = $assoc_students[$choice->id];
+  if ($student->valid) {
+    fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
+  }
+}
+foreach ($assoc_projects as $project_id => $project) {
+  fwrite($out, " - 11000 P$project_id" . "_o");
+  //fwrite($out, " - 11000 P$project_id" . "_u");
+}
+foreach ($assoc_students as $student_id => $student) {
+  //fwrite($out, " - 11000 S$student_id" . "_f1");
+  //fwrite($out, " - 11000 S$student_id" . "_f2");
+  //fwrite($out, " - 11000 S$student_id" . "_f3");
+}
+fwrite($out, "\nSubject To");
+
+$test = array();
+
+foreach ($grouped_choices as $student_id => $choices) {
+  $student = $assoc_students[$student_id];
+  if ($student->valid) {
     fwrite($out, "\n S$student_id" . "_P: ");
     // valid vote
     foreach ($choices as $choice) {
