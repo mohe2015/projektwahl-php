@@ -45,8 +45,17 @@ function rank2points($rank) {
   }
 }
 
+$recorded_rank_1 = array();
+$recorded = array();
+
 function choice2string($choice) {
-  return "S$choice->student" . "_P$choice->project";
+  if ($choice->rank == -1) {
+    $recorded_rank_1[] = "S$choice->student" . "_P$choice->project";
+    return "S$choice->student" . "bP$choice->project";
+  } else {
+    $recorded = "S$choice->student" . "_P$choice->project";
+    return "S$choice->student" . "bP$choice->project";
+  }
 }
 
 // TODO put in Students::
@@ -261,6 +270,7 @@ fclose($out);
 // glpsol --check --lp /tmp/problem.lp --wmps /tmp/problem.mips
 // now lp_solve would also work
 
+var_dump(array_intersect($recorded_rank_1, $recorded));
 
 $solution_filename = tempnam("/tmp", "solution");
 passthru("glpsol --lp $problem_filename -o $solution_filename --dual");
