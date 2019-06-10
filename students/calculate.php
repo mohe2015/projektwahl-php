@@ -48,12 +48,10 @@ function choice2string($choice) {
   return "S$choice->student" . "_P$choice->project";
 }
 
-// TODO put in Students::
 $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND away = FALSE;");
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
 
-// TODO put in Projects::
 $stmt = $db->prepare('SELECT * FROM projects;');
 $stmt->execute();
 $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project');
@@ -65,7 +63,6 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // glpsol --lp calculate.lp
 // cbc /tmp/problem.lp
 
-// TODO FIXME away students
 global $db;
 $stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' AND away = FALSE ORDER BY id;"); // TODO FIXME rank!=0
 $stmt->execute();
@@ -85,7 +82,7 @@ foreach ($choices as $choice) {
   }
 }
 
-foreach ($grouped_choices as $student_id => $choices) {
+foreach ($grouped_choices as $student_id => $student_choices) {
   $student = $assoc_students[$student_id];
   $rank_count = array(
     1 => 0,
@@ -94,13 +91,13 @@ foreach ($grouped_choices as $student_id => $choices) {
     4 => 0,
     5 => 0
   );
-  foreach ($choices as $choice) {
+  foreach ($student_choices as $choice) {
     $rank_count[$choice->rank]++;
   }
   if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
-    $student->valid = true;
+    $assoc_students[$student_id]->valid = true;
   } else {
-    $student->valid = false;
+    $assoc_students[$student_id]->valid = false;
   }
 }
 
@@ -123,7 +120,6 @@ foreach ($assoc_students as $student_id => $student) {
 }
 fwrite($out, "\nSubject To");
 
-$test = array();
 
 foreach ($grouped_choices as $student_id => $choices) {
   $student = $assoc_students[$student_id];
@@ -137,7 +133,6 @@ foreach ($grouped_choices as $student_id => $choices) {
     fwrite($out, "\n S$student_id" . "_P: ");
     // invalid vote
     $grouped_choices[$student_id] = array();
-    $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
       if ($student->grade < $project->min_grade) {
         continue;
@@ -146,9 +141,8 @@ foreach ($grouped_choices as $student_id => $choices) {
         continue;
       }
       if (!$project->random_assignments) {
-        continue; // 34 + 7 + 4
+        continue;
       }
-      $count++;
       $choice = new Choice(array(
         'project' => $project_id,
         'student' => $student_id,
@@ -156,11 +150,7 @@ foreach ($grouped_choices as $student_id => $choices) {
       ));
       $grouped_choices[$student_id][] = $choice;
       fwrite($out, " + " . choice2string($choice));
-      if (!$project->random_assignments) {
-        $test[] = choice2string($choice);
-      }
     }
-    print($student->name . " " . $count . "\n");
   }
   $project_leader = $student->project_leader;
   if ($project_leader) {
@@ -218,10 +208,6 @@ foreach ($assoc_projects as $project_id => $project) {
   fwrite($out, "\n P$project_id" . "_e_o_ne: P$project_id" . "_e + P$project_id" . "_ne = 1");
 }
 
-foreach ($test as $test_element) {
-  fwrite($out, "\n " . $test_element . " = 0");
-}
-
 fwrite($out, "\nBounds");
 
 foreach ($assoc_projects as $project_id => $project) {
@@ -233,8 +219,6 @@ foreach ($assoc_students as $student_id => $student) {
   //fwrite($out, "\n 0 <= S$student_id" . "_f2");
   //fwrite($out, "\n 0 <= S$student_id" . "_f3");
 }
-
-
 
 fwrite($out, "\nGeneral\n");
 
@@ -302,11 +286,11 @@ foreach ($assoc_projects as $project_id => $project) {
     if ($solution[choice2string($choice)] === 1) {
       $sum++;
       $rank_count[$choice->rank]++;
-      print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
+      print("[$choice->rank] " . $assoc_students[$choice->student]->name . " in " . $project->title . "\n");
     }
   }
   if ($solution["P$project_id" . "_e"] === 1) {
-    //print($project->title . " findet statt. ($sum / $project->max_participants)\n");
+    print($project->title . " findet statt. ($sum / $project->max_participants)\n");
   }
   if ($solution["P$project_id" . "_ne"] === 1) {
     print($project->title . " findet NICHT statt.\n");
@@ -315,18 +299,44 @@ foreach ($assoc_projects as $project_id => $project) {
 
 var_dump($rank_count);
 
-foreach ($test as $test_element) {
-  if ($solution[$test_element] === 1) {
-    print("JO " . $test_element . "\n");
-  }
-}
-
 foreach ($assoc_projects as $project_id => $project) {
   if ($solution["P$project_id" . "_o"] !== 0) {
     print($project->title . " overflow: " . $solution["P$project_id" . "_o"] . "\n");
   }
 }
 
-// TODO write code that checks how many project places need to be added
+// TODO print project leaders
+
+// SELECT SUM(max_participants) FROM projects;
+// 737 places
+
+// SELECT COUNT(*) FROM users WHERE type = 'student' AND NOT away AND project_leader IS NULL;
+// 677
+
+// Einblicke in die Lebenswelten rechtsextremer Jugendlicher findet statt. (3 / 22)
+// Musicals  - vom BROADWAY bis zum WESTEND! findet statt. (27 / 50)
+// Wer bin ich und wenn ja, wie viele? findet statt. (11 / 12)
+// Tanzreise durch Europa findet statt. (18 / 25)
+// => 50 lost places
+// => 10 unused places
+
+// UPDATE projects SET max_participants = max_participants * 10;
+
+/*
+array(6) {
+  [1]=>
+  int(98)
+  [2]=>
+  int(124)
+  [3]=>
+  int(145)
+  [4]=>
+  int(116)
+  [5]=>
+  int(146)
+  [-1]=>
+  int(48)
+}
+*/
 
 ?>
