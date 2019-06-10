@@ -39,7 +39,7 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // https://github.com/coin-or/Cbc
 
 // glpsol --lp calculate.lp
-// cbc calculate.lp
+// cbc /tmp/problem.lp
 
 // TODO FIXME away students
 global $db;
@@ -194,7 +194,9 @@ foreach ($assoc_projects as $project_id => $project) {
 fwrite($out, "\nEnd\n");
 fclose($out);
 
-passthru("glpsol --lp /tmp/problem.lp -o /tmp/solution.txt");
+// glpsol --check --lp /tmp/problem.lp --wmps /tmp/problem.mips
+
+passthru("glpsol --cbg --lp /tmp/problem.lp -o /tmp/solution.txt");
 
 $solution_file = fopen("/tmp/solution.txt", "r");
 
@@ -202,7 +204,7 @@ $solution = array();
 while (!feof($solution_file))  {
   $result = fgets($solution_file);
   $parts = preg_split('/\s+/', $result, -1, PREG_SPLIT_NO_EMPTY);
-  if (count($parts) >= 5 && $parts[2] === "*") {
+  if (count($parts) >= 4) {
     $name = $parts[1];
     $value = (int)$parts[3];
     $solution[$name] = $value;
