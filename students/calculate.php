@@ -82,16 +82,17 @@ foreach ($choices as $choice) {
   if ($choice->rank === NULL) {
     continue;
   }
+  // TODO FIXME FDJFSDKLFJSDKLFJSDLFKJSFLKSFJSDFKLDSJFSDLKF don't count invalid votes
   fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
 }
 foreach ($assoc_projects as $project_id => $project) {
   fwrite($out, " - 11000 P$project_id" . "_o");
-  fwrite($out, " - 11000 P$project_id" . "_u");
+  //fwrite($out, " - 11000 P$project_id" . "_u");
 }
 foreach ($assoc_students as $student_id => $student) {
-  fwrite($out, " - 11000 S$student_id" . "_f1");
-  fwrite($out, " - 11000 S$student_id" . "_f2");
-  fwrite($out, " - 11000 S$student_id" . "_f3");
+  //fwrite($out, " - 11000 S$student_id" . "_f1");
+  //fwrite($out, " - 11000 S$student_id" . "_f2");
+  //fwrite($out, " - 11000 S$student_id" . "_f3");
 }
 fwrite($out, "\nSubject To");
 
@@ -132,7 +133,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
-        continue; // 34 + 7
+        continue; // 34 + 7 + 4
       }
       if ($student->grade < $project->min_grade) {
         continue;
@@ -158,12 +159,14 @@ foreach ($grouped_choices as $student_id => $choices) {
   if ($project_leader) {
     fwrite($out, " + P$project_leader" . "_e");
   }
-  fwrite($out, " + S$student_id" . "_f2");
-  fwrite($out, " - S$student_id" . "_f3");
+  //fwrite($out, " + S$student_id" . "_f2");
+  //fwrite($out, " - S$student_id" . "_f3");
   fwrite($out, " = 1");
+}
 
-  // student only in project if it exists
-  foreach ($grouped_choices[$student_id] as $choice) {
+// student only in project if it exists
+foreach ($grouped_choices as $student_id => $choices) {
+  foreach ($choices as $choice) {
     # 0 or 1
     # 0
     #   not in project (0) and project exists (0)
@@ -172,8 +175,12 @@ foreach ($grouped_choices as $student_id => $choices) {
     #   in project (1)     and project exists (0)
     # 2
     #   in project (1)     and project doesn't exist (1)
-    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e1: " . choice2string($choice) . " + P$choice->project" . "_ne - S$student_id" . "_f1 <= 1");
-    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e2: " . choice2string($choice) . " + P$choice->project" . "_ne - S$student_id" . "_f1 >= 0");
+    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e1: " . choice2string($choice) . " + P$choice->project" . "_ne");
+    //fwrite($out, " - S$student_id" . "_f1");
+    fwrite($out, " <= 1");
+    fwrite($out, "\n S$choice->student" . "_P$choice->project" . "_e2: " . choice2string($choice) . " + P$choice->project" . "_ne");
+    //fwrite($out, " - S$student_id" . "_f1");
+    fwrite($out, " >= 0");
   }
 }
 
@@ -208,30 +215,30 @@ fwrite($out, "\nBounds");
 
 foreach ($assoc_projects as $project_id => $project) {
   fwrite($out, "\n 0 <= P$project_id" . "_o");
-  fwrite($out, "\n 0 <= P$project_id" . "_u");
+  //fwrite($out, "\n 0 <= P$project_id" . "_u");
 }
 
 foreach ($assoc_students as $student_id => $student) {
-  fwrite($out, "\n 0 <= S$student_id" . "_f2");
-  fwrite($out, "\n 0 <= S$student_id" . "_f3");
+  //fwrite($out, "\n 0 <= S$student_id" . "_f2");
+  //fwrite($out, "\n 0 <= S$student_id" . "_f3");
 }
 
 fwrite($out, "\nGeneral\n");
 
 foreach ($assoc_projects as $project_id => $project) {
   fwrite($out, " P$project_id" . "_o");
-  fwrite($out, " P$project_id" . "_u");
+  //fwrite($out, " P$project_id" . "_u");
 }
 
 foreach ($assoc_students as $student_id => $student) {
-  fwrite($out, " S$student_id" . "_f2");
-  fwrite($out, " S$student_id" . "_f3");
+  //fwrite($out, " S$student_id" . "_f2");
+  //fwrite($out, " S$student_id" . "_f3");
 }
 
 fwrite($out, "\nBinary\n");
 
 foreach ($assoc_students as $student_id => $student) {
-  fwrite($out, " S$student_id" . "_f1");
+  //fwrite($out, " S$student_id" . "_f1");
 }
 
 foreach ($assoc_projects as $project_id => $project) {
@@ -247,6 +254,7 @@ fclose($out);
 
 // glpsol --check --lp /tmp/problem.lp --wmps /tmp/problem.mips
 // now lp_solve would also work
+
 
 $solution_filename = tempnam("/tmp", "solution");
 passthru("glpsol --lp $problem_filename -o $solution_filename --dual");
@@ -273,7 +281,7 @@ foreach ($assoc_projects as $project_id => $project) {
   foreach ($choices as $choice) {
     if ($solution[choice2string($choice)] === 1) {
       $sum++;
-      //print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
+      print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
     }
   }
   if ($solution["P$project_id" . "_e"] === 1) {
