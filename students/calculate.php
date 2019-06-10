@@ -58,6 +58,9 @@ foreach ($choices as $choice) {
   }
   fwrite($out, " + " . rank2points($choice->rank) . " " . choice2string($choice));
 }
+foreach ($assoc_projects as $project_id => $project) {
+  fwrite($out, " - 11000 P$project_id" . "_o");
+}
 fwrite($out, "\nSubject To");
 
 $grouped_choices = array();
@@ -91,10 +94,10 @@ foreach ($grouped_choices as $student_id => $choices) {
       fwrite($out, " + " . choice2string($choice));
     }
   } else {
-    print($student->name . "\n");
     fwrite($out, "\n S$student_id" . "_P: ");
     // invalid vote
     $grouped_choices[$student_id] = array();
+    $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
         continue;
@@ -105,6 +108,7 @@ foreach ($grouped_choices as $student_id => $choices) {
       if ($student->grade > $project->max_grade) {
         continue;
       }
+      $count++;
       $choice = new Choice(array(
         'project' => $project_id,
         'student' => $student_id,
@@ -116,6 +120,7 @@ foreach ($grouped_choices as $student_id => $choices) {
         $test[] = choice2string($choice);
       }
     }
+    print($student->name . " " . $count . "\n");
   }
   $project_leader = $student->project_leader;
   if ($project_leader) {
@@ -148,19 +153,32 @@ foreach ($grouped_choices as $student_id => $choices) {
 // project not overfilled / underfilled
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
-  fwrite($out, "\n P$project_id" . "_u: ");
+  fwrite($out, "\n P$project_id" . "_check_u: ");
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
   }
   fwrite($out, " + $project->min_participants P$choice->project" . "_ne >= $project->min_participants");
 
-  fwrite($out, "\n P$project_id" . "_o: ");
+  fwrite($out, "\n P$project_id" . "_check_o: ");
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
   }
+  fwrite($out, " - P$project_id" . "_o");
   fwrite($out, " + $project->max_participants P$choice->project" . "_ne <= $project->max_participants");
 
   fwrite($out, "\n P$project_id" . "_e_o_ne: P$project_id" . "_e + P$project_id" . "_ne = 1");
+}
+
+fwrite($out, "\nBounds");
+
+foreach ($assoc_projects as $project_id => $project) {
+  fwrite($out, "\n 0 <= P$project_id" . "_o");
+}
+
+fwrite($out, "\nGeneral\n");
+
+foreach ($assoc_projects as $project_id => $project) {
+  fwrite($out, " P$project_id" . "_o");
 }
 
 fwrite($out, "\nBinary\n");
@@ -216,5 +234,11 @@ foreach ($test as $test_element) {
     print("JO " . $test_element . "\n");
   }
 }
+
+foreach ($assoc_projects as $project_id => $project) {
+  fwrite($out, $project->title . " overflow: " . $solution["P$project_id" . "_o"]);
+}
+
+// TODO write code that checks how many project places need to be added
 
 ?>
