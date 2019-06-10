@@ -48,11 +48,11 @@ function choice2string($choice) {
   return "S$choice->student" . "_P$choice->project";
 }
 
-$stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND away = FALSE;");
+$stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND away = FALSE ORDER BY class,name;");
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
 
-$stmt = $db->prepare('SELECT * FROM projects;');
+$stmt = $db->prepare('SELECT * FROM projects ORDER BY title;');
 $stmt->execute();
 $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project');
 
@@ -64,7 +64,7 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // cbc /tmp/problem.lp
 
 global $db;
-$stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' AND away = FALSE ORDER BY id;"); // TODO FIXME rank!=0
+$stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' AND away = FALSE ORDER BY class,name;"); // TODO FIXME rank!=0
 $stmt->execute();
 $choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
 
@@ -121,12 +121,12 @@ foreach ($assoc_students as $student_id => $student) {
 fwrite($out, "\nSubject To");
 
 
-foreach ($grouped_choices as $student_id => $choices) {
+foreach ($grouped_choices as $student_id => $student_choices) {
   $student = $assoc_students[$student_id];
   if ($student->valid) {
     fwrite($out, "\n S$student_id" . "_P: ");
     // valid vote
-    foreach ($choices as $choice) {
+    foreach ($student_choices as $choice) {
       fwrite($out, " + " . choice2string($choice));
     }
   } else {
@@ -162,8 +162,8 @@ foreach ($grouped_choices as $student_id => $choices) {
 }
 
 // student only in project if it exists
-foreach ($grouped_choices as $student_id => $choices) {
-  foreach ($choices as $choice) {
+foreach ($grouped_choices as $student_id => $student_choices) {
+  foreach ($student_choices as $choice) {
     # 0 or 1
     # 0
     #   not in project (0) and project exists (0)
@@ -182,8 +182,8 @@ foreach ($grouped_choices as $student_id => $choices) {
 }
 
 $project_grouped_choices = array();
-foreach ($grouped_choices as $student_id => $choices) {
-  foreach ($choices as $choice) {
+foreach ($grouped_choices as $student_id => $student_choices) {
+  foreach ($student_choices as $choice) {
     $project_grouped_choices[$choice->project][] = $choice;
   }
 }
