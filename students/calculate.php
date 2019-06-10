@@ -132,7 +132,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
-        //continue;
+        continue; // 34 + 7
       }
       if ($student->grade < $project->min_grade) {
         continue;
