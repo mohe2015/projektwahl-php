@@ -100,7 +100,7 @@ foreach ($grouped_choices as $student_id => $choices) {
     $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
       if (!$project->random_assignments) {
-        continue;
+        //continue;
       }
       if ($student->grade < $project->min_grade) {
         continue;
@@ -202,7 +202,7 @@ $solution = array();
 while (!feof($solution_file))  {
   $result = fgets($solution_file);
   $parts = preg_split('/\s+/', $result, -1, PREG_SPLIT_NO_EMPTY);
-  if (count($parts) === 6 && $parts[2] === "*") {
+  if (count($parts) >= 5 && $parts[2] === "*") {
     $name = $parts[1];
     $value = (int)$parts[3];
     $solution[$name] = $value;
@@ -236,7 +236,9 @@ foreach ($test as $test_element) {
 }
 
 foreach ($assoc_projects as $project_id => $project) {
-  fwrite($out, $project->title . " overflow: " . $solution["P$project_id" . "_o"]);
+  if ($solution["P$project_id" . "_o"] !== 0) {
+    print($project->title . " overflow: " . $solution["P$project_id" . "_o"] . "\n");
+  }
 }
 
 // TODO write code that checks how many project places need to be added
