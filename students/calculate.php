@@ -51,10 +51,10 @@ $recorded = array();
 function choice2string($choice) {
   if ($choice->rank == -1) {
     $recorded_rank_1[] = "S$choice->student" . "_P$choice->project";
-    return "S$choice->student" . "cP$choice->project";
+    return "S$choice->student" . "_P$choice->project";
   } else {
     $recorded = "S$choice->student" . "_P$choice->project";
-    return "S$choice->student" . "bP$choice->project";
+    return "S$choice->student" . "_P$choice->project";
   }
 }
 
@@ -156,7 +156,7 @@ foreach ($grouped_choices as $student_id => $choices) {
         continue;
       }
       if (!$project->random_assignments) {
-        //continue; // 34 + 7 + 4
+        continue; // 34 + 7 + 4
       }
       $count++;
       $choice = new Choice(array(
