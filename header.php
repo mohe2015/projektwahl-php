@@ -1,12 +1,12 @@
 <?php
 // show error message if exception is not caught
-function myException($exception) {
+/*function myException($exception) {
   http_response_code(500);
   echo "<b>Interner Fehler: </b> " . $exception->getMessage();
   echo '<br />Eventuell musst du erst <a href="/install.php">installieren</a>';
 }
 set_exception_handler('myException');
-
+*/
 
 function startsWith($haystack, $needle)
 {

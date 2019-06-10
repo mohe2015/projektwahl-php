@@ -37,6 +37,9 @@ $projects = Projects::allWithRanks();
           5 => 0
         );
         foreach ($projects as $project) {
+          if ($project->rank == NULL) {
+            continue;
+          }
           $rank_count[$project->rank]++;
         }
         foreach ($projects as $project): ?>

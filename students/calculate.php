@@ -44,18 +44,8 @@ function rank2points($rank) {
       throw new Error("unknown rank: $rank");
   }
 }
-
-$recorded_rank_1 = array();
-$recorded = array();
-
 function choice2string($choice) {
-  if ($choice->rank == -1) {
-    $recorded_rank_1[] = "S$choice->student" . "_P$choice->project";
-    return "S$choice->student" . "_P$choice->project";
-  } else {
-    $recorded = "S$choice->student" . "_P$choice->project";
-    return "S$choice->student" . "_P$choice->project";
-  }
+  return "S$choice->student" . "_P$choice->project";
 }
 
 // TODO put in Students::
@@ -278,8 +268,6 @@ fclose($out);
 // glpsol --check --lp /tmp/problem.lp --wmps /tmp/problem.mips
 // now lp_solve would also work
 
-var_dump(array_intersect($recorded_rank_1, $recorded));
-
 $solution_filename = tempnam("/tmp", "solution");
 passthru("glpsol --lp $problem_filename -o $solution_filename --dual");
 
@@ -299,12 +287,21 @@ while (!feof($solution_file))  {
 
 fclose($solution_file);
 
+$rank_count = array(
+  1 => 0,
+  2 => 0,
+  3 => 0,
+  4 => 0,
+  5 => 0
+);
+
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
   $sum = 0;
   foreach ($choices as $choice) {
     if ($solution[choice2string($choice)] === 1) {
       $sum++;
+      $rank_count[$choice->rank]++;
       print($assoc_students[$choice->student]->name . " in " . $project->title . "\n");
     }
   }
@@ -315,6 +312,8 @@ foreach ($assoc_projects as $project_id => $project) {
     print($project->title . " findet NICHT statt.\n");
   }
 }
+
+var_dump($rank_count);
 
 foreach ($test as $test_element) {
   if ($solution[$test_element] === 1) {

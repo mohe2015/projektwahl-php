@@ -36,11 +36,12 @@ class Choice extends Record {
   public function save() {
     $this->validate();
     global $db;
-    $stmt = $db->prepare('INSERT INTO choices (project, student, rank) VALUES (:project, :student, :rank) ON DUPLICATE KEY UPDATE project = VALUES(project), student = VALUES(student), rank = VALUES(rank)');
+    $stmt = $db->prepare('INSERT INTO choices (project, student, rank) VALUES (:project, :student, :rank) ON CONFLICT (project, student) DO UPDATE SET rank = :rank1');
     $stmt->execute(array(
       'project' => $this->project,
       'student' => $this->student,
       'rank' => $this->rank,
+      'rank1' => $this->rank,
     ));
     // TODO fix rank 0
   }
@@ -66,7 +67,7 @@ class Choices {
   }
   public function all() {
     global $db;
-    $stmt = $db->prepare('SELECT * FROM choices WHERE rank != 0 ORDER BY student;'); // TODO FIXME rank!=0 
+    $stmt = $db->prepare('SELECT * FROM choices WHERE rank != 0 ORDER BY student;'); // TODO FIXME rank!=0
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
   }
