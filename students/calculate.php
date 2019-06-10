@@ -132,14 +132,14 @@ foreach ($grouped_choices as $student_id => $choices) {
     $grouped_choices[$student_id] = array();
     $count = 0;
     foreach ($assoc_projects as $project_id => $project) {
-      if (!$project->random_assignments) {
-        continue; // 34 + 7 + 4
-      }
       if ($student->grade < $project->min_grade) {
         continue;
       }
       if ($student->grade > $project->max_grade) {
         continue;
+      }
+      if (!$project->random_assignments) {
+        //continue; // 34 + 7 + 4
       }
       $count++;
       $choice = new Choice(array(
@@ -211,6 +211,12 @@ foreach ($assoc_projects as $project_id => $project) {
   fwrite($out, "\n P$project_id" . "_e_o_ne: P$project_id" . "_e + P$project_id" . "_ne = 1");
 }
 
+foreach ($test as $test_element) {
+  if ($solution[$test_element] === 1) {
+    print("\n " . $test_element . " = 0");
+  }
+}
+
 fwrite($out, "\nBounds");
 
 foreach ($assoc_projects as $project_id => $project) {
@@ -222,6 +228,8 @@ foreach ($assoc_students as $student_id => $student) {
   //fwrite($out, "\n 0 <= S$student_id" . "_f2");
   //fwrite($out, "\n 0 <= S$student_id" . "_f3");
 }
+
+
 
 fwrite($out, "\nGeneral\n");
 
