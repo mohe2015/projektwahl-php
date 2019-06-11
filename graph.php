@@ -48,13 +48,23 @@ header('Content-type: application/json');
     {
       "id": "c<?php echo $choice->student + ($choice->project << 32) ?>",
       "source": "s<?php echo $choice->student ?>",
-      "target": "p<?php echo $choice->project ?>"
+      "target": "p<?php echo $choice->project ?>",
+      "attributes": {
+        "Weight": "1.0"
+      },
+      "color": "#abcdef",
+      "size": "1.0"
     },
   <?php endforeach; ?>
     {
       "id": "",
       "source": "n2",
-      "target": "n3"
+      "target": "n3",
+      "attributes": {
+        "Weight": "1.0"
+      },
+      "color": "#abcdef",
+      "size": "1.0"
     }
   ]
 }
