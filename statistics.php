@@ -5,10 +5,12 @@ require_once __DIR__ . '/head.php';
 
 <h1>Statistik</h1>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.js" integrity="sha256-kX9/pjvgpDgSmoSfzAlYJeICaZXca16iu+c3F6ueKRo=" crossorigin="anonymous"></script>
-<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.2/d3.min.js"></script>
+<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
 
-<div id="graph"></div>
+<svg id="graph" viewBox="0,0,600,600">
+
+</svg>
 
 <script>
 // Copies a variable number of methods from source to target.
@@ -36,34 +38,57 @@ fetch('/graph.php')
 
 });
 
-async function test() {
-  color = d3.scaleOrdinal(d3.schemeCategory10)
-  height = 500
-  width = 500
+height = 600
+width = 600
+function color() {
+  const scale = d3.scaleOrdinal(d3.schemeCategory10);
+  return d => scale(d.group);
+}
+drag = simulation => {
+
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
+}
+
+async function graph() {
   data = await d3.json("https://gist.githubusercontent.com/mbostock/4062045/raw/5916d145c8c048a6e3086915a6be464467391c62/miserables.json")
 
+  const links = data.links.map(d => Object.create(d));
   const nodes = data.nodes.map(d => Object.create(d));
-  const index = new Map(nodes.map(d => [d.id, d]));
-  const links = data.links.map(d => Object.assign(Object.create(d), {
-    source: index.get(d.source),
-    target: index.get(d.target)
-  }));
 
-  const svg = d3.select("#graph");
+  const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(width / 2, height / 2));
 
-  const layout = cola.d3adaptor(d3)
-      .size([width, height])
-      .nodes(nodes)
-      .links(links);
-  //    .jaccardLinkLengths(40, 0.7)
-//      .start(30);
+  const svg = d3.create("svg")
+      .attr("viewBox", [0, 0, width, height]);
 
   const link = svg.append("g")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.6)
     .selectAll("line")
     .data(links)
-    .enter().append("line")
+    .join("line")
       .attr("stroke-width", d => Math.sqrt(d.value));
 
   const node = svg.append("g")
@@ -71,15 +96,15 @@ async function test() {
       .attr("stroke-width", 1.5)
     .selectAll("circle")
     .data(nodes)
-    .enter().append("circle")
+    .join("circle")
       .attr("r", 5)
-      .attr("fill", d => color(d.group));
-    //  .call(layout.drag);
+      .attr("fill", color)
+      .call(drag(simulation));
 
   node.append("title")
       .text(d => d.id);
 
-  layout.on("tick", () => {
+  simulation.on("tick", () => {
     link
         .attr("x1", d => d.source.x)
         .attr("y1", d => d.source.y)
@@ -91,10 +116,10 @@ async function test() {
         .attr("cy", d => d.y);
   });
 
-  //invalidation.then(() => layout.stop());
-  //return svg.node();
-}
+//  invalidation.then(() => simulation.stop());
 
-test();
+  return svg.node();
+}
+var graph = graph();
 
 </script>
