@@ -8,63 +8,33 @@ $choices = Choices::all();
 
 header('Content-type: application/json');
 ?>
-{
-  "nodes": [
+[
 <?php foreach($projects as $project): ?>
-    {
+  {
+    "data": {
       "id": "p<?php echo $project->id ?>",
-      "label": "<?php echo $project->title ?>",
-      "x": 0,
-      "y": 0,
-      "size": <?php echo $project->max_participants ?>
-    },
+      "label": "<?php echo $project->title ?>"
+    }
+  },
 <?php endforeach; ?>
 <?php foreach($students as $student): ?>
-    {
+  {
+    "data": {
       "id": "s<?php echo $student->id ?>",
-      "label": "<?php echo $student->name ?>",
-      "x": 0,
-      "y": 0,
-      "size": 10
-    },
-<?php endforeach; ?>
-    {
-      "id": "n2",
-      "label": "And a last one",
-      "x": 1,
-      "y": 3,
-      "size": 1
-    },
-    {
-      "id": "n3",
-      "label": "And a last one",
-      "x": 1,
-      "y": 3,
-      "size": 1
+      "label": "<?php echo $student->name ?>"
     }
-  ],
-  "edges": [
-  <?php foreach($choices as $choice): ?>
-    {
+  },
+<?php endforeach; ?>
+<?php foreach($choices as $key => $choice): ?>
+  {
+    "data": {
       "id": "c<?php echo $choice->student + ($choice->project << 32) ?>",
       "source": "s<?php echo $choice->student ?>",
-      "target": "p<?php echo $choice->project ?>",
-      "attributes": {
-        "Weight": "1.0"
-      },
-      "color": "#abcdef",
-      "size": "1.0"
-    },
-  <?php endforeach; ?>
-    {
-      "id": "",
-      "source": "n2",
-      "target": "n3",
-      "attributes": {
-        "Weight": "1.0"
-      },
-      "color": "#abcdef",
-      "size": "1.0"
+      "target": "p<?php echo $choice->project ?>"
     }
-  ]
-}
+  }<?php
+  if ($key !== count($choices)-1) {
+          echo ",";
+  }
+endforeach; ?>
+]

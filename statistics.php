@@ -18,47 +18,36 @@ require_once __DIR__ . '/head.php';
 <div id="cy"></div>
 
 <script>
-var cy = cytoscape({
+fetch('/graph.php')
+.then(function(response) {
+  return response.json();
+})
+.then(function(data) {
+    var cy = cytoscape({
 
-  container: document.getElementById('cy'), // container to render in
+      container: document.getElementById('cy'), // container to render in
 
-  elements: [ // list of graph elements to start with
-    { // node a
-      data: { id: 'a' }
-    },
-    { // node b
-      data: { id: 'b' }
-    },
-    { // edge ab
-      data: { id: 'ab', source: 'a', target: 'b' }
-    }
-  ],
+      elements: data,
 
-  style: [ // the stylesheet for the graph
-    {
-      selector: 'node',
-      style: {
-        'background-color': '#666',
-        'label': 'data(id)'
-      }
-    },
+      style: [ // the stylesheet for the graph
+        {
+          selector: 'node',
+          style: {
+            'background-color': '#666',
+            'label': 'data(id)'
+          }
+        },
 
-    {
-      selector: 'edge',
-      style: {
-        'width': 3,
-        'line-color': '#ccc',
-        'target-arrow-color': '#ccc',
-        'target-arrow-shape': 'triangle'
-      }
-    }
-  ],
-
-  layout: {
-    name: 'grid',
-    rows: 1
-  }
-
+        {
+          selector: 'edge',
+          style: {
+            'width': 3,
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+            'target-arrow-shape': 'triangle'
+          }
+        }
+      ]
+    });
 });
-
 </script>
