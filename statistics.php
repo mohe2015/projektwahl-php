@@ -5,41 +5,60 @@ require_once __DIR__ . '/head.php';
 
 <h1>Statistik</h1>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" integrity="sha256-iq5ygGJ7021Pi7H5S+QAUXCPUfaBzfqeplbg/KlEssg=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js" integrity="sha256-JuQeAGbk9rG/EoRMixuy5X8syzICcvB0dj3KindZkY0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.7.1/cytoscape.min.js" integrity="sha256-L/QqCCV+29/QBDhoDxOz7wTv5x0PNY90vNk9s3Kur+E=" crossorigin="anonymous"></script>
 
-<style type="text/css">
-#mynetwork {
-  width: 600px;
-  height: 400px;
-  border: 1px solid lightgray;
+<style>
+#cy {
+  width: 100%;
+  height: 300px;
+  display: block;
 }
 </style>
 
-<div id="mynetwork"></div>
+<div id="cy"></div>
 
-<script type="text/javascript">
-var container = document.getElementById('mynetwork');
+<script>
+var cy = cytoscape({
 
-fetch('/graph.php')
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    var parsed = vis.network.gephiParser.parseGephi(data, {
-       fixed: false
-     });
+  container: document.getElementById('cy'), // container to render in
 
-     var data = {
-       nodes: parsed.nodes,
-       edged: parsed.edges
-     };
+  elements: [ // list of graph elements to start with
+    { // node a
+      data: { id: 'a' }
+    },
+    { // node b
+      data: { id: 'b' }
+    },
+    { // edge ab
+      data: { id: 'ab', source: 'a', target: 'b' }
+    }
+  ],
 
-    var network = new vis.Network(container, data, {
-      layout: {
-        improvedLayout: false
+  style: [ // the stylesheet for the graph
+    {
+      selector: 'node',
+      style: {
+        'background-color': '#666',
+        'label': 'data(id)'
       }
-    });
-  });
+    },
+
+    {
+      selector: 'edge',
+      style: {
+        'width': 3,
+        'line-color': '#ccc',
+        'target-arrow-color': '#ccc',
+        'target-arrow-shape': 'triangle'
+      }
+    }
+  ],
+
+  layout: {
+    name: 'grid',
+    rows: 1
+  }
+
+});
 
 </script>
