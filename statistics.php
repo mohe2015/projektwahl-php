@@ -54,9 +54,9 @@ async function test() {
   const layout = cola.d3adaptor(d3)
       .size([width, height])
       .nodes(nodes)
-      .links(links)
-      .jaccardLinkLengths(40, 0.7)
-      .start(30);
+      .links(links);
+  //    .jaccardLinkLengths(40, 0.7)
+//      .start(30);
 
   const link = svg.append("g")
       .attr("stroke", "#999")
@@ -73,8 +73,8 @@ async function test() {
     .data(nodes)
     .enter().append("circle")
       .attr("r", 5)
-      .attr("fill", d => color(d.group))
-      .call(layout.drag);
+      .attr("fill", d => color(d.group));
+    //  .call(layout.drag);
 
   node.append("title")
       .text(d => d.id);
@@ -91,7 +91,7 @@ async function test() {
         .attr("cy", d => d.y);
   });
 
-  invalidation.then(() => layout.stop());
+  //invalidation.then(() => layout.stop());
   //return svg.node();
 }
 
