@@ -308,35 +308,7 @@ foreach ($assoc_projects as $project_id => $project) {
 // TODO print project leaders
 
 // SELECT SUM(max_participants) FROM projects;
-// 737 places
 
 // SELECT COUNT(*) FROM users WHERE type = 'student' AND NOT away AND project_leader IS NULL;
-// 677
-
-// Einblicke in die Lebenswelten rechtsextremer Jugendlicher findet statt. (3 / 22)
-// Musicals  - vom BROADWAY bis zum WESTEND! findet statt. (27 / 50)
-// Wer bin ich und wenn ja, wie viele? findet statt. (11 / 12)
-// Tanzreise durch Europa findet statt. (18 / 25)
-// => 50 lost places
-// => 10 unused places
-
-// UPDATE projects SET max_participants = max_participants * 10;
-
-/*
-array(6) {
-  [1]=>
-  int(98)
-  [2]=>
-  int(124)
-  [3]=>
-  int(145)
-  [4]=>
-  int(116)
-  [5]=>
-  int(146)
-  [-1]=>
-  int(48)
-}
-*/
 
 ?>
