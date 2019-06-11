@@ -52,7 +52,11 @@ sigma.parsers.json('graph.php', s,
 
             // ForceAtlas Layout
             s.startForceAtlas2({
-
+              linLogMode: true,
+              startingIterations: 1000,
+              iterationsPerRender: 10,
+              scalingRatio: 5,
+              edgeWeightInfluence: 1
             });
         });
 
