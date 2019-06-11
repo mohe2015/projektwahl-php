@@ -80,8 +80,7 @@ async function graph() {
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(width / 2, height / 2));
 
-  const svg = d3.create("svg")
-      .attr("viewBox", [0, 0, width, height]);
+  const svg = d3.select("#graph");
 
   const link = svg.append("g")
       .attr("stroke", "#999")
