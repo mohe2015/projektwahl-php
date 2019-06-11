@@ -15,7 +15,6 @@ $projects = Projects::all();
     <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Vorraussichtliche Größe</th>
           <th scope="col">Aktionen</th>
         </tr>
       </thead>
@@ -23,7 +22,6 @@ $projects = Projects::all();
         <?php foreach ($projects as $project): ?>
           <tr>
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
-            <td>unbekannt</td>
             <td>
               <a href="/projects/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a>
               <a href="/projects/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a>

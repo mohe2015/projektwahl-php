@@ -238,6 +238,10 @@ button[type="submit"]:disabled.background-failure {
 }
 
 @media print {
+  .print-display-none {
+    display: none;
+  }
+
   nav {
     display: none;
   }
@@ -245,6 +249,7 @@ button[type="submit"]:disabled.background-failure {
   body {
     background-color: white;
     color: black;
+    font-size: 150%;
   }
 }
 
