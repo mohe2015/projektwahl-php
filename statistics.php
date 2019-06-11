@@ -47,7 +47,12 @@ fetch('/graph.php')
             'target-arrow-shape': 'triangle'
           }
         }
-      ]
+      ],
+
+      layout: {
+        name: 'cose',
+        randomize: true
+      }
     });
 });
 </script>
