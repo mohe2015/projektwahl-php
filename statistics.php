@@ -13,31 +13,6 @@ require_once __DIR__ . '/head.php';
 </svg>
 
 <script>
-// Copies a variable number of methods from source to target.
-d3.rebind = function(target, source) {
-  var i = 1, n = arguments.length, method;
-  while (++i < n) target[method = arguments[i]] = d3_rebind(target, source, source[method]);
-  return target;
-};
-
-// Method is assumed to be a standard D3 getter-setter:
-// If passed with no arguments, gets the value.
-// If passed with arguments, sets the value and returns the target.
-function d3_rebind(target, source, method) {
-  return function() {
-    var value = method.apply(source, arguments);
-    return value === source ? target : value;
-  };
-}
-
-fetch('/graph.php')
-.then(function(response) {
-  return response.json();
-})
-.then(function(data) {
-
-});
-
 height = 600
 width = 600
 function color() {
@@ -70,7 +45,7 @@ drag = simulation => {
 }
 
 async function graph() {
-  data = await d3.json("https://gist.githubusercontent.com/mbostock/4062045/raw/5916d145c8c048a6e3086915a6be464467391c62/miserables.json")
+  data = await d3.json("/graph.php")
 
   const links = data.links.map(d => Object.create(d));
   const nodes = data.nodes.map(d => Object.create(d));
