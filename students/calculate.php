@@ -110,7 +110,7 @@ foreach ($choices as $choice) {
   }
 }
 foreach ($assoc_projects as $project_id => $project) {
-  fwrite($out, " - 11000 P$project_id" . "_o");
+  fwrite($out, " - 11000 P$project_id" . "_o"); // TODO FIXME
   //fwrite($out, " - 11000 P$project_id" . "_u");
 }
 foreach ($assoc_students as $student_id => $student) {

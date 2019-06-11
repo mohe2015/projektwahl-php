@@ -25,7 +25,7 @@ $students = Students::all();
       <tbody>
         <?php foreach ($students as $student) :?>
           <tr>
-            <td><?php echo htmlspecialchars($student->name) ?></td>
+            <td><a href="/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
               <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
