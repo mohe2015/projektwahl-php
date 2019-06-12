@@ -18,7 +18,7 @@ class Settings extends Record {
 
   public function getValidationErrors() {
     $validation_errors = array();
-    if (blank($this->election_running)) {
+    if (!isset($this->election_running)) {
       array_push($validation_errors, "\"Wahl laufend\" fehlt!");
     }
     return $validation_errors;
@@ -36,7 +36,7 @@ class Settings extends Record {
     global $db;
     $this->validate();
     self::getUpdateStatement()->execute(array(
-      'election_running' => $this->election_running,
+      'election_running' => $this->election_running ? 1 : 0,
     ));
   }
 
