@@ -21,6 +21,7 @@ require_once __DIR__ . '/user.php';
 require_once __DIR__ . '/teacher.php';
 require_once __DIR__ . '/student.php';
 require_once __DIR__ . '/choice.php';
+require_once __DIR__ . '/settings.php';
 require_once __DIR__ . '/timers.php';
 require_once __DIR__ . '/permissions.php';
 

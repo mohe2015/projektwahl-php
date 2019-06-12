@@ -39,9 +39,18 @@ if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
 <?php if (in_array($_SESSION['type'], array("student"))): ?>
          <li><a <?php active("/election.php") ?> href="/election.php"><i class="fas fa-poll"></i><span class="hidden-small"> Wahl</span></a></li>
 <?php endif; ?>
-<?php if (in_array($_SESSION['type'], array("admin"))): ?>
-         <li class="float-right"><a href="/end-election.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl beenden</span></a></li>
+
+
+
+<?php
+$settings = Settings::get();
+if (in_array($_SESSION['type'], array("admin"))):
+?>
+   <li class="float-right"><a href="/end-election.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>
  <?php endif; ?>
+
+
+
 <?php if (isset($_SESSION['name'])): ?>
          <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> <?php echo $_SESSION['name'] ?> abmelden</span></a></li>
 <?php endif; ?>
