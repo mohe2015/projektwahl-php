@@ -55,12 +55,16 @@ $users = Users::all();
   <label class="col">Betreuer:</label>
 
   <select class="col" id="select-supervisors" name="supervisors" multiple>
-    <?php foreach ($users as $user): ?>
-      <option><?php echo $user->name ?></option>
+    <?php
+    $project_leaders = array_map(function($project_leader) {
+        return $project_leader->name;
+    });
+    foreach ($users as $user): ?>
+      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : " b" ?>><?php echo $user->name ?></option>
     <?php endforeach ?>
   </select>
 
-  <button id="show-supervisors-dialog">
+  <button id="show-supervisors-dialog" style="display: none;">
     <?php
     if (count($project_with_project_leaders) === 0) {
       echo "Keine";
@@ -111,6 +115,7 @@ var form = $("#form-supervisors");
 var dialog = $("#dialog-supervisors");
 var button = $('#show-supervisors-dialog');
 var input = $('#search-supervisors');
+button.style = "";
 
 dialog.addEventListener('close', function onClose(e) {
   console.log(e);
