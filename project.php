@@ -33,7 +33,7 @@ class Project extends Record {
     $this->presentation_type = $data['presentation_type'] ?? $this->presentation_type;
     $this->requirements = $data['requirements'] ?? $this->requirements;
     $this->random_assignments = $data['random_assignments'] ?? $this->random_assignments ?? true;
-    $this->supervisors = $_POST['supervisors'];
+    $this->supervisors = $data['supervisors'];
   }
 
   public function getValidationErrors() {

@@ -60,13 +60,13 @@ $users = Users::all();
         return $project_leader->name;
     }, $project_with_project_leaders);
     foreach ($users as $user): ?>
-      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>"><?php echo $user->name ?></option>
+      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>" value="<?php echo $user->id ?>"><?php echo $user->name ?></option>
     <?php endforeach ?>
   </select>
 
   <button id="show-supervisors-dialog" style="display: none;">
     <?php
-    if (count($project_with_project_leaders) === 0) {
+    if (count($project_with_project_leaders) === 1 && is_null($project->name)) {
       echo "Keine";
     } else {
       echo join(', ', array_map(function($project_leader) {
