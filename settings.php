@@ -38,14 +38,17 @@ class Settings extends Record {
     self::getUpdateStatement()->execute(array(
       'election_running' => $this->election_running ? 1 : 0,
     ));
+    apcu_store('settings', $this);
   }
 
   public static function get() {
-    global $db;
-    $stmt = $db->prepare('SELECT * FROM settings LIMIT 1;');
-    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Settings');
-    $stmt->execute();
-    return $stmt->fetch();
+    return apcu_entry('settings', function($key) {
+      global $db;
+      $stmt = $db->prepare('SELECT * FROM settings LIMIT 1;');
+      $stmt->setFetchMode(PDO::FETCH_CLASS, 'Settings');
+      $stmt->execute();
+      return $stmt->fetch();
+    });
   }
 }
 ?>
