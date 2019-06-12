@@ -140,6 +140,13 @@ class Projects {
     $stmt->execute(array('student' => $_SESSION['id']));
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
   }
+
+  public function findWithProjectLeaders($id) {
+    global $db;
+    $stmt = $db->prepare("SELECT projects.*, users.name FROM projects, users WHERE projects.id = :id AND users.project_leader = projects.id;");
+    $stmt->execute(array('id' => $id));
+    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+  }
 }
 
 ?>

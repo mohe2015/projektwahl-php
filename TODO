@@ -3,7 +3,6 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * should password changing be implemented?
 * implement password reset
 * implement selecting supervisors
-* implement viewing supervisors
 * implement estimated size and if a project can exist
 * implement password reset for teachers
 * maybe implement signin links?

@@ -7,6 +7,12 @@
   <b>Kosten: </b><?php echo htmlspecialchars($project->costs) ?><br>
   <b>Jahrgangsstufe: </b><?php echo htmlspecialchars($project->min_grade) ?> - <?php echo htmlspecialchars($project->max_grade) ?><br>
   <b>Teilnehmeranzahl: </b><?php echo htmlspecialchars($project->min_participants) ?> - <?php echo htmlspecialchars($project->max_participants) ?><br>
-  <b>Projektleiter: </b>TODO<br>
+  <b>Projektleiter: </b>
+<?php
+echo join(', ', array_map(function($project_leader) {
+    return $project_leader->name;
+}, $project_with_project_leaders));
+?>
+  <br>
   <b>Zufällige Projektzuweisungen erlaubt: </b><?php echo htmlspecialchars($project->random_assignments) ? "ja" : "nein" ?><br>
 </div>
