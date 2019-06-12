@@ -7,6 +7,7 @@ $project = $project_with_project_leaders[0];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
+    die(implode( ", ", $_POST['supervisors']));
     $_POST['random_assignments'] = isset($_POST['random_assignments']);
     $project->update($_POST);
     $project->save();

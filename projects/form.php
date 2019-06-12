@@ -54,7 +54,7 @@ $users = Users::all();
 <div class="form-group">
   <label class="col">Betreuer:</label>
 
-  <select class="col" id="select-supervisors" name="supervisors" multiple>
+  <select class="col" id="select-supervisors" name="supervisors[]" multiple>
     <?php
     $project_leaders = array_map(function($project_leader) {
         return $project_leader->name;
