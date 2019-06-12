@@ -60,7 +60,7 @@ $users = Users::all();
         return $project_leader->name;
     }, $project_with_project_leaders);
     foreach ($users as $user): ?>
-      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?>><?php echo $user->name ?></option>
+      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>"><?php echo $user->name ?></option>
     <?php endforeach ?>
   </select>
 
@@ -82,8 +82,8 @@ $users = Users::all();
 <?php
 foreach ($users as $user): ?>
       <li>
-        <input type="checkbox" value="" id="<?php echo $user->name ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-        <label for="<?php echo $user->name ?>">
+        <input type="checkbox" value="" id="<?php echo str_replace(" ", "-",$user->name) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
+        <label for="<?php echo str_replace(" ", "-",$user->name) ?>">
           <?php echo $user->name ?>
         </label>
       </li>
@@ -128,6 +128,13 @@ $('#save-supervisors').addEventListener('click', function(event) {
   var supervisors = $$('input:checked').map(x => x.id).join("; ") || "Keine";
   button.innerText = supervisors;
   dialog.close();
+});
+
+var supervisors = $$('li input[type="checkbox"]');
+supervisors.forEach(e => {
+  e.addEventListener('change', function (event) {
+    $('.name-' + this.id).selected = this.checked;
+  });
 });
 
 function update(query) {
