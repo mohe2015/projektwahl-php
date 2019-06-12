@@ -2,7 +2,9 @@
 $allowed_users = array("admin", "teacher"); // TODO only teacher supervisors
 require_once __DIR__ . '/../head.php';
 
-$project = Projects::find($_SERVER['QUERY_STRING']);
+$project_with_project_leaders = Projects::findWithProjectLeaders($_SERVER['QUERY_STRING']);
+$project = $project_with_project_leaders[0];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     $_POST['random_assignments'] = isset($_POST['random_assignments']);

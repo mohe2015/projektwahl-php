@@ -143,7 +143,7 @@ class Projects {
 
   public function findWithProjectLeaders($id) {
     global $db;
-    $stmt = $db->prepare("SELECT projects.*, users.name FROM projects, users WHERE projects.id = :id AND users.project_leader = projects.id;");
+    $stmt = $db->prepare("SELECT projects.*, users.name FROM projects LEFT JOIN users ON users.project_leader = projects.id WHERE projects.id = :id;");
     $stmt->execute(array('id' => $id));
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
   }

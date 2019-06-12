@@ -60,7 +60,17 @@ $users = Users::all();
     <?php endforeach ?>
   </select>
 
-  <button id="show-supervisors-dialog">Keine</button>
+  <button id="show-supervisors-dialog">
+    <?php
+    if (count($project_with_project_leaders) === 0) {
+      echo "Keine";
+    } else {
+      echo join(', ', array_map(function($project_leader) {
+          return $project_leader->name;
+      }, $project_with_project_leaders));
+    }
+    ?>
+  </button>
   <dialog id="dialog-supervisors">
     <h1>Betreuer</h1>
     <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
