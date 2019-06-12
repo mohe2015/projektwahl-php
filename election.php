@@ -2,6 +2,11 @@
 $allowed_users = array("student");
 require_once __DIR__ . '/head.php';
 
+$settings = Settings::get();
+if (!$settings->election_running) {
+  die("Die Wahl ist beendet!"); // TODO make more beautiful
+}
+
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice = new Choice(array(

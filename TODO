@@ -2,7 +2,6 @@ https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-
 https://www.php.net/manual/de/sdo.sample.getset.php
 * should password changing be implemented?
 * implement password reset
-* implement starting and ending election
 * implement selecting supervisors
 * implement viewing supervisors
 * implement estimated size and if a project can exist
