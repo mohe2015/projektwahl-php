@@ -298,6 +298,6 @@ dialog {
   overflow-y: auto;
 }
 
-form {
+.inline-block {
     display: inline-block;
 }

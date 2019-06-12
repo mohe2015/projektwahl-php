@@ -9,7 +9,7 @@ $teachers = Teachers::all();
 
 <a href="/teachers/new.php" class="button">Neuer Lehrer</a>
 <a href="/teachers/import.php" class="button">Lehrer importieren</a>
-<form method="POST" action="generate_passwords.php">
+<form class="inline-block" method="POST" action="generate_passwords.php">
   <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
   <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
 </form>
