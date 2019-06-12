@@ -46,7 +46,7 @@ if (in_array($_SESSION['type'], array("admin", "teacher"))): ?>
 $settings = Settings::get();
 if (in_array($_SESSION['type'], array("admin"))):
 ?>
-   <li class="float-right"><a href="/end-election.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>
+   <li class="float-right"><a href="/update-election-state.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>
  <?php endif; ?>
 
 
