@@ -7,9 +7,12 @@ $teachers = Teachers::all();
 
 <h1>Lehrer</h1>
 
-<a href="/teachers/new.php" class="button">Neuer Lehrer<a>
-<a href="/teachers/import.php" class="button">Lehrer importieren<a>
-<a href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</a>
+<a href="/teachers/new.php" class="button">Neuer Lehrer</a>
+<a href="/teachers/import.php" class="button">Lehrer importieren</a>
+<form method="POST" action="generate_passwords.php">
+  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+</form>
 
 <div class="responsive">
   <table>

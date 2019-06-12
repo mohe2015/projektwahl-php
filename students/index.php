@@ -9,7 +9,10 @@ $students = Students::all();
 
 <a href="/students/new.php" class="button">Neuer Schüler</a>
 <a href="/students/import.php" class="button">Schüler importieren</a>
-<a href="/students/generate_passwords.php" class="button">Passwortliste generieren</a>
+<form method="POST" action="generate_passwords.php">
+  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+</form>
 <a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
 <a href="/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
 
