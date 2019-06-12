@@ -58,7 +58,7 @@ $users = Users::all();
     <?php
     $project_leaders = array_map(function($project_leader) {
         return $project_leader->name;
-    });
+    }, $project_with_project_leaders);
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : " b" ?>><?php echo $user->name ?></option>
     <?php endforeach ?>
