@@ -58,6 +58,14 @@ try {
   );");
   $stmt->closeCursor();
 
+  $stmt = $db->query("CREATE TABLE IF NOT EXISTS settings (
+  election_running BOOLEAN NOT NULL
+  );");
+  $stmt->closeCursor();
+
+  $stmt = $db->query("INSERT INTO settings (election_running) VALUES (false);");
+  $stmt->closeCursor();
+
   $stmt = $db->prepare("INSERT INTO users (name, password, type) VALUES (:name, :password, 'admin')");
   $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
