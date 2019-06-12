@@ -33,6 +33,7 @@ class Project extends Record {
     $this->presentation_type = $data['presentation_type'] ?? $this->presentation_type;
     $this->requirements = $data['requirements'] ?? $this->requirements;
     $this->random_assignments = $data['random_assignments'] ?? $this->random_assignments ?? true;
+    $this->supervisors = $_POST['supervisors'];
   }
 
   public function getValidationErrors() {
@@ -109,6 +110,24 @@ class Project extends Record {
         'requirements' => $this->requirements,
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
+    }
+    if (isset($this->supervisors)) {
+      $db->beginTransaction();
+
+      $stmt = $db->prepare('UPDATE students SET project_leader = NULL WHERE project_leader = :id');
+      $stmt->execute(array(
+        'id' => $this->id
+      ));
+
+      $stmt = $db->prepare('UPDATE students SET project_leader = :id WHERE id = :student_id');
+      foreach ($this->supervisors as $project_leader) {
+        $stmt->execute(array(
+          'id' => $this->id,
+          'student_id' => $project_leader // TODO id
+        ));
+      }
+
+      $db->commit();
     }
   }
 
