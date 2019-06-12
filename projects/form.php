@@ -60,7 +60,7 @@ $users = Users::all();
         return $project_leader->name;
     }, $project_with_project_leaders);
     foreach ($users as $user): ?>
-      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : " b" ?>><?php echo $user->name ?></option>
+      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?>><?php echo $user->name ?></option>
     <?php endforeach ?>
   </select>
 
@@ -79,9 +79,10 @@ $users = Users::all();
     <h1>Betreuer</h1>
     <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
     <ul class="dropdown">
-<?php foreach ($users as $user): ?>
+<?php
+foreach ($users as $user): ?>
       <li>
-        <input type="checkbox" value="" id="<?php echo $user->name ?>">
+        <input type="checkbox" value="" id="<?php echo $user->name ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
         <label for="<?php echo $user->name ?>">
           <?php echo $user->name ?>
         </label>
