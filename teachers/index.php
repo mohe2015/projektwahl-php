@@ -9,6 +9,7 @@ $teachers = Teachers::all();
 
 <a href="/teachers/new.php" class="button">Neuer Lehrer<a>
 <a href="/teachers/import.php" class="button">Lehrer importieren<a>
+<a href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</a>
 
 <div class="responsive">
   <table>

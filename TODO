@@ -7,7 +7,6 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * implement selecting supervisors
 * implement viewing supervisors
 * implement estimated size and if a project can exist
-* implement generating passwords for teachers
 * implement password reset for teachers
 * maybe implement signin links?
 * implement "sudo" with nested login
@@ -18,3 +17,4 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * password list don't regenerate
 * students who didn't vote list add project leader info
 * admin change password
+* TODO checkout my list that lays around somewhere in the house

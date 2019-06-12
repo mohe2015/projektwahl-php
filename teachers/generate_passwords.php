@@ -3,9 +3,9 @@ $allowed_users = array("admin");
 require_once __DIR__ . '/../head.php';
 
 $timers = new Timers();
-$timers->startTimer('all_students');
-$students = Students::all();
-$timers->endTimer('all_students');
+$timers->startTimer('all_teachers');
+$teachers = Teachers::all();
+$timers->endTimer('all_teachers');
 ?>
 
 <h1>Passwörter</h1>
@@ -15,7 +15,6 @@ $timers->endTimer('all_students');
     <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Klasse</th>
           <th scope="col">Passwort</th>
         </tr>
       </thead>
@@ -23,15 +22,14 @@ $timers->endTimer('all_students');
         <?php
         $timers->startTimer('generate_passwords');
         $db->beginTransaction();
-        foreach ($students as $student) :?>
+        foreach ($teachers as $teacher) :?>
           <?php
             $password = bin2hex(random_bytes(5));
-            $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
-            $student->save();
+            $teacher->password = password_hash($password, PASSWORD_DEFAULT, $options);
+            $teacher->save();
           ?>
           <tr>
-            <td><?php echo htmlspecialchars($student->name) ?></td>
-            <td><?php echo htmlspecialchars($student->class) ?></td>
+            <td><?php echo htmlspecialchars($teacher->name) ?></td>
             <td><?php echo htmlspecialchars($password) ?></td>
           </tr>
         <?php endforeach;
