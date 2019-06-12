@@ -110,7 +110,6 @@ foreach ($users as $user): ?>
 
 </form>
 
-
 <script>
 var form = $("#form-supervisors");
 var dialog = $("#dialog-supervisors");
@@ -118,8 +117,8 @@ var button = $('#show-supervisors-dialog');
 var input = $('#search-supervisors');
 button.style = "";
 
+// TODO implement escape
 dialog.addEventListener('close', function onClose(e) {
-  console.log(e);
   e.preventDefault();
   $('body').classList.remove('modal-open');
 });
@@ -131,15 +130,9 @@ $('#save-supervisors').addEventListener('click', function(event) {
   dialog.close();
 });
 
-button.addEventListener('click', function (event) {
-  event.preventDefault();
-  document.querySelector('body').classList.add('modal-open');
-  dialog.show();
-});
-
-input.addEventListener('input', function(event) {
-  var supervisors = $$('input[type="checkbox"]');
-  var query = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+function update(query) {
+  var supervisors = $$('li input[type="checkbox"]');
+  var query = query.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
   supervisors.forEach(e => {
     var string = e.id.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     if (string.toLowerCase().indexOf(query.toLowerCase()) === -1) {
@@ -148,9 +141,25 @@ input.addEventListener('input', function(event) {
       e.parentElement.hidden = false;
     }
   });
-  // TODO put selected ones up
-  // myElement.innerHTML = null
+  supervisors.sort(function (a, b) {
+    return b.checked - a.checked;
+  });
+  let ul = $('ul[class="dropdown"]');
+  ul.innerHTML = null;
+  supervisors.forEach(e => ul.append(e.parentNode));
+}
+
+button.addEventListener('click', function (event) {
+  event.preventDefault();
+  document.querySelector('body').classList.add('modal-open');
+  dialog.show();
 });
+
+input.addEventListener('input', function(event) {
+  update(event.target.value);
+});
+
+update("");
 
 // Hide the other one if javascript loaded
 $('#select-supervisors').hidden = true;
