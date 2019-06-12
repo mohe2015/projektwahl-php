@@ -114,16 +114,16 @@ class Project extends Record {
     if (isset($this->supervisors)) {
       $db->beginTransaction();
 
-      $stmt = $db->prepare('UPDATE students SET project_leader = NULL WHERE project_leader = :id');
+      $stmt = $db->prepare('UPDATE users SET project_leader = NULL WHERE project_leader = :id');
       $stmt->execute(array(
         'id' => $this->id
       ));
 
-      $stmt = $db->prepare('UPDATE students SET project_leader = :id WHERE id = :student_id');
+      $stmt = $db->prepare('UPDATE users SET project_leader = :id WHERE id = :student_id');
       foreach ($this->supervisors as $project_leader) {
         $stmt->execute(array(
           'id' => $this->id,
-          'student_id' => $project_leader // TODO id
+          'student_id' => $project_leader // TODO id // TODO this should not overwrite old data?
         ));
       }
 
