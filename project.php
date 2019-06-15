@@ -95,7 +95,7 @@ class Project extends Record {
       ));
       $project->id = $db->lastInsertId();
       apcu_store("project-$this->id", $this);
-      apcu_delete(['projects']); // TODO alternatively update vars
+      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
       return $this;
     } else {
       $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
@@ -114,7 +114,7 @@ class Project extends Record {
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       apcu_store("project-$this->id", $this);
-      apcu_delete(['projects']); // TODO alternatively update vars
+      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
       return $this;
     }
     if (isset($this->supervisors)) {
@@ -139,7 +139,7 @@ class Project extends Record {
       }
 
       $db->commit();
-      apcu_delete(["project-$this->id", 'projects', 'users', 'students']);
+      apcu_delete(["project-$this->id", "project-$this->id-project-leaders", 'projects', 'users', 'students']);
     }
   }
 
@@ -150,6 +150,7 @@ class Project extends Record {
       'id' => $this->id
     ));
     apcu_delete("project-$this->id");
+    apcu_delete("project-$this->id-project-leaders");
   }
 }
 class Projects {
@@ -189,14 +190,19 @@ class Projects {
   }
 
   public function findWithProjectLeaders($id) {
+    $result = apcu_fetch("project-$id-project-leaders");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT projects.*, users.name FROM projects LEFT JOIN users ON users.project_leader = projects.id WHERE projects.id = :id;");
     // TODO combine this and find($id);
     // TODO this value needs to be updated if dependencies update
-    //return apcu_entry("project-$this->id-project-leaders", function($key) {
-      $stmt->execute(array('id' => $id));
-      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
-    //});
+    $stmt->execute(array('id' => $id));
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    apcu_add("project-$id", $result[0]);
+    apcu_add("project-$id-project-leaders", $result);
+    return $result;
   }
 }
 
