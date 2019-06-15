@@ -20,8 +20,10 @@ class Teachers {
   public function find($id) {
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'teacher'");
-    $stmt->execute(array('id' => $id));
-    return $stmt->fetchObject('Teacher');
+    return apcu_entry("user-$this->id", function($key) {
+      $stmt->execute(array('id' => $id));
+      return $stmt->fetchObject('Teacher');
+    });
   }
   public function all() {
     global $db;

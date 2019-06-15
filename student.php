@@ -47,8 +47,10 @@ class Students {
   public function find($id) {
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'student'");
-    $stmt->execute(array('id' => $id));
-    return $stmt->fetchObject('Student');
+    return apcu_entry("user-$this->id", function($key) {
+      $stmt->execute(array('id' => $id));
+      return $stmt->fetchObject('Student');
+    });
   }
   public function all() {
     global $db;

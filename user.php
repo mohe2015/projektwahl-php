@@ -67,18 +67,25 @@ class User extends Record {
         'in_project' => $this->in_project
       ));
       $this->id = $db->lastInsertId();
+      assert(apcu_add("user-$this->id", $this));
+      Users::all(); // TODO this could be done manually (without an additional request)
+      return $this;
     } else {
-      self::getUpdateStatement()->execute(array(
-        'id' => $this->id,
-        'name' => $this->name,
-        'password' => $this->password,
-        'type' => $this->type,
-        'project_leader' => $this->project_leader,
-        'class' => $this->class,
-        'grade' => $this->grade,
-        'away' => $this->away ? 1 : 0,
-        'in_project' => $this->in_project
-      ));
+      $stmt = self::getUpdateStatement();
+      return apcu_entry("user-$this->id", function($key) {
+        $stmt->execute(array(
+          'id' => $this->id,
+          'name' => $this->name,
+          'password' => $this->password,
+          'type' => $this->type,
+          'project_leader' => $this->project_leader,
+          'class' => $this->class,
+          'grade' => $this->grade,
+          'away' => $this->away ? 1 : 0,
+          'in_project' => $this->in_project
+        ));
+        return $this;
+      });
     }
   }
 
@@ -88,6 +95,7 @@ class User extends Record {
     $stmt->execute(array(
       'id' => $this->id
     ));
+    apcu_delete("user-$this->id");
   }
 }
 
@@ -95,8 +103,10 @@ class Users {
   public function all() {
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+    return apcu_entry("users", function($key) {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+    });
   }
 }
 ?>

@@ -94,22 +94,28 @@ class Project extends Record {
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       $project->id = $db->lastInsertId();
+      assert(apcu_add("project-$this->id", $this));
+      Projects::all();  // TODO this could be done manually (without an additional request)
+      return $this;
     } else {
-      $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
-      $stmt->execute(array(
-        'id' => $this->id,
-        'title' => $this->title,
-        'info' => $this->info,
-        'place' => $this->place,
-        'costs' => $this->costs,
-        'min_grade' => $this->min_grade,
-        'max_grade' => $this->max_grade,
-        'min_participants' => $this->min_participants,
-        'max_participants' => $this->max_participants,
-        'presentation_type' => $this->presentation_type,
-        'requirements' => $this->requirements,
-        'random_assignments' => $this->random_assignments ? 1 : 0
-      ));
+      return apcu_entry("project-$this->id", function($key) {
+        $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
+        $stmt->execute(array(
+          'id' => $this->id,
+          'title' => $this->title,
+          'info' => $this->info,
+          'place' => $this->place,
+          'costs' => $this->costs,
+          'min_grade' => $this->min_grade,
+          'max_grade' => $this->max_grade,
+          'min_participants' => $this->min_participants,
+          'max_participants' => $this->max_participants,
+          'presentation_type' => $this->presentation_type,
+          'requirements' => $this->requirements,
+          'random_assignments' => $this->random_assignments ? 1 : 0
+        ));
+        return $this;
+      });
     }
     if (isset($this->supervisors)) {
       $db->beginTransaction();
@@ -137,34 +143,46 @@ class Project extends Record {
     $stmt->execute(array(
       'id' => $this->id
     ));
+    apcu_delete("project-$this->id");
   }
 }
 class Projects {
   public function find($id) {
-    global $db;
-    $stmt = $db->prepare('SELECT * FROM projects WHERE id = :id');
-    $stmt->execute(array('id' => $id));
-    return $stmt->fetchObject('Project');
+    return apcu_entry("project-$this->id", function($key) {
+      global $db;
+      $stmt = $db->prepare('SELECT * FROM projects WHERE id = :id');
+      $stmt->execute(array('id' => $id));
+      return $stmt->fetchObject('Project');
+    });
   }
   public function all() {
     global $db;
     $stmt = $db->prepare('SELECT * FROM projects;');
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    return apcu_entry("users", function($key) use ($stmt) {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    });
   }
 
   public function allWithRanks() {
     global $db;
     $stmt = $db->prepare('SELECT id, title, choices.rank FROM projects LEFT JOIN choices ON id = choices.project AND choices.student = :student ORDER BY rank=0, rank;');
-    $stmt->execute(array('student' => $_SESSION['id']));
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    // TODO this value needs to be updated if dependencies update
+    //return apcu_entry("project-$this->id-project-leaders", function($key) {
+      $stmt->execute(array('student' => $_SESSION['id']));
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    //});
   }
 
   public function findWithProjectLeaders($id) {
     global $db;
     $stmt = $db->prepare("SELECT projects.*, users.name FROM projects LEFT JOIN users ON users.project_leader = projects.id WHERE projects.id = :id;");
-    $stmt->execute(array('id' => $id));
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    // TODO combine this and find($id);
+    // TODO this value needs to be updated if dependencies update
+    //return apcu_entry("project-$this->id-project-leaders", function($key) {
+      $stmt->execute(array('id' => $id));
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    //});
   }
 }
 
