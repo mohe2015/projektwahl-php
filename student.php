@@ -45,18 +45,30 @@ class Student extends User {
 
 class Students {
   public function find($id) {
+    // TODO combine user, teacher and student cache
+    $result = apcu_fetch("user-$this->id");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'student'");
-    return apcu_entry("user-$this->id", function($key) {
-      $stmt->execute(array('id' => $id));
-      return $stmt->fetchObject('Student');
-    });
+    $stmt->execute(array('id' => $id));
+    $result = $stmt->fetchObject('Student');
+    apcu_add("user-$this->id", $result);
+    return $result;
   }
   public function all() {
+    // TODO combine user, teacher and student cache
+    $result = apcu_fetch("students");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student';");
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
+    apcu_add("students", $result);
+    return $result;
   }
 }
 ?>

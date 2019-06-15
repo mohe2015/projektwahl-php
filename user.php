@@ -89,7 +89,8 @@ class User extends Record {
     }
   }
 
-  // TODO thinkabout if somebody edits and deletes at the same time there could be a race condition?
+  // TODO FIXME if somebody edits and deletes at the same time there could be a race condition. I don't know of a way to fix this.
+
   public function delete() {
     global $db;
     $stmt = $db->prepare('DELETE FROM users WHERE id = :id;');
@@ -102,12 +103,16 @@ class User extends Record {
 
 class Users {
   public function all() {
+    $result = apcu_fetch('users');
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
-    return apcu_entry("users", function($key) {
-      $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
-    });
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+    apcu_add("users", $result);
+    return $result;
   }
 }
 ?>

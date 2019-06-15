@@ -18,20 +18,29 @@ class Teacher extends User {
 
 class Teachers {
   public function find($id) {
+    // TODO check that's a teacher
+    $result = apcu_fetch("user-$this->id");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'teacher'");
-    return apcu_entry("user-$this->id", function($key) {
-      $stmt->execute(array('id' => $id));
-      return $stmt->fetchObject('Teacher');
-    });
+    $stmt->execute(array('id' => $id));
+    $result = $stmt->fetchObject('Teacher');
+    apcu_add("user-$this->id", $result);
+    return $result;
   }
   public function all() {
+    $result = apcu_fetch("teachers");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher';");
-    return apcu_entry("teachers", function($key) use ($stmt) {
-      $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
-    });
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
+    apcu_add("teachers", $result);
+    return $result;
   }
 }
 ?>
