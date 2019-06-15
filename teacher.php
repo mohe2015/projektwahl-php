@@ -28,8 +28,10 @@ class Teachers {
   public function all() {
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher';");
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
+    return apcu_entry("teachers", function($key) use ($stmt) {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
+    });
   }
 }
 ?>

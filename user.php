@@ -67,35 +67,36 @@ class User extends Record {
         'in_project' => $this->in_project
       ));
       $this->id = $db->lastInsertId();
-      assert(apcu_add("user-$this->id", $this));
-      Users::all(); // TODO this could be done manually (without an additional request)
+      apcu_store("user-$this->id", $this);
+      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
       return $this;
     } else {
       $stmt = self::getUpdateStatement();
-      return apcu_entry("user-$this->id", function($key) {
-        $stmt->execute(array(
-          'id' => $this->id,
-          'name' => $this->name,
-          'password' => $this->password,
-          'type' => $this->type,
-          'project_leader' => $this->project_leader,
-          'class' => $this->class,
-          'grade' => $this->grade,
-          'away' => $this->away ? 1 : 0,
-          'in_project' => $this->in_project
-        ));
-        return $this;
-      });
+      $stmt->execute(array(
+        'id' => $this->id,
+        'name' => $this->name,
+        'password' => $this->password,
+        'type' => $this->type,
+        'project_leader' => $this->project_leader,
+        'class' => $this->class,
+        'grade' => $this->grade,
+        'away' => $this->away ? 1 : 0,
+        'in_project' => $this->in_project
+      ));
+      apcu_store("user-$this->id", $this);
+      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
+      return $this;
     }
   }
 
+  // TODO thinkabout if somebody edits and deletes at the same time there could be a race condition?
   public function delete() {
     global $db;
     $stmt = $db->prepare('DELETE FROM users WHERE id = :id;');
     $stmt->execute(array(
       'id' => $this->id
     ));
-    apcu_delete("user-$this->id");
+    apcu_delete(["user-$this->id", 'users', 'teachers', 'students']); // TODO alternatively update vars
   }
 }
 

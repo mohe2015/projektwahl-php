@@ -94,7 +94,7 @@ class Project extends Record {
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       $project->id = $db->lastInsertId();
-      assert(apcu_add("project-$this->id", $this));
+      apcu_store("project-$this->id", $this);
       Projects::all();  // TODO this could be done manually (without an additional request)
       return $this;
     } else {
