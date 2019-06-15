@@ -46,7 +46,7 @@ class Student extends User {
 class Students {
   public function find($id) {
     // TODO combine user, teacher and student cache
-    $result = apcu_fetch("user-$this->id");
+    $result = apcu_fetch("user-$id");
     if ($result) {
       return $result;
     }
@@ -54,7 +54,7 @@ class Students {
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'student'");
     $stmt->execute(array('id' => $id));
     $result = $stmt->fetchObject('Student');
-    apcu_add("user-$this->id", $result);
+    apcu_add("user-$id", $result);
     return $result;
   }
   public function all() {
