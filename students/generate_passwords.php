@@ -16,13 +16,13 @@ foreach ($students as $student) {
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
   <h1 class="print-display-none">Passwörter</h1>
   <p class="print-display-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
-  <p class="print-display-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p
+  <p class="print-display-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p>
   <?php
   $timers->startTimer('generate_passwords');
   $db->beginTransaction();
   foreach ($grouped_students as $class_name => $class) :?>
     <h1 class="print-display-none"><?php echo $class_name ?></h1>
-    <div style="page-break-inside: avoid;" class="print-monospace">
+    <div class="print-monospace">
       <table>
         <thead>
           <tr>
