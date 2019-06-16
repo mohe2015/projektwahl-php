@@ -63,12 +63,12 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // glpsol --lp calculate.lp
 // cbc /tmp/problem.lp
 
-$choices = Choices::allWithUsers();
-
 // maximize rating points
 $problem_filename = tempnam("/tmp", "problem");
 $out = fopen($problem_filename, 'w');
 $stdout = fopen('php://output', 'w');
+
+$choices = Choices::allWithUsers();
 
 $grouped_choices = Choices::groupChoices($choices);
 
