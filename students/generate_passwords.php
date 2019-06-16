@@ -4,7 +4,7 @@ require_once __DIR__ . '/../head.php';
 
 $timers = new Timers();
 $timers->startTimer('all_students');
-$students = Students::all();
+$students = Students::allWithoutPasswords();
 $timers->endTimer('all_students');
 
 $grouped_students = array();
@@ -22,7 +22,7 @@ foreach ($students as $student) {
   $db->beginTransaction();
   foreach ($grouped_students as $class_name => $class) :?>
     <h1 class="print-display-none"><?php echo $class_name ?></h1>
-    <div class="print-monospace">
+    <div class="monospace">
       <table>
         <thead>
           <tr>
@@ -40,8 +40,8 @@ foreach ($students as $student) {
             ?>
             <tr>
               <td><?php echo htmlspecialchars($student->name) ?></td>
-              <td><?php echo htmlspecialchars($password) ?></td>
-              <td><?php echo $_SERVER['HTTP_HOST'] ?></td>
+              <td class="min"><?php echo htmlspecialchars($password) ?></td>
+              <td class="min"><?php echo $_SERVER['HTTP_HOST'] ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

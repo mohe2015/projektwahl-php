@@ -70,5 +70,14 @@ class Students {
     apcu_add("students", $result);
     return $result;
   }
+
+  public function allWithoutPasswords() {
+    // TODO combine user, teacher and student cache
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND password IS NULL ORDER BY grade, class, name");
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
+    return $result;
+  }
 }
 ?>

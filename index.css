@@ -241,11 +241,12 @@ button[type="submit"]:disabled.background-failure {
   background-color: red;
 }
 
-@media print {
-  .print-monospace {
-    font-family: monospace;
-  }
+.monospace {
+  font-family: monospace;
+}
 
+@media print {
+  
   .print-display-none {
     display: none;
   }
@@ -304,4 +305,9 @@ dialog {
 
 .inline-block {
     display: inline-block;
+}
+
+td.min {
+    width: 1%;
+    white-space: nowrap;
 }
