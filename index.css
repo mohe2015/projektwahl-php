@@ -246,7 +246,7 @@ button[type="submit"]:disabled.background-failure {
 }
 
 @media print {
-  
+
   .print-display-none {
     display: none;
   }
@@ -310,4 +310,19 @@ dialog {
 td.min {
     width: 1%;
     white-space: nowrap;
+}
+
+button.a {
+  background:none!important;
+  border:none;
+  padding:0!important;
+
+  /*optional*/
+  font-family:arial,sans-serif; /*input has OS specific font-family*/
+  color: rgb(0, 0, 238);
+  cursor:pointer;
+}
+
+button.a:hover{
+  text-decoration:underline;
 }
