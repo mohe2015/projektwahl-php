@@ -19,7 +19,7 @@ class Teacher extends User {
 class Teachers {
   public function find($id) {
     // TODO check that's a teacher
-    $result = apcu_fetch("user-$this->id");
+    $result = apcu_fetch("user-$id");
     if ($result) {
       return $result;
     }
@@ -27,7 +27,7 @@ class Teachers {
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id AND type = 'teacher'");
     $stmt->execute(array('id' => $id));
     $result = $stmt->fetchObject('Teacher');
-    apcu_add("user-$this->id", $result);
+    apcu_add("user-$id", $result);
     return $result;
   }
   public function all() {

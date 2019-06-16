@@ -34,7 +34,7 @@ class User extends Record {
 
   public function update($data) {
     $this->name = $data['name'] ?? $this->name;
-    $this->password = $data['password'] ?? $this->password;
+    $this->password = array_key_exists('password', $data) ? $data['password'] : $this->password;
     $this->type = $data['type'] ?? $this->type;
   }
 

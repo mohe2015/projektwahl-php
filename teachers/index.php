@@ -28,6 +28,11 @@ $teachers = Teachers::all();
             <td><?php echo htmlspecialchars($teacher->name) ?></td>
             <td>
               <a href="/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
+              <form class="inline-block" method="post" action="edit.php?<?php echo $teacher->id ?>">
+                <input type="hidden" name="password" value="">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <button class="a" type="submit"><i class="fas fa-key"></i></button>
+              </form>
               <a href="/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>

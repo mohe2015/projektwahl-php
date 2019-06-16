@@ -63,43 +63,16 @@ $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project')
 // glpsol --lp calculate.lp
 // cbc /tmp/problem.lp
 
-global $db;
-$stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' AND away = FALSE ORDER BY class,name;"); // TODO FIXME rank!=0
-$stmt->execute();
-$choices = $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
+$choices = Choices::allWithUsers();
 
 // maximize rating points
 $problem_filename = tempnam("/tmp", "problem");
 $out = fopen($problem_filename, 'w');
 $stdout = fopen('php://output', 'w');
 
-$grouped_choices = array();
-foreach ($choices as $choice) {
-  if ($choice->rank === NULL) {
-    $grouped_choices[$choice->id] = array();
-  } else {
-    $grouped_choices[$choice->id][] = $choice;
-  }
-}
+$grouped_choices = Choices::groupChoices($choices);
 
-foreach ($grouped_choices as $student_id => $student_choices) {
-  $student = $assoc_students[$student_id];
-  $rank_count = array(
-    1 => 0,
-    2 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0
-  );
-  foreach ($student_choices as $choice) {
-    $rank_count[$choice->rank]++;
-  }
-  if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1) {
-    $assoc_students[$student_id]->valid = true;
-  } else {
-    $assoc_students[$student_id]->valid = false;
-  }
-}
+$assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 fwrite($out, "Maximize\n");
 fwrite($out, " obj:");
