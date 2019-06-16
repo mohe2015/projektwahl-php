@@ -8,7 +8,6 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * implement "sudo" with nested login
 * project calculation assign projects and also message on login and in project list
 * implement set student as away
-* split passwords by class
 * password list don't regenerate
 * students who didn't vote list add project leader info
 * admin change password
