@@ -94,9 +94,6 @@ class Project extends Record {
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       $project->id = $db->lastInsertId();
-      apcu_store("project-$this->id", $this);
-      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
-      return $this;
     } else {
       $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
       $stmt->execute(array(
@@ -113,9 +110,6 @@ class Project extends Record {
         'requirements' => $this->requirements,
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
-      apcu_store("project-$this->id", $this);
-      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
-      return $this;
     }
     if (isset($this->supervisors)) {
       // TODO FIXME improve this caching implementation
@@ -139,8 +133,11 @@ class Project extends Record {
       }
 
       $db->commit();
-      apcu_delete(["project-$this->id", "project-$this->id-project-leaders", 'projects', 'users', 'students']);
+      apcu_delete(["project-$this->id-project-leaders", 'projects', 'users', 'students', 'teachers']);
     }
+    apcu_store("project-$this->id", $this);
+    apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
+    return $this;
   }
 
   public function delete() {
@@ -172,7 +169,7 @@ class Projects {
       return $result;
     }
     global $db;
-    $stmt = $db->prepare('SELECT * FROM projects;');
+    $stmt = $db->prepare('SELECT * FROM projects ORDER BY title;');
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
     apcu_add("projects", $result);

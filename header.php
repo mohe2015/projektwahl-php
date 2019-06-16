@@ -7,6 +7,7 @@
 }
 set_exception_handler('myException');
 */
+apc_clear_cache(); // TODO FIXME just for developing so that code changes update
 
 function startsWith($haystack, $needle)
 {
