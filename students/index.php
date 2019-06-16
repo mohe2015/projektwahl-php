@@ -33,7 +33,7 @@ $students = Students::all();
             <td>
               <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
               <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
-                <input type="hidden" name="away" <?php echo (!empty($student->away)) ? "" : "checked" ?>>
+                <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
                 <button class="a" type="submit" class="w-100"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
