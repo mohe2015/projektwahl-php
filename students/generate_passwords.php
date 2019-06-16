@@ -6,6 +6,11 @@ $timers = new Timers();
 $timers->startTimer('all_students');
 $students = Students::all();
 $timers->endTimer('all_students');
+
+$grouped_students = array();
+foreach ($students as $student) {
+    $grouped_students[$student->class][] = $student;
+}
 ?>
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
@@ -24,17 +29,21 @@ $timers->endTimer('all_students');
           <?php
           $timers->startTimer('generate_passwords');
           $db->beginTransaction();
-          foreach ($students as $student) :?>
-            <?php
-              $password = bin2hex(random_bytes(5));
-              $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
-              $student->save();
-            ?>
-            <tr>
-              <td><?php echo htmlspecialchars($student->name) ?></td>
-              <td><?php echo htmlspecialchars($student->class) ?></td>
-              <td><?php echo htmlspecialchars($password) ?></td>
-            </tr>
+          foreach ($grouped_students as $class_name => $class) :?>
+            <h1><?php echo $class_name ?></h1>
+            <?php var_dump($class) ?>
+            <?php foreach ($class as $student) :?>
+              <?php
+                $password = bin2hex(random_bytes(5));
+                $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
+                $student->save();
+              ?>
+              <tr>
+                <td><?php echo htmlspecialchars($student->name) ?></td>
+                <td><?php echo htmlspecialchars($student->class) ?></td>
+                <td><?php echo htmlspecialchars($password) ?></td>
+              </tr>
+            <?php endforeach; ?>
           <?php endforeach;
           $db->commit();
           $timers->endTimer('generate_passwords');
