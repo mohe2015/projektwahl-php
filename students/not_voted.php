@@ -27,7 +27,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
       <?php
       foreach ($grouped_choices as $student_id => $student_choices) {
         $student = $assoc_students[$student_id];
-        if ($student->valid): ?>
+        if (!$student->valid): ?>
           <tr>
             <td><?php echo htmlspecialchars($student->name) ?></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
