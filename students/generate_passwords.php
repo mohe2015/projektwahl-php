@@ -3,13 +3,13 @@ $allowed_users = array("admin");
 require_once __DIR__ . '/../head.php';
 
 $timers = new Timers();
-$timers->startTimer('all_students');
-$students = Students::allWithoutPasswords();
-$timers->endTimer('all_students');
+$timers->startTimer('all_users');
+$users = Students::allWithoutPasswords();
+$timers->endTimer('all_users');
 
-$grouped_students = array();
-foreach ($students as $student) {
-    $grouped_students[$student->class][] = $student;
+$grouped_users = array();
+foreach ($users as $user) {
+    $grouped_users[$user->class][] = $user;
 }
 ?>
 
@@ -20,7 +20,7 @@ foreach ($students as $student) {
   <?php
   $timers->startTimer('generate_passwords');
   $db->beginTransaction();
-  foreach ($grouped_students as $class_name => $class) :?>
+  foreach ($grouped_users as $class_name => $class) :?>
     <h1 class="print-display-none"><?php echo $class_name ?></h1>
     <div class="monospace">
       <table>
@@ -32,16 +32,16 @@ foreach ($students as $student) {
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($class as $student) :?>
+          <?php foreach ($class as $user) :?>
             <?php
             $password = bin2hex(random_bytes(5));
-            $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
-            $student->save();
+            $user->password = password_hash($password, PASSWORD_DEFAULT, $options);
+            $user->save();
             ?>
             <tr>
-              <td><?php echo htmlspecialchars($student->name) ?></td>
+              <td><?php echo htmlspecialchars($user->name) ?></td>
               <td class="min"><?php echo htmlspecialchars($password) ?></td>
-              <td class="min"><?php echo $_SERVER['HTTP_HOST'] ?></td>
+              <td class="min"><?php echo htmlspecialchars($_SERVER['HTTP_HOST']) ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

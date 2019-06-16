@@ -42,5 +42,14 @@ class Teachers {
     apcu_add("teachers", $result);
     return $result;
   }
+
+  public function allWithoutPasswords() {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' AND password IS NULL ORDER BY name");
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
+    return $result;
+  }
+
 }
 ?>
