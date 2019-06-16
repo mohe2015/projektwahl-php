@@ -36,7 +36,7 @@ class Teachers {
       return $result;
     }
     global $db;
-    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher';");
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' ORDER BY name");
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Teacher');
     apcu_add("teachers", $result);

@@ -64,7 +64,7 @@ class Students {
       return $result;
     }
     global $db;
-    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student';");
+    $stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' ORDER BY grade, class, name");
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Student');
     apcu_add("students", $result);
