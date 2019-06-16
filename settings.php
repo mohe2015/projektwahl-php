@@ -32,23 +32,31 @@ class Settings extends Record {
     return self::$update_stmt;
   }
 
+  // stale data should be fine (for a few milliseconds)
+
   public function save() {
     global $db;
     $this->validate();
-    self::getUpdateStatement()->execute(array(
+    $stmt = self::getUpdateStatement();
+    $stmt->execute(array(
       'election_running' => $this->election_running ? 1 : 0,
     ));
     apcu_store('settings', $this);
+    return $this;
   }
 
   public static function get() {
-    return apcu_entry('settings', function($key) {
-      global $db;
-      $stmt = $db->prepare('SELECT * FROM settings LIMIT 1;');
-      $stmt->setFetchMode(PDO::FETCH_CLASS, 'Settings');
-      $stmt->execute();
-      return $stmt->fetch();
-    });
+    $result = apcu_fetch('settings');
+    if ($result) {
+      return $result;
+    }
+    global $db;
+    $stmt = $db->prepare('SELECT * FROM settings LIMIT 1;');
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Settings');
+    $stmt->execute();
+    $result = $stmt->fetch();
+    apcu_add('settings', $result);
+    return $result;
   }
 }
 ?>

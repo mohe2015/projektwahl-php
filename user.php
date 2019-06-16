@@ -67,8 +67,12 @@ class User extends Record {
         'in_project' => $this->in_project
       ));
       $this->id = $db->lastInsertId();
+      apcu_store("user-$this->id", $this);
+      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
+      return $this;
     } else {
-      self::getUpdateStatement()->execute(array(
+      $stmt = self::getUpdateStatement();
+      $stmt->execute(array(
         'id' => $this->id,
         'name' => $this->name,
         'password' => $this->password,
@@ -79,8 +83,13 @@ class User extends Record {
         'away' => $this->away ? 1 : 0,
         'in_project' => $this->in_project
       ));
+      apcu_store("user-$this->id", $this);
+      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
+      return $this;
     }
   }
+
+  // TODO FIXME if somebody edits and deletes at the same time there could be a race condition. I don't know of a way to fix this.
 
   public function delete() {
     global $db;
@@ -88,15 +97,22 @@ class User extends Record {
     $stmt->execute(array(
       'id' => $this->id
     ));
+    apcu_delete(["user-$this->id", 'users', 'teachers', 'students']); // TODO alternatively update vars
   }
 }
 
 class Users {
   public function all() {
+    $result = apcu_fetch('users');
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+    apcu_add("users", $result);
+    return $result;
   }
 }
 ?>

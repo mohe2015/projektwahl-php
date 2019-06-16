@@ -94,6 +94,9 @@ class Project extends Record {
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
       $project->id = $db->lastInsertId();
+      apcu_store("project-$this->id", $this);
+      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
+      return $this;
     } else {
       $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
       $stmt->execute(array(
@@ -110,24 +113,33 @@ class Project extends Record {
         'requirements' => $this->requirements,
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
+      apcu_store("project-$this->id", $this);
+      apcu_delete(["project-$this->id-project-leaders", 'projects']); // TODO alternatively update vars
+      return $this;
     }
     if (isset($this->supervisors)) {
+      // TODO FIXME improve this caching implementation
+      // TODO check if values changed
       $db->beginTransaction();
 
+      // TODO FIXME only delete cache of old project leaders
+      apcu_delete(new APCUIterator('/^user-\./'));
       $stmt = $db->prepare('UPDATE users SET project_leader = NULL WHERE project_leader = :id');
       $stmt->execute(array(
         'id' => $this->id
       ));
 
-      $stmt = $db->prepare('UPDATE users SET project_leader = :id WHERE id = :student_id');
+      $stmt = $db->prepare('UPDATE users SET project_leader = :id WHERE id = :user_id');
       foreach ($this->supervisors as $project_leader) {
         $stmt->execute(array(
           'id' => $this->id,
-          'student_id' => $project_leader // TODO id // TODO this should not overwrite old data?
+          'user_id' => $project_leader // TODO this should not overwrite old data?
         ));
+        apcu_delete(["user-$project_leader"]);
       }
 
       $db->commit();
+      apcu_delete(["project-$this->id", "project-$this->id-project-leaders", 'projects', 'users', 'students']);
     }
   }
 
@@ -137,34 +149,60 @@ class Project extends Record {
     $stmt->execute(array(
       'id' => $this->id
     ));
+    apcu_delete("project-$this->id");
+    apcu_delete("project-$this->id-project-leaders");
   }
 }
 class Projects {
   public function find($id) {
+    $result = apcu_fetch("project-$this->id");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare('SELECT * FROM projects WHERE id = :id');
     $stmt->execute(array('id' => $id));
-    return $stmt->fetchObject('Project');
+    $result = $stmt->fetchObject('Project');
+    apcu_add("project-$this->id", $result);
+    return $result;
   }
   public function all() {
+    $result = apcu_fetch("projects");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare('SELECT * FROM projects;');
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    apcu_add("projects", $result);
+    return $result;
   }
 
   public function allWithRanks() {
     global $db;
     $stmt = $db->prepare('SELECT id, title, choices.rank FROM projects LEFT JOIN choices ON id = choices.project AND choices.student = :student ORDER BY rank=0, rank;');
-    $stmt->execute(array('student' => $_SESSION['id']));
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    // TODO this value needs to be updated if dependencies update
+    //return apcu_entry("project-$this->id-project-leaders", function($key) {
+      $stmt->execute(array('student' => $_SESSION['id']));
+      return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    //});
   }
 
   public function findWithProjectLeaders($id) {
+    $result = apcu_fetch("project-$id-project-leaders");
+    if ($result) {
+      return $result;
+    }
     global $db;
     $stmt = $db->prepare("SELECT projects.*, users.name FROM projects LEFT JOIN users ON users.project_leader = projects.id WHERE projects.id = :id;");
+    // TODO combine this and find($id);
+    // TODO this value needs to be updated if dependencies update
     $stmt->execute(array('id' => $id));
-    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
+    apcu_add("project-$id", $result[0]);
+    apcu_add("project-$id-project-leaders", $result);
+    return $result;
   }
 }
 
