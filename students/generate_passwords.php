@@ -14,20 +14,21 @@ foreach ($students as $student) {
 ?>
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-  <h1>Passwörter</h1>
-
+  <h1 class="print-display-none">Passwörter</h1>
+  <p class="print-display-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
+  <p class="print-display-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p
   <?php
   $timers->startTimer('generate_passwords');
   $db->beginTransaction();
   foreach ($grouped_students as $class_name => $class) :?>
-    <h1><?php echo $class_name ?></h1>
-    <div class="responsive">
+    <h1 class="print-display-none"><?php echo $class_name ?></h1>
+    <div style="page-break-inside: avoid;" class="print-monospace">
       <table>
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Klasse</th>
+            <th scope="col">Name (<?php echo $class_name ?>)</th>
             <th scope="col">Passwort</th>
+            <th scope="col">Website</th
           </tr>
         </thead>
         <tbody>
@@ -39,8 +40,8 @@ foreach ($students as $student) {
             ?>
             <tr>
               <td><?php echo htmlspecialchars($student->name) ?></td>
-              <td><?php echo htmlspecialchars($student->class) ?></td>
               <td><?php echo htmlspecialchars($password) ?></td>
+              <td><?php echo $_SERVER['HTTP_HOST'] ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

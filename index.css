@@ -242,6 +242,10 @@ button[type="submit"]:disabled.background-failure {
 }
 
 @media print {
+  .print-monospace {
+    font-family: monospace;
+  }
+
   .print-display-none {
     display: none;
   }
