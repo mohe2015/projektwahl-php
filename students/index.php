@@ -32,6 +32,9 @@ $students = Students::all();
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
               <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
+              <a href="/students/away.php?<?php echo $student->id ?>"><i class="fas fa-user-slash"></i></a>
+              <a href="/students/reset_password.php?<?php echo $student->id ?>"><i class="fas fa-key"></i></a>
+              <a href="/students/sudo.php?<?php echo $student->id ?>"><i class="fas fa-sign-in-alt"></i></a>
               <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
