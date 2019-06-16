@@ -16,9 +16,14 @@ foreach ($students as $student) {
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
   <h1>Passwörter</h1>
 
-  <div class="responsive">
-    <table>
-      <thead>
+  <?php
+  $timers->startTimer('generate_passwords');
+  $db->beginTransaction();
+  foreach ($grouped_students as $class_name => $class) :?>
+    <h1><?php echo $class_name ?></h1>
+    <div class="responsive">
+      <table>
+        <thead>
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Klasse</th>
@@ -26,32 +31,27 @@ foreach ($students as $student) {
           </tr>
         </thead>
         <tbody>
-          <?php
-          $timers->startTimer('generate_passwords');
-          $db->beginTransaction();
-          foreach ($grouped_students as $class_name => $class) :?>
-            <h1><?php echo $class_name ?></h1>
-            <?php var_dump($class) ?>
-            <?php foreach ($class as $student) :?>
-              <?php
-                $password = bin2hex(random_bytes(5));
-                $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
-                $student->save();
-              ?>
-              <tr>
-                <td><?php echo htmlspecialchars($student->name) ?></td>
-                <td><?php echo htmlspecialchars($student->class) ?></td>
-                <td><?php echo htmlspecialchars($password) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php endforeach;
-          $db->commit();
-          $timers->endTimer('generate_passwords');
-          header('Server-Timing: ' . $timers->getTimers());
-          ?>
+          <?php foreach ($class as $student) :?>
+            <?php
+            $password = bin2hex(random_bytes(5));
+            $student->password = password_hash($password, PASSWORD_DEFAULT, $options);
+            $student->save();
+            ?>
+            <tr>
+              <td><?php echo htmlspecialchars($student->name) ?></td>
+              <td><?php echo htmlspecialchars($student->class) ?></td>
+              <td><?php echo htmlspecialchars($password) ?></td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
-    </table>
-  </div>
+      </table>
+    </div>
+  <?php endforeach;
+  $db->commit();
+  $timers->endTimer('generate_passwords');
+  header('Server-Timing: ' . $timers->getTimers());
+  ?>
+
 <?php else: ?>
   <br />
   <form method="post">
