@@ -29,7 +29,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
         $student = $assoc_students[$student_id];
         if (!$student->valid): ?>
           <tr>
-            <td><?php echo htmlspecialchars($student->name) ?></td>
+            <td><?php echo htmlspecialchars($student->name) . ($student->project_leader ? " (vmtl. Projektleiter)" : "") ?></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
           </tr>
         <?php endif;
