@@ -44,7 +44,7 @@ class User extends Record {
       array_push($validation_errors, "Name fehlt!");
     }
     if (empty($this->password)) {
-      array_push($validation_errors, "Passwort fehlt!");
+      //array_push($validation_errors, "Passwort fehlt!");
     }
     if (empty($this->type)) {
       array_push($validation_errors, "Typ fehlt!");

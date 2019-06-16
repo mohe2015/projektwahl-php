@@ -35,9 +35,13 @@ $students = Students::all();
               <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
-                <button class="a" type="submit" class="w-100"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
+                <button class="a" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
-              <a href="/students/reset_password.php?<?php echo $student->id ?>"><i class="fas fa-key"></i></a>
+              <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
+                <input type="hidden" name="password" value="">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <button class="a" type="submit"><i class="fas fa-key"></i></button>
+              </form>
               <a href="/students/sudo.php?<?php echo $student->id ?>"><i class="fas fa-sign-in-alt"></i></a>
               <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>

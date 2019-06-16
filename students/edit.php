@@ -6,6 +6,7 @@ $student = Students::find($_SERVER['QUERY_STRING']);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     $_POST['away'] = !empty($_POST['away']);
+    $_POST['password'] = empty($_POST['password']) ? NULL : $_POST['password'];
     $student->update($_POST);
     $student->save();
   } catch (Exception $e) {
