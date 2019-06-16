@@ -5,6 +5,7 @@ require_once __DIR__ . '/../head.php';
 $student = Students::find($_SERVER['QUERY_STRING']);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
+    $_POST['away'] = isset($_POST['away']);
     $student->update($_POST);
     $student->save();
   } catch (Exception $e) {

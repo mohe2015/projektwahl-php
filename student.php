@@ -14,12 +14,12 @@ class Student extends User {
   }
 
   public function update($data) {
-    User::update($data);
-    $this->project_leader = $data['project_leader'] ?: $this->project_leader;
-    $this->class = $data['class'] ?: $this->class;
-    $this->grade = $data['grade'] ?: $this->grade;
-    $this->away = $data['away'] ?: $this->away;
-    $this->in_project = $data['in_project'] ?: $this->in_project;
+    User::update($data); // TODO prevent updating type - this would be a privilege escalation
+    $this->project_leader = $data['project_leader'] ?? $this->project_leader;
+    $this->class = $data['class'] ?? $this->class;
+    $this->grade = $data['grade'] ?? $this->grade;
+    $this->away = $data['away'] ?? $this->away;
+    $this->in_project = $data['in_project'] ?? $this->in_project;
   }
 
   public function getValidationErrors() {
