@@ -152,7 +152,7 @@ class Project extends Record {
 }
 class Projects {
   public function find($id) {
-    $result = apcu_fetch("project-$this->id");
+    $result = apcu_fetch("project-$id");
     if ($result) {
       return $result;
     }
@@ -160,7 +160,7 @@ class Projects {
     $stmt = $db->prepare('SELECT * FROM projects WHERE id = :id');
     $stmt->execute(array('id' => $id));
     $result = $stmt->fetchObject('Project');
-    apcu_add("project-$this->id", $result);
+    apcu_add("project-$id", $result);
     return $result;
   }
   public function all() {

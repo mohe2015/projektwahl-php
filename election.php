@@ -11,6 +11,7 @@ $user = end($_SESSION['users']);
 
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $project = Projects::find($_POST['project_id']);
   if ($project->min_grade > $user->grade || $project->max_grade < $user->grade) {
     http_response_code(500);
     die("zu alt/jung");

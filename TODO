@@ -1,8 +1,11 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
 * project calculation assign projects and also message on login and in project list
-* forbid to vote for projects you are too young or too old for
+* forbid to vote for projects you are too young or too old for (TODO if changed after voting -> remove votes or show error to person who wants to change age limiations, maybe database constraint)
+* same with deleting project
 * make it impossible to vote for project you're project leader in
+
+* show in students list whether somebody has voted, etc.
 
 * implement estimated size and if a project can exist
 * (per user id) log
@@ -11,4 +14,3 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * fix/improve caching
 * add max and min values to inputs (from database)
 * forms show error messages
-* show in students list whether somebody has voted, etc.
