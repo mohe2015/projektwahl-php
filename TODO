@@ -7,5 +7,4 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * admin change password
 * TODO checkout my list that lays around somewhere in the house
 * (per user id) log
-* add updated and created for tracking?
 * search and batch operations (per class or so)

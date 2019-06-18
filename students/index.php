@@ -42,7 +42,10 @@ $students = Students::all();
                 <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
                 <button class="a" type="submit"><i class="fas fa-key"></i></button>
               </form>
-              <a href="/students/sudo.php?<?php echo $student->id ?>"><i class="fas fa-sign-in-alt"></i></a>
+              <form class="inline-block" method="post" action="sudo.php?<?php echo $student->id ?>">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <button class="a" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+              </form>
               <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>

@@ -102,6 +102,20 @@ class User extends Record {
 }
 
 class Users {
+  public function find($id) {
+    // TODO combine user, teacher and student cache
+    $result = apcu_fetch("user-$id");
+    if ($result) {
+      return $result;
+    }
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(array('id' => $id));
+    $result = $stmt->fetchObject('User');
+    apcu_add("user-$id", $result);
+    return $result;
+  }
+
   public function all() {
     $result = apcu_fetch('users');
     if ($result) {
