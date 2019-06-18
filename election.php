@@ -11,7 +11,7 @@ if (!$settings->election_running) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice = new Choice(array(
     'project' => $_POST['project_id'],
-    'student' => $_SESSION['id'],
+    'student' => end($_SESSION['users'])->id,
     'rank' => $_POST['choice_id'],
   ));
   $choice->save();
