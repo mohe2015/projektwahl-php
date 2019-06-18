@@ -5,3 +5,11 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * TODO checkout my list that lays around somewhere in the house
 * (per user id) log
 * search and batch operations (per class or so)
+* forbid to vote for projects you are too young or too old for
+* make it impossible to vote for project you're project leader in
+* sort projects alphabetically in election
+* fix/improve caching
+* icons shouldn't get dark blue when clicked (they do as they are links)
+* add max and min values to inputs (from database)
+* forms show error messages
+* import: no file selected
