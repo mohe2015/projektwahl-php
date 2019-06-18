@@ -54,8 +54,10 @@ $projects = Projects::allWithRanks();
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td class="nowrap right">
-                <?php if ($project->min_grade > $user->grade || $project->max_grade < $user->grade): ?>
-                  too old / too young
+                <?php if ($project->min_grade > $user->grade): ?>
+                  zu jung
+                <?php elseif ($project->max_grade < $user->grade): ?>
+                  zu alt
                 <?php else: ?>
                 <?php
                 // the following html form code can fall back for browsers without JavaScript.
