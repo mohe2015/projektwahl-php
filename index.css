@@ -326,3 +326,12 @@ button.a {
 button.a:hover{
   text-decoration:underline;
 }
+
+/* don't make icons dark-blue when already visited */
+a:visited i.fas {
+  color: blue;
+}
+
+nav i.fas {
+  color: white !important; /* TODO FIXME */
+}
