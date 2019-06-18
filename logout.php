@@ -3,7 +3,8 @@ $allowed_users = array("admin", "student", "teacher");
 require_once __DIR__ . '/head.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  session_destroy();
+  session_regenerate_id(true);
+  array_pop($_SESSION['users']);
   header("Location: /");
   die();
 }

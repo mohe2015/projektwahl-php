@@ -116,6 +116,14 @@ class Users {
     return $result;
   }
 
+  public function findByName($name) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM users WHERE name = :name");
+    $stmt->execute(array('name' => $name));
+    $result = $stmt->fetchObject('User');
+    return $result;
+  }
+
   public function all() {
     $result = apcu_fetch('users');
     if ($result) {

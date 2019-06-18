@@ -15,10 +15,9 @@ function startsWith($haystack, $needle)
      return (substr($haystack, 0, $length) === $needle);
 }
 
-
+require_once __DIR__ . '/user.php';
 session_start();
 require_once __DIR__ . '/project.php';
-require_once __DIR__ . '/user.php';
 require_once __DIR__ . '/teacher.php';
 require_once __DIR__ . '/student.php';
 require_once __DIR__ . '/choice.php';
