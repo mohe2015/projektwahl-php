@@ -11,6 +11,10 @@ $user = end($_SESSION['users']);
 
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if ($project->min_grade > $user->grade || $project->max_grade < $user->grade) {
+    http_response_code(500);
+    die("zu alt/jung");
+  }
   $choice = new Choice(array(
     'project' => $_POST['project_id'],
     'student' => $user->id,
