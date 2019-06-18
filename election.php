@@ -7,16 +7,19 @@ if (!$settings->election_running) {
   die("Die Wahl ist beendet!"); // TODO make more beautiful
 }
 
+$user = end($_SESSION['users']);
+
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice = new Choice(array(
     'project' => $_POST['project_id'],
-    'student' => end($_SESSION['users'])->id,
+    'student' => $user->id,
     'rank' => $_POST['choice_id'],
   ));
   $choice->save();
 }
 
+// TODO only load the list if this is not a fetch post request
 $projects = Projects::allWithRanks();
 ?>
 
@@ -51,6 +54,9 @@ $projects = Projects::allWithRanks();
           <tr data-rank="<?php echo $project->rank ?>">
             <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td class="nowrap right">
+                <?php if ($project->min_grade > $user->grade || $project->max_grade < $user->grade): ?>
+                  too old / too young
+                <?php else: ?>
                 <?php
                 // the following html form code can fall back for browsers without JavaScript.
                 for ($i = 1; $i <= 5; $i++):
@@ -70,6 +76,7 @@ $projects = Projects::allWithRanks();
                   <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
                   <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
                 </form>
+              <?php endif; ?>
             </td>
           </tr>
         <?php endforeach;?>
