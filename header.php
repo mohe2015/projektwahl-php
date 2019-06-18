@@ -1,12 +1,13 @@
 <?php
 // show error message if exception is not caught
-/*function myException($exception) {
+function myException($exception) {
   http_response_code(500);
   echo "<b>Interner Fehler: </b> " . $exception->getMessage();
   echo '<br />Eventuell musst du erst <a href="/install.php">installieren</a>';
+  die();
 }
 set_exception_handler('myException');
-*/
+
 apcu_clear_cache(); // TODO FIXME just for developing so that code changes update
 
 function startsWith($haystack, $needle)

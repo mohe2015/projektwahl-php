@@ -44,7 +44,11 @@ if (in_array(end($_SESSION['users'])->type, array("admin", "teacher"))): ?>
 
 
 <?php
-$settings = Settings::get();
+try {
+  $settings = Settings::get();
+} catch (PDOException $e) {
+  echo $e->getMessage();
+}
 if (in_array(end($_SESSION['users'])->type, array("admin"))):
 ?>
    <li class="float-right"><a href="/update-election-state.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>

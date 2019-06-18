@@ -3,7 +3,11 @@ $allowed_users = array();
 require_once __DIR__ . '/head.php';
 
 try {
-  $stmt = $db->query("CREATE TYPE type AS ENUM ('student', 'teacher', 'admin');");
+  $stmt = $db->query("DO $$ BEGIN
+  CREATE TYPE type AS ENUM ('student', 'teacher', 'admin');
+  EXCEPTION
+    WHEN duplicate_object THEN null;
+  END $$;");
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
   id SERIAL PRIMARY KEY,
@@ -60,14 +64,47 @@ try {
   $stmt->closeCursor();
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS settings (
+  id SERIAL PRIMARY KEY,
   election_running BOOLEAN NOT NULL
   );");
   $stmt->closeCursor();
 
-  $stmt = $db->query("INSERT INTO settings (election_running) VALUES (false);");
+  $db->exec("CREATE OR REPLACE FUNCTION check_choices_grade() RETURNS TRIGGER AS
+  $$
+  BEGIN
+  IF (SELECT min_grade FROM projects WHERE id = NEW.project) > (SELECT grade FROM users WHERE id = NEW.student) OR (SELECT max_grade FROM projects WHERE id = NEW.project) < (SELECT grade FROM users WHERE id = NEW.student) THEN
+  RAISE EXCEPTION 'Der Schüler passt nicht in die Altersbegrenzung des Projekts!';
+  END IF;
+  RETURN NEW;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS trigger_check_choices_grade ON choices;
+  CREATE TRIGGER trigger_check_choices_grade
+  BEFORE INSERT ON choices
+  FOR EACH ROW EXECUTE FUNCTION check_choices_grade();
+
+  CREATE OR REPLACE FUNCTION update_project_check_choices_grade() RETURNS TRIGGER AS
+  $$
+  BEGIN
+  IF (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.grade < NEW.min_grade OR users.grade > NEW.max_grade)) > 0 THEN
+  RAISE EXCEPTION 'Geänderte Altersbegrenzung würde Wahlen ungültig machen!';
+  END IF;
+  RETURN NEW;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS trigger_update_project_check_choices_grade ON projects;
+  CREATE TRIGGER trigger_update_project_check_choices_grade
+  BEFORE UPDATE ON projects
+  FOR EACH ROW EXECUTE FUNCTION update_project_check_choices_grade();");
+
+  $stmt = $db->query("INSERT INTO settings (id, election_running) VALUES (1, false) ON CONFLICT DO NOTHING;");
   $stmt->closeCursor();
 
-  $stmt = $db->prepare("INSERT INTO users (name, password, type) VALUES (:name, :password, 'admin')");
+  $stmt = $db->prepare("INSERT INTO users (name, password, type) VALUES (:name, :password, 'admin') ON CONFLICT DO NOTHING");
   $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
     print "Fehler bei der Installation: " . $e . "<br/>";
