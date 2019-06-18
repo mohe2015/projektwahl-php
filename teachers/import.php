@@ -4,34 +4,37 @@ require_once __DIR__ . '/../head.php';
 
 // Import teachers from a .csv file. The file needs to have one column (name) and no header.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $timers = new Timers();
-  $timers->startTimer('import');
-  $db->beginTransaction();
   try {
+    $timers = new Timers();
+    $timers->startTimer('import');
+    $db->beginTransaction();
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $num = count($data);
             if ($num != 1) {
-              echo "nur eine Spalte erlaubt!";
-              break;
+              throw new Exception("nur eine Spalte erlaubt!");
             }
             $teacher = new Teacher();
             $teacher->name = $data[0];
-            $teacher->password = NULL; // FIXME
+            $teacher->password = NULL;
             $teacher->save();
         }
         fclose($handle);
+
+        $db->commit();
+        $timers->endTimer('import');
+        header('Server-Timing: ' . $timers->getTimers());
+        header("Location: /teachers");
+        die();
     } else {
-      echo "Keine Datei ausgewählt!";
+      throw new Exception("Keine Datei ausgewählt!");
     }
   } catch (Exception $e) {
     echo $e->getMessage();
+    $db->rollback();
+    $timers->endTimer('import');
+    header('Server-Timing: ' . $timers->getTimers());
   }
-  $db->commit();
-  $timers->endTimer('import');
-  header('Server-Timing: ' . $timers->getTimers());
-  header("Location: /teachers");
-  die();
 }
 ?>
 <form enctype="multipart/form-data" method="POST">

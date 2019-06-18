@@ -1,14 +1,14 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
-* implement estimated size and if a project can exist
 * project calculation assign projects and also message on login and in project list
-* TODO checkout my list that lays around somewhere in the house
-* (per user id) log
-* search and batch operations (per class or so)
 * forbid to vote for projects you are too young or too old for
 * make it impossible to vote for project you're project leader in
+
+* implement estimated size and if a project can exist
+* (per user id) log
+* search and batch operations (per class or so)
 * sort projects alphabetically in election
 * fix/improve caching
 * add max and min values to inputs (from database)
 * forms show error messages
-* import: no file selected
+* remove 0 votes
