@@ -35,15 +35,18 @@ class Choice extends Record {
 
   public function save() {
     $this->validate();
-    global $db;
-    $stmt = $db->prepare('INSERT INTO choices (project, student, rank) VALUES (:project, :student, :rank) ON CONFLICT (project, student) DO UPDATE SET rank = :rank1');
-    $stmt->execute(array(
-      'project' => $this->project,
-      'student' => $this->student,
-      'rank' => $this->rank,
-      'rank1' => $this->rank,
-    ));
-    // TODO fix rank 0
+    if ($this->rank == 0) {
+      $this->delete();
+    } else {
+      global $db;
+      $stmt = $db->prepare('INSERT INTO choices (project, student, rank) VALUES (:project, :student, :rank) ON CONFLICT (project, student) DO UPDATE SET rank = :rank1');
+      $stmt->execute(array(
+        'project' => $this->project,
+        'student' => $this->student,
+        'rank' => $this->rank,
+        'rank1' => $this->rank,
+      ));
+    }
   }
 
   public function delete() {
