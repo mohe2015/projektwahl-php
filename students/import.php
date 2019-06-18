@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $student->class = $data[1];
             $student->grade = $data[2];
             $student->away = false;
-            $student->password = "none"; // FIXME
+            $student->password = NULL; // FIXME
             $student->save();
         }
         fclose($handle);

@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $teacher = new Teacher();
             $teacher->name = $data[0];
-            $teacher->password = "none"; // FIXME
+            $teacher->password = NULL; // FIXME
             $teacher->save();
         }
         fclose($handle);

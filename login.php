@@ -12,7 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     session_regenerate_id(true);
     $_SESSION['users'][] = $user;
-    if ($user->type === "student") {
+    if ($user->first_login) {
+      $user->first_login = false;
+      $user->save();
+      $_SESSION['old_password'] = $password;
+      header("Location: /update-password.php");
+    } else if ($user->type === "student") {
       header("Location: /election.php");
     } else {
       header("Location: /");

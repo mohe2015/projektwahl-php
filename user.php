@@ -6,6 +6,7 @@ class User extends Record {
   public $name;
   public $password;
   public $type;
+  public $first_login;
 
   protected static $insert_stmt = null;
   protected static $update_stmt = null;
@@ -13,7 +14,7 @@ class User extends Record {
   protected static function getInsertStatement() {
     global $db;
     if (null === self::$insert_stmt) {
-        self::$insert_stmt = $db->prepare('INSERT INTO users (name, password, type, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :project_leader, :class, :grade, :away, :in_project)');
+        self::$insert_stmt = $db->prepare('INSERT INTO users (name, password, type, first_login, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :first_login, :project_leader, :class, :grade, :away, :in_project)');
     }
     return self::$insert_stmt;
   }
@@ -21,7 +22,7 @@ class User extends Record {
   protected static function getUpdateStatement() {
     global $db;
     if (null === self::$update_stmt) {
-      self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
+      self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, first_login = :first_login, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
     }
     return self::$update_stmt;
   }
@@ -36,6 +37,7 @@ class User extends Record {
     $this->name = $data['name'] ?? $this->name;
     $this->password = array_key_exists('password', $data) ? $data['password'] : $this->password;
     $this->type = $data['type'] ?? $this->type;
+    $this->first_login = $data['first_login'] ?? $this->first_login;
   }
 
   public function getValidationErrors() {
@@ -60,6 +62,7 @@ class User extends Record {
         'name' => $this->name,
         'password' => $this->password,
         'type' => $this->type,
+        'first_login' => $this->first_login ? 1 : 0,
         'project_leader' => $this->project_leader,
         'class' => $this->class,
         'grade' => $this->grade,
@@ -77,6 +80,7 @@ class User extends Record {
         'name' => $this->name,
         'password' => $this->password,
         'type' => $this->type,
+        'first_login' => $this->first_login ? 1 : 0,
         'project_leader' => $this->project_leader,
         'class' => $this->class,
         'grade' => $this->grade,

@@ -1,9 +1,7 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
-* should password changing be implemented? yes, force it!
 * implement estimated size and if a project can exist
 * project calculation assign projects and also message on login and in project list
-* admin change password
 * TODO checkout my list that lays around somewhere in the house
 * (per user id) log
 * search and batch operations (per class or so)

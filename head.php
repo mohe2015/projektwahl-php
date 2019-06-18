@@ -50,10 +50,9 @@ if (in_array(end($_SESSION['users'])->type, array("admin"))):
    <li class="float-right"><a href="/update-election-state.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>
  <?php endif; ?>
 
-
-
 <?php if (isset(end($_SESSION['users'])->type)): ?>
-         <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> <?php echo end($_SESSION['users'])->name ?> abmelden</span></a></li>
+       <li class="float-right"><a href="/logout.php"><i class="fas fa-sign-out-alt"></i><span class="hidden-small"> <?php echo end($_SESSION['users'])->name ?> abmelden</span></a></li>
+       <li class="float-right"><a href="/update-password.php"><i class="fas fa-key"></i><span class="hidden-small"> Passwort ändern</span></a></li>
 <?php endif; ?>
        </ul>
     </nav>
