@@ -1,4 +1,7 @@
 <?php
+require_once 'vendor/autoload.php';
+use ZxcvbnPhp\Zxcvbn;
+
 $allowed_users = array();
 require_once __DIR__ . '/head.php';
 
@@ -7,10 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $new_password = $_POST['new_password'];
   $new_password_repeated = $_POST['new_password_repeated'];
   $user = end($_SESSION['users']);
+
+  $userData = [
+    'Marco',
+    'marco@example.com'
+  ];
+
+  $zxcvbn = new Zxcvbn();
+  $strength = $zxcvbn->passwordStrength($new_password, $userData);
+  die ("strength: " . $strength['score']);
+
   if ($new_password !== $new_password_repeated) {
     echo "Passwörter nicht identisch!";
   } else if (password_verify($old_password, $user->password)) {
     $user->password = password_hash($new_password, PASSWORD_DEFAULT, $options);
+    $user->first_login = false;
     $user->save();
     $_SESSION['users'][] = $user;
     if ($user->type === "student") {
@@ -20,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     die();
   } else {
-    echo "invalid password";
+    echo "Altes Passwort ist falsch!";
   }
 }
 ?>

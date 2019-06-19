@@ -1,0 +1,5 @@
+{
+    "require": {
+        "mkopinsky/zxcvbn-php": "^4.4.2"
+    }
+}
