@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php';
 use ZxcvbnPhp\Zxcvbn;
 
+// TODO FIXME
 $userData = [
   'Marco',
   'marco@example.com'

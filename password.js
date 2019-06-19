@@ -9,7 +9,7 @@ var strength = {
 
 var password = document.getElementById('new_password');
 var meter = document.getElementById('password-strength-meter');
-var text = document.getElementById('password-strength-text');
+var feedback = document.getElementById('password-strength-text');
 
 password.addEventListener('input', function() {
   var val = password.value;
@@ -28,10 +28,11 @@ password.addEventListener('input', function() {
 
     // Update the text indicator
     if (val !== "") {
-      text.innerHTML = "Strength: " + strength[result.score];
+      meter.innerText = "Strength: " + strength[result.score];
     } else {
-      text.innerHTML = "";
+      meter.innerText = "";
     }
+    feedback.innerText = result.feedback.suggestions.join('\n') + "\n" + result.feedback.warning;
   })
   .catch((error) => {
     alert(error);
