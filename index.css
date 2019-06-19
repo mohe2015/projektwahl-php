@@ -359,8 +359,8 @@ meter::-webkit-meter-bar {
 }
 
 meter::-webkit-meter-optimum-value {
-  background: #ffffffff;
-  transition: background-color 0.5s;
+  background: #000;
+  transition: background-color 0.5s, width 0.5s;
 }
 
 /* Webkit based browsers */
@@ -370,8 +370,8 @@ meter[value="3"]::-webkit-meter-optimum-value { background-color: orange; }
 meter[value="4"]::-webkit-meter-optimum-value { background-color: green; }
 
 meter::-moz-meter-bar {
-  background: #ffffffff;
-  transition: background-color 0.5s
+  background: #000;
+  transition: background-color 0.5s, width 0.5s;
 }
 
 /* Gecko based browsers */
