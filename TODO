@@ -2,10 +2,12 @@ https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-
 https://www.php.net/manual/de/sdo.sample.getset.php
 * project calculation assign projects and also message on login and in project list
 * make it impossible to vote for project you're project leader in
-* force password change
 * show in students list whether somebody has voted, etc.
+
+* force password change
 * rename first_login to password_changed
 * reset_password prefill with new passphrase (consisting of words?)
+* show password feature
 
 * implement estimated size and if a project can exist
 * (per user id) log
