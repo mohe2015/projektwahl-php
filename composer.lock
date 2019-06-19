@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "679eff0b6a82974cb488ba66d263191f",
+    "content-hash": "1d4261905aa42e18786c980cdb14911f",
     "packages": [
         {
             "name": "mkopinsky/zxcvbn-php",
-            "version": "4.4.2",
+            "version": "dev-german",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mkopinsky/zxcvbn-php.git",
-                "reference": "30be8030c8a3a3cfef9ec28e7210aba95a43007c"
+                "url": "https://github.com/mohe2015/zxcvbn-php.git",
+                "reference": "2aafe28725a1c57fa8054772d2d509204f35aab2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mkopinsky/zxcvbn-php/zipball/30be8030c8a3a3cfef9ec28e7210aba95a43007c",
-                "reference": "30be8030c8a3a3cfef9ec28e7210aba95a43007c",
+                "url": "https://api.github.com/repos/mohe2015/zxcvbn-php/zipball/2aafe28725a1c57fa8054772d2d509204f35aab2",
+                "reference": "2aafe28725a1c57fa8054772d2d509204f35aab2",
                 "shasum": ""
             },
             "require": {
@@ -35,7 +35,11 @@
                     "ZxcvbnPhp\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "ZxcvbnPhp\\Test\\": "test/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -51,7 +55,10 @@
                 "password",
                 "zxcvbn"
             ],
-            "time": "2018-09-14T20:43:16+00:00"
+            "support": {
+                "source": "https://github.com/mohe2015/zxcvbn-php/tree/german"
+            },
+            "time": "2019-06-19T14:24:43+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -116,7 +123,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "mkopinsky/zxcvbn-php": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
