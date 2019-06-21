@@ -34,7 +34,7 @@ try {
   class VARCHAR(8),
   grade INTEGER,
   away BOOLEAN,
-  first_login BOOLEAN NOT NULL DEFAULT TRUE,
+  password_changed BOOLEAN NOT NULL DEFAULT FALSE,
   in_project INTEGER,
   FOREIGN KEY (project_leader)
     REFERENCES projects(id)

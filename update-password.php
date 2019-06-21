@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Passwörter nicht identisch!";
   } else if (password_verify($old_password, $user->password)) {
     $user->password = password_hash($new_password, PASSWORD_DEFAULT, $options);
-    $user->first_login = false;
+    $user->password_changed = true;
     $user->save();
     $_SESSION['users'][] = $user;
     if ($user->type === "student") {

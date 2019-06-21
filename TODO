@@ -4,8 +4,6 @@ https://www.php.net/manual/de/sdo.sample.getset.php
 * make it impossible to vote for project you're project leader in
 * show in students list whether somebody has voted, etc.
 
-* force password change
-* rename first_login to password_changed
 * reset_password prefill with new passphrase (consisting of words? efff_password_list)
 * show password feature
 
