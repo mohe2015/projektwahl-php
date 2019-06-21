@@ -1,14 +1,16 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
+
 * project calculation assign projects and also message on login and in project list
 * make it impossible to vote for project you're project leader in
-* show in students list whether somebody has voted, etc.
 
 * implement estimated size and if a project can exist
 * (per user id) log
 * search and batch operations (per class or so)
 * sort projects alphabetically in election
-* fix/improve caching
+
+* sudo for teachers
 * add max and min values to inputs (from database)
 * forms show error messages
-* sudo for teachers
+
+* fix/improve caching
