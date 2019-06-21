@@ -51,7 +51,7 @@ TODO image gallery
 * Quellcode öffentlich
 * Selbständige Einrichtung
 * Kein Support
-* https://github.com/mohe2015/projektwahl-php
+* [https://github.com/mohe2015/projektwahl-php](https://github.com/mohe2015/projektwahl-php)
 
 ### Standard
 
@@ -59,4 +59,4 @@ TODO image gallery
 * Komplettes Management
 * Support
 * Persönliche Modifikationen (Extrakosten möglich)
-* Kontakt: Moritz.Hedtke@t-online.de
+* Kontakt: [Moritz.Hedtke@t-online.de](mailto:Moritz.Hedtke@t-online.de)
