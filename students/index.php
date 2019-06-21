@@ -2,11 +2,11 @@
 $allowed_users = array("admin", "teacher");
 require_once __DIR__ . '/../head.php';
 
-$stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND away = FALSE ORDER BY class,name;");
+$stmt = $db->prepare("SELECT id, * FROM users WHERE type = 'student' ORDER BY class,name;");
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
 
-$choices = Choices::allWithUsers();
+$choices = Choices::allWithUsersWithAway();
 
 $grouped_choices = Choices::groupChoices($choices);
 
@@ -35,8 +35,9 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
       </thead>
       <tbody>
         <?php foreach ($grouped_choices as $student_id => $student_choices):
-          $student = $assoc_students[$student_id]; ?>
-          <tr style="background-color: <?php echo $student->valid ? 'green' : 'red' ?>;">
+          $student = $assoc_students[$student_id];
+           ?>
+          <tr style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'blue' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
             <td><a href="/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>

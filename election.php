@@ -118,6 +118,4 @@ else:
 endif;
 ?>
 
-<!-- This is a polyfill to support the old firefox browser in the school. -->
-<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=NodeList.prototype.forEach"></script>
 <script src="voting.js"></script>

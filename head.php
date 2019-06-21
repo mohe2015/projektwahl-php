@@ -17,7 +17,11 @@ function active_exact($path) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/dialog-polyfill.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <!-- This is a polyfill to support the old firefox browser in the school. -->
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?flags=gated&features=NodeList.prototype.forEach"></script>
+    <script src="/dialog-polyfill.js"></script>
     <script src="/base.js"></script>
     <script src="/scroll.js"></script>
     <title>Projektwahl</title>

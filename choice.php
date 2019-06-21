@@ -82,6 +82,13 @@ class Choices {
     return $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
   }
 
+  public function allWithUsersWithAway() {
+    global $db;
+    $stmt = $db->prepare("SELECT users.*, choices.* FROM users LEFT JOIN choices ON id = choices.student AND choices.rank != 0 WHERE type = 'student' ORDER BY class,name;"); // TODO FIXME rank!=0
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_CLASS, 'Choice');
+  }
+
   public function groupChoices($choices) {
     $grouped_choices = array();
     foreach ($choices as $choice) {

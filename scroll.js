@@ -1,12 +1,12 @@
-function restore() {
+function restoreScroll() {
   window.scrollTo(0, localStorage.getItem(`scroll${location.pathname}`));
 }
 
-function update() {
+function updateScroll() {
   localStorage.setItem(`scroll${location.pathname}`, window.scrollY);
 }
 
 window.addEventListener('load', function() {
-  restore();
-  window.addEventListener('scroll', update);
+  restoreScroll();
+  window.addEventListener('scroll', updateScroll);
 });

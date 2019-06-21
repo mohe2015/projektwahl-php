@@ -113,6 +113,7 @@ foreach ($users as $user): ?>
 <script>
 var form = $("#form-supervisors");
 var dialog = $("#dialog-supervisors");
+dialogPolyfill.registerDialog(dialog);
 var button = $('#show-supervisors-dialog');
 var input = $('#search-supervisors');
 button.style = "";
