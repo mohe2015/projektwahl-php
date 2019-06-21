@@ -18,3 +18,7 @@ log_statement = 'all'
 sudo systemctl restart postgresql
 sudo tail -f /var/lib/postgresql/11/main/log/postgresql-2019-06-12_185549.log
 ```
+
+## Licenses
+
+https://www.eff.org/files/2016/09/08/eff_short_wordlist_2_0.txt

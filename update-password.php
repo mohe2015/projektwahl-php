@@ -27,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Altes Passwort ist falsch!";
   }
 }
+
+$lines = file("eff_short_wordlist_1.txt", FILE_IGNORE_NEW_LINES);
+$password = '';
+for ($i = 0; $i < 4; $i++) {
+  $password = $password . " " . $lines[random_int(0, count($lines)-1)];
+}
+$password = trim($password);
 ?>
 <!-- TODO format this form -->
 <form method="post">
@@ -34,13 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <label for="password">altes Passwort:</label>
   <input autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password']; unset($_SESSION['old_password']); ?>" /><br>
   <label for="password">neues Passwort:</label>
-  <input autocomplete="new-password" required type="password" id="new_password" name="new_password" /><br>
+  <input autocomplete="new-password" required type="text" id="new_password" name="new_password" value="<?php echo $password ?>" /> <button type="button" id="show-password"><i class="fas fa-eye"></i></button><br>
 
   <meter max="4" id="password-strength-meter"></meter>
   <p id="password-strength-text"></p>
 
   <label for="password">neues Passwort wiederholen:</label>
-  <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" /><br>
+  <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" /><br>
   <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
   <button type="submit">Passwort ändern</button>
 </form>
