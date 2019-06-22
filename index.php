@@ -4,7 +4,7 @@ require_once __DIR__ . '/head.php';
 
 $user = end($_SESSION['users']); // TODO this needs to be updated from database
 
-if (!$settings->election_running) {
+if (!$settings->election_running && $user->type !== 'admin') {
   require_once __DIR__ . '/head.php';
   if ($user->in_project !== NULL) {
     // TODO highlight

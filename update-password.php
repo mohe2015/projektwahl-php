@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user->password = password_hash($new_password, PASSWORD_DEFAULT, $options);
     $user->password_changed = true;
     $user->save();
+    array_pop($SESSION['users']);
     $_SESSION['users'][] = $user;
     if ($user->type === "student") {
       header("Location: /election.php");
