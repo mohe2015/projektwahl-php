@@ -2,12 +2,16 @@
 $allowed_users = array("student");
 require_once __DIR__ . '/header.php';
 
-$settings = Settings::get();
-if (!$settings->election_running) {
-  die("Die Wahl ist beendet!"); // TODO make more beautiful
-}
+$user = end($_SESSION['users']); // TODO this needs to be updated from database
 
-$user = end($_SESSION['users']);
+if (!$settings->election_running) {
+  require_once __DIR__ . '/head.php';
+  if ($user->in_project !== NULL) {
+    // TODO highlight
+    die("<p>Die Wahl ist beendet! Du bist" . ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) . ".</p>");
+  }
+  die("<p>Die Wahl ist beendet!</p>");
+}
 
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

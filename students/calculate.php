@@ -290,6 +290,10 @@ foreach ($assoc_students as $student_id => $student) {
   if ($student->project_leader !== NULL) {
     if ($solution["P$student->project_leader" . "_e"] === 1) {
       $project = $assoc_projects[$student->project_leader];
+      if (!$settings->election_running) {
+        $student->in_project = $student->project_leader;
+        $student->save();
+      }
       print $student->name . " Projektleiter in " . $project->title . "\n";
     }
   }

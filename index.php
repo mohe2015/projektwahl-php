@@ -1,6 +1,18 @@
 <?php
 $allowed_users = array("student", "teacher", "admin");
 require_once __DIR__ . '/head.php';
+
+$user = end($_SESSION['users']); // TODO this needs to be updated from database
+
+if (!$settings->election_running) {
+  require_once __DIR__ . '/head.php';
+  if ($user->in_project !== NULL) {
+    // TODO highlight
+    echo("<p>Die Wahl ist beendet! Du bist" . ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) . ".</p>");
+  } else {
+    echo("<p>Die Wahl ist beendet!</p>");
+  }
+}
 ?>
 <h1>Willkommen</h1>
 
