@@ -168,7 +168,7 @@ foreach ($assoc_projects as $project_id => $project) {
   foreach ($choices as $choice) {
     fwrite($out, " + " . choice2string($choice));
   }
-  fwrite($out, " + P$project_id" . "_u");
+  //fwrite($out, " + P$project_id" . "_u");
   fwrite($out, " + $project->min_participants P$choice->project" . "_ne >= $project->min_participants");
 
   fwrite($out, "\n P$project_id" . "_check_o: ");
