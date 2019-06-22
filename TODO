@@ -2,17 +2,10 @@ https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-
 https://www.php.net/manual/de/sdo.sample.getset.php
 
 * fix permissions
-* BUG: update_password shown when already done
 
 * implement estimated size and if a project can exist
 * (per user id) log
 * search and batch operations (per class or so)
 * sort projects alphabetically in election
 
-* sudo for teachers
-* add max and min values to inputs (from database)
-* forms show error messages
-
 * fix/improve caching
-
-* random_assignments honored?
