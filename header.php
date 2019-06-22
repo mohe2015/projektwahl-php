@@ -49,6 +49,12 @@ try {
     die();
 }
 
+try {
+  $settings = Settings::get();
+} catch (PDOException $e) {
+  echo $e->getMessage();
+}
+
 if (0 !== count($_SESSION['users']) && $_SESSION['users'][0]->type !== 'admin' && $_SERVER['REQUEST_URI'] !== "/update-password.php" && $_SERVER['REQUEST_URI'] !== "/logout.php" && !end($_SESSION['users'])->password_changed) {
   header("Location: /update-password.php");
 }

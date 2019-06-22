@@ -1,7 +1,7 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
 
-* project calculation assign projects and also message on login and in project list
+* project calculation message on login and in project list
 * fix permissions
 
 * implement estimated size and if a project can exist

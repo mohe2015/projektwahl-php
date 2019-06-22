@@ -48,11 +48,11 @@ function choice2string($choice) {
   return "S$choice->student" . "_P$choice->project";
 }
 
-$stmt = $db->prepare("SELECT * FROM users WHERE type = 'student' AND away = FALSE ORDER BY class,name;");
+$stmt = $db->prepare("SELECT id, * FROM users WHERE type = 'student' AND away = FALSE ORDER BY class,name;");
 $stmt->execute();
 $assoc_students = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Student');
 
-$stmt = $db->prepare('SELECT * FROM projects ORDER BY title;');
+$stmt = $db->prepare('SELECT id, * FROM projects ORDER BY title;');
 $stmt->execute();
 $assoc_projects = $stmt->fetchAll(PDO::FETCH_UNIQUE|PDO::FETCH_CLASS, 'Project');
 
@@ -261,6 +261,7 @@ $rank_count = array(
   5 => 0
 );
 
+$db->beginTransaction();
 foreach ($assoc_projects as $project_id => $project) {
   $choices = $project_grouped_choices[$project_id];
   $sum = 0;
@@ -268,6 +269,11 @@ foreach ($assoc_projects as $project_id => $project) {
     if ($solution[choice2string($choice)] === 1) {
       $sum++;
       $rank_count[$choice->rank]++;
+      if (!$settings->election_running) {
+        $student = $assoc_students[$choice->student];
+        $student->in_project = $choice->project;
+        $student->save();
+      }
       print("[$choice->rank] " . $assoc_students[$choice->student]->name . " in " . $project->title . "\n");
     }
   }
@@ -278,6 +284,7 @@ foreach ($assoc_projects as $project_id => $project) {
     print($project->title . " findet NICHT statt.\n");
   }
 }
+$db->commit();
 
 foreach ($assoc_students as $student_id => $student) {
   if ($student->project_leader !== NULL) {
@@ -301,10 +308,14 @@ foreach ($assoc_projects as $project_id => $project) {
   }
 }
 
-// TODO print project leaders
+if ($settings->election_running) {
+  die("Keine Zuweisungen, da Wahl noch läuft!");
+}
 
 // SELECT SUM(max_participants) FROM projects;
 
 // SELECT COUNT(*) FROM users WHERE type = 'student' AND NOT away AND project_leader IS NULL;
+
+
 
 ?>
