@@ -1,11 +1,3 @@
-https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
-https://www.php.net/manual/de/sdo.sample.getset.php
-
 * fix permissions
-
-* search and batch operations (per class or so)
 * implement estimated size and if a project can exist
-* (per user id) log
-* sort projects alphabetically in election
-
 * fix/improve caching
