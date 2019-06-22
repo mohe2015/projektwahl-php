@@ -56,9 +56,12 @@ $users = Users::all();
 
   <select class="col" id="select-supervisors" name="supervisors[]" multiple>
     <?php
+    $project_leaders = array_filter($project_with_project_leaders_and_members, function ($user) {
+      return $user->project_leader != NULL;
+    });
     $project_leaders = array_map(function($project_leader) {
         return $project_leader->name;
-    }, $project_with_project_leaders);
+    }, $project_leaders));
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>" value="<?php echo $user->id ?>"><?php echo $user->name ?></option>
     <?php endforeach ?>
@@ -66,12 +69,12 @@ $users = Users::all();
 
   <button id="show-supervisors-dialog" style="display: none;">
     <?php
-    if (count($project_with_project_leaders) === 1 && is_null($project->name)) {
+    if (count($project_leaders) === 1 && is_null($project->name)) {
       echo "Keine";
     } else {
       echo join(', ', array_map(function($project_leader) {
           return $project_leader->name;
-      }, $project_with_project_leaders));
+      }, $project_leaders));
     }
     ?>
   </button>

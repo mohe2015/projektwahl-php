@@ -186,19 +186,19 @@ class Projects {
     //});
   }
 
-  public function findWithProjectLeaders($id) {
-    $result = apcu_fetch("project-$id-project-leaders");
+  public function findWithProjectLeadersAndMembers($id) {
+    $result = apcu_fetch("project-$id-project-leaders-and-members");
     if ($result) {
       return $result;
     }
     global $db;
-    $stmt = $db->prepare("SELECT projects.*, users.name FROM projects LEFT JOIN users ON users.project_leader = projects.id WHERE projects.id = :id;");
+    $stmt = $db->prepare("SELECT projects.*, users.name, users.project_leader, users.in_project FROM projects LEFT JOIN users ON users.project_leader = projects.id OR users.in_project = projects.id WHERE projects.id = :id;");
     // TODO combine this and find($id);
     // TODO this value needs to be updated if dependencies update
     $stmt->execute(array('id' => $id));
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Project');
     apcu_add("project-$id", $result[0]);
-    apcu_add("project-$id-project-leaders", $result);
+    apcu_add("project-$id-project-leaders-and-members", $result);
     return $result;
   }
 }

@@ -9,9 +9,22 @@
   <b>Teilnehmeranzahl: </b><?php echo htmlspecialchars($project->min_participants) ?> - <?php echo htmlspecialchars($project->max_participants) ?><br>
   <b>Projektleiter: </b>
 <?php
+$project_leaders = array_filter($project_with_project_leaders_and_members, function ($user) {
+  return $user->project_leader != NULL;
+});
 echo join(', ', array_map(function($project_leader) {
     return $project_leader->name;
-}, $project_with_project_leaders));
+}, $project_leaders));
+?>
+  <br>
+  <b>Teilnehmer: </b>
+<?php
+$members = array_filter($project_with_project_leaders_and_members, function ($user) {
+  return $user->project_leader == NULL;
+});
+echo join(', ', array_map(function($member) {
+    return $member->name;
+}, $members));
 ?>
   <br>
   <b>Zufällige Projektzuweisungen erlaubt: </b><?php echo htmlspecialchars($project->random_assignments) ? "ja" : "nein" ?><br>
