@@ -240,6 +240,14 @@ while (!feof($solution_file))  {
     $solution[$name] = $value;
     //print($name . ":" . $value . "\n");
   }
+  if ($parts[0] === "Status:") {
+    if ($parts[2] !== "OPTIMAL") {
+      die("Lösung konnte nicht gefunden werden!");
+    }
+  }
+  if ($parts[0] === "Objective:") {
+    print "Score: " . $parts[3] . "\n";
+  }
 }
 
 fclose($solution_file);
