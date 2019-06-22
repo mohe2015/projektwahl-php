@@ -30,6 +30,31 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 <span style="background-color: red;">Nicht gewählt</span>
 <span style="background-color: LightSeaGreen;">vorraussichtlich Projektleiter</span>
 <span style="background-color: grey;">Abwesend</span>
+
+<input class="w-100" type="search" id="search" placeholder="Suche nach Name oder Klasse">
+
+<script>
+var input = $('#search');
+
+function update(query) {
+  var students = $$('tr');
+  var query = query.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  students.forEach(e => {
+    var string = e.id.replace("-", " ").normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    if (string.toLowerCase().indexOf(query.toLowerCase()) === -1) {
+      e.hidden = true;
+    } else {
+      e.hidden = false;
+    }
+  });
+}
+
+input.addEventListener('input', function(event) {
+  update(event.target.value);
+});
+
+</script>
+
 <div class="responsive">
   <table>
     <thead>
@@ -43,7 +68,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
         <?php foreach ($grouped_choices as $student_id => $student_choices):
           $student = $assoc_students[$student_id];
            ?>
-          <tr style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'LightSeaGreen' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
+          <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'LightSeaGreen' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
             <td><a href="/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>

@@ -3,6 +3,6 @@
   <b>Klasse: </b><?php echo htmlspecialchars($student->class) ?><br>
   <b>Jahrgang: </b><?php echo htmlspecialchars($student->grade) ?><br>
   <b>Abwesend? </b><?php echo htmlspecialchars($student->away) ? "ja" : "nein" ?><br>
-  <b>Projektleiter in: </b><?php echo htmlspecialchars($student->project_leader) ?><br>
-  <b>in Projekt: </b><?php echo htmlspecialchars($student->in_project) ?><br>
+  <b>Projektleiter in: </b><?php echo htmlspecialchars(Projects::find($student->project_leader)->title) ?><br>
+  <b>In Projekt: </b><?php echo htmlspecialchars(Projects::find($student->in_project)->title) ?><br>
 </div>
