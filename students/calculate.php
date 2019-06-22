@@ -279,7 +279,21 @@ foreach ($assoc_projects as $project_id => $project) {
   }
 }
 
-var_dump($rank_count);
+foreach ($assoc_students as $student_id => $student) {
+  if ($student->project_leader !== NULL) {
+    if ($solution["P$student->project_leader" . "_e"] === 1) {
+      $project = $assoc_projects[$student->project_leader];
+      print $student->name . " Projektleiter in " . $project->title . "\n";
+    }
+  }
+}
+
+echo "erfüllte Erstwahlen: $rank_count[1]\n";
+echo "erfüllte Zweitwahlen: $rank_count[2]\n";
+echo "erfüllte Drittwahlen: $rank_count[3]\n";
+echo "erfüllte Viertwahlen: $rank_count[4]\n";
+echo "erfüllte Fünftwahlen: $rank_count[5]\n";
+echo "nicht gewählt / Projektleiter: $rank_count[-1]\n";
 
 foreach ($assoc_projects as $project_id => $project) {
   if ($solution["P$project_id" . "_o"] !== 0) {
