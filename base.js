@@ -26,10 +26,12 @@ const $$ = function $$ (selector, context = document) {
 }
 
 function status(response) {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status == 200) {
     return Promise.resolve(response)
   } else {
-    return Promise.reject(new Error(response.statusText))
+    let error = new Error(response.statusText);
+    error.response = response;
+    return Promise.reject(error)
   }
 }
 

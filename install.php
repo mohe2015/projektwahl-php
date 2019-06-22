@@ -101,6 +101,36 @@ try {
   BEFORE UPDATE ON projects
   FOR EACH ROW EXECUTE FUNCTION update_project_check_choices_grade();");
 
+  $db->exec("CREATE OR REPLACE FUNCTION check_project_leader() RETURNS TRIGGER AS
+  $$
+  BEGIN
+  IF (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.student = NEW.id) > 0 THEN
+  RAISE EXCEPTION 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!';
+  END IF;
+  RETURN NEW;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS trigger_check_project_leader ON users;
+  CREATE TRIGGER trigger_check_project_leader BEFORE UPDATE ON users
+  FOR EACH ROW EXECUTE FUNCTION check_project_leader();
+
+  CREATE OR REPLACE FUNCTION check_project_leader_choices() RETURNS TRIGGER AS
+  $$
+  BEGIN
+  IF (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.student) > 0 THEN
+  RAISE EXCEPTION 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!';
+  END IF;
+  RETURN NEW;
+  END;
+  $$
+  LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS trigger_check_project_leader ON choices;
+  CREATE TRIGGER trigger_check_roject_leader_choices BEFORE INSERT ON choices
+  FOR EACH ROW EXECUTE FUNCTION check_project_leader_choices();");
+
   $stmt = $db->query("INSERT INTO settings (id, election_running) VALUES (1, false) ON CONFLICT DO NOTHING;");
   $stmt->closeCursor();
 

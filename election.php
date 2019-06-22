@@ -1,6 +1,6 @@
 <?php
 $allowed_users = array("student");
-require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/header.php';
 
 $settings = Settings::get();
 if (!$settings->election_running) {
@@ -12,6 +12,10 @@ $user = end($_SESSION['users']);
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = Projects::find($_POST['project_id']);
+  if ($user->project_leader == $_POST['project_id'] && $_POST['choice_id'] != 0) {
+    http_response_code(500);
+    die("Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!");
+  }
   if ($project->min_grade > $user->grade || $project->max_grade < $user->grade) {
     http_response_code(500);
     die("zu alt/jung");
@@ -26,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // TODO only load the list if this is not a fetch post request
 $projects = Projects::allWithRanks();
+
+require_once __DIR__ . '/head.php';
 ?>
 
 <h1>Wahl</h1>

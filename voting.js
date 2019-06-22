@@ -88,11 +88,20 @@ function onChoiceSubmit(event) {
       });
   })
   .catch((error) => {
-    alert(error); // TODO redirect to login if signed out
     // reenable buttons (except the old selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(x => x.getAttribute('data-rank') != oldRank)
       .forEach(e => e.removeAttribute('disabled'));
+    if (error.response) {
+      error.response.text().then((data) => {
+        alert(data);
+      })
+      .catch((error1) => {
+        alert(error);
+      });
+    } else {
+      alert("Nicht angemeldet!"); // TODO redirect to login if signed out
+    }
   });
 
   return false;

@@ -1,8 +1,8 @@
 https://stackoverflow.com/questions/2201335/dynamically-create-php-object-based-on-string
 https://www.php.net/manual/de/sdo.sample.getset.php
 
+* when voting inform user of being a project leader
 * project calculation assign projects and also message on login and in project list
-* make it impossible to vote for project you're project leader in
 
 * implement estimated size and if a project can exist
 * (per user id) log
