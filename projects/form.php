@@ -61,7 +61,7 @@ $users = Users::all();
     });
     $project_leaders = array_map(function($project_leader) {
         return $project_leader->name;
-    }, $project_leaders));
+    }, $project_leaders);
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>" value="<?php echo $user->id ?>"><?php echo $user->name ?></option>
     <?php endforeach ?>
