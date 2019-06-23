@@ -26,7 +26,7 @@
       var invalid = function(k, ok) {
         return !(s[k] === undefined || s[k] === ok);
       };
-      
+
       if (s.opacity < 1 ||
           invalid('zIndex', 'auto') ||
           invalid('transform', 'none') ||
@@ -632,7 +632,7 @@
 
   /**
    * Installs global handlers, such as click listers and native method overrides. These are needed
-   * even if a no dialog is registered, as they deal with <form method="dialog">.
+   * even if a no dialog is registered, as they deal with < form method="dialog" >.
    */
   if (window.HTMLDialogElement === undefined) {
 
@@ -667,7 +667,7 @@
 
     /**
      * Global 'click' handler, to capture the <input type="submit"> or <button> element which has
-     * submitted a <form method="dialog">. Needed as Safari and others don't report this inside
+     * submitted a < form method="dialog" >. Needed as Safari and others don't report this inside
      * document.activeElement.
      */
     document.addEventListener('click', function(ev) {

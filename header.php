@@ -1,10 +1,4 @@
 <?php
-header('X-Frame-Options: deny');
-header('X-Content-Type-Options: nosniff');
-header('X-XSS-Protection: 1; mode=block');
-header("Content-Security-Policy: default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'");
-// Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; disown-opener; require-sri-for script style; sandbox allow-forms allow-same-origin allow-scripts allow-popups; reflected-xss block; referrer no-referrer
-
 // show error message if exception is not caught
 function myException($exception) {
   http_response_code(500);
