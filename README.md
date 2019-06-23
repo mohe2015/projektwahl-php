@@ -2,11 +2,21 @@
 
 ## Nginx config
 
+https://nginx.org/en/docs/http/ngx_http_headers_module.html "There could be several add_header directives. These directives are inherited from the previous level if and only if there are no add_header directives defined on the current level."
+
+put these in an include file, see notice above.
+
+sudo nano /etc/nginx/security.conf
 server_tokens off;
 add_header X-Frame-Options deny;
 add_header X-Content-Type-Options nosniff;
 add_header X-XSS-Protection "1; mode=block";
 add_header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'";
+
+then do
+include /etc/nginx/security.conf;
+FOR THE SERVER BLOCK AND INSIDE OF EVERY LOCATION BLOCK. I recommend checking it using ZAP proxy or so. It should show an alert if you failed.
+
 // Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; disown-opener; require-sri-for script style; sandbox allow-forms allow-same-origin allow-scripts allow-popups; reflected-xss block; referrer no-referrer
 
 
