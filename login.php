@@ -31,6 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <input type="text" id="name" name="name" autofocus />
   <label for="password">Passwort:</label>
   <input type="password" id="password" name="password" />
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit">Anmelden</button>
 </form>

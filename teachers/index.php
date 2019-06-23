@@ -10,7 +10,7 @@ $teachers = Teachers::all();
 <a href="/teachers/new.php" class="button">Neuer Lehrer</a>
 <a href="/teachers/import.php" class="button">Lehrer importieren</a>
 <form class="inline-block" method="POST" action="generate_passwords.php">
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
 </form>
 
@@ -30,7 +30,7 @@ $teachers = Teachers::all();
               <a href="/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
               <form class="inline-block" method="post" action="edit.php?<?php echo $teacher->id ?>">
                 <input type="hidden" name="password" value="">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <button class="a" type="submit"><i class="fas fa-key"></i></button>
               </form>
               <a href="/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>

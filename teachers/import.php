@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input class="col" name="csv-file" type="file" />
   </div>
 
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
   <div class="form-group">
     <button class="w-100" type="submit">Lehrer importieren</button>

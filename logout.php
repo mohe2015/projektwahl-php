@@ -12,6 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <br>
 <form method="post">
   Möchtest Du dich wirklich abmelden?
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit">Ja</button>
 </form>

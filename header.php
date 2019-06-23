@@ -32,14 +32,14 @@ require_once __DIR__ . '/settings.php';
 require_once __DIR__ . '/timers.php';
 require_once __DIR__ . '/permissions.php';
 
-// SECURITY: checks whether the CSRF token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
+// SECURITY: checks whether the CSRF csrf_token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($_SESSION['token'], $_POST['token'])) {
-    die("CSRF token not valid");
+  if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    die("CSRF csrf_token not valid");
   }
 }
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 // connect to database

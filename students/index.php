@@ -18,7 +18,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 <a href="/students/new.php" class="button">Neuer Schüler</a>
 <a href="/students/import.php" class="button">Schüler importieren</a>
 <form class="inline-block" method="POST" action="generate_passwords.php">
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
 </form>
 <a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
@@ -75,16 +75,16 @@ input.addEventListener('input', function(event) {
               <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
               <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <button class="a" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
               <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="password" value="">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <button class="a" type="submit"><i class="fas fa-key"></i></button>
               </form>
               <form class="inline-block" method="post" action="sudo.php?<?php echo $student->id ?>">
-                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <button class="a" type="submit"><i class="fas fa-sign-in-alt"></i></button>
               </form>
               <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>

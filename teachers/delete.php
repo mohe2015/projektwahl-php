@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <p>Möchten Sie den Lehrer <?php echo htmlspecialchars($teacher->name) ?> wirklich löschen?</p>
 
-<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
 <div class="form-group">
   <button type="submit" class="w-100">Lehrer löschen</button>

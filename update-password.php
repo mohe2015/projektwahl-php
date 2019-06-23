@@ -49,7 +49,7 @@ $password = trim($password);
 
   <label for="password">neues Passwort wiederholen:</label>
   <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" /><br>
-  <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit">Passwort ändern</button>
 </form>
 <script src="/password.js"></script>
