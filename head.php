@@ -20,6 +20,7 @@ function active_exact($path) {
     <link rel="stylesheet" href="/index.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <!-- This is a polyfill to support the old firefox browser in the school. -->
+    <script src="/polyfill.js"></script>
     <script src="/dialog-polyfill.js"></script>
     <script src="/base.js"></script>
     <script src="/scroll.js"></script>

@@ -19,6 +19,11 @@ FOR THE SERVER BLOCK AND INSIDE OF EVERY LOCATION BLOCK. I recommend checking it
 
 // Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; disown-opener; require-sri-for script style; sandbox allow-forms allow-same-origin allow-scripts allow-popups; reflected-xss block; referrer no-referrer
 
+## PHP config
+
+sudo nano /etc/php/7.3/fpm/php.ini
+session.cookie_httponly = 1
+session.cookie_secure = 1 # if using ssl
 
 ## Logging sql queries
 ```bash
