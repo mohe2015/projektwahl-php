@@ -1,4 +1,5 @@
 * fix permissions
+* FIX Php warnigns and notices
 * implement estimated size and if a project can exist
 * fix/improve caching
 * resetting password makes absent student present again? caching bug?

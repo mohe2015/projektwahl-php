@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     $project->delete();
   } catch (Exception $e) {
-    die($e->getMessage());
+    die(htmlspecialchars($e->getMessage()));
   }
   header("Location: /projects");
   die();

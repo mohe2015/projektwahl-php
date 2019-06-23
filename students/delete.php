@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     $student->delete();
   } catch (Exception $e) {
-    die($e->getMessage());
+    die(htmlspecialchars($e->getMessage()));
   }
   header("Location: /students");
   die();

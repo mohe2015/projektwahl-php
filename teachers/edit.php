@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $teacher->update($_POST);
     $teacher->save();
   } catch (Exception $e) {
-    die($e->getMessage());
+    die(htmlspecialchars($e->getMessage()));
   }
   header("Location: /teachers");
   die();

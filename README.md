@@ -8,10 +8,10 @@ put these in an include file, see notice above.
 
 sudo nano /etc/nginx/security.conf
 server_tokens off;
-add_header X-Frame-Options deny;
-add_header X-Content-Type-Options nosniff;
-add_header X-XSS-Protection "1; mode=block";
-add_header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'";
+add_header X-Frame-Options deny always;
+add_header X-Content-Type-Options nosniff always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'" always;
 
 then do
 include /etc/nginx/security.conf;

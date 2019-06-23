@@ -66,7 +66,7 @@ $project_leaders = array_map(function($project_leader) {
   <select class="col" id="select-supervisors" name="supervisors[]" multiple>
   <?php
     foreach ($users as $user): ?>
-      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>" value="<?php echo $user->id ?>"><?php echo $user->name ?></option>
+      <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo htmlspecialchars(str_replace(" ", "-",$user->name)) ?>" value="<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></option>
     <?php endforeach ?>
   </select>
 
@@ -75,9 +75,9 @@ $project_leaders = array_map(function($project_leader) {
     if (count($project_leaders) === 1 && is_null($project->name)) {
       echo "Keine";
     } else {
-      echo join(', ', array_map(function($project_leader) {
+      echo htmlspecialchars(join(', ', array_map(function($project_leader) {
           return $project_leader->name;
-      }, $project_leaders));
+      }, $project_leaders)));
     }
     ?>
   </button>
@@ -88,9 +88,9 @@ $project_leaders = array_map(function($project_leader) {
 <?php
 foreach ($users as $user): ?>
       <li>
-        <input type="checkbox" value="" id="<?php echo str_replace(" ", "-",$user->name) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-        <label for="<?php echo str_replace(" ", "-",$user->name) ?>">
-          <?php echo $user->name ?>
+        <input type="checkbox" value="" id="<?php echo htmlspecialchars(str_replace(" ", "-",$user->name)) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
+        <label for="<?php echo htmlspecialchars(str_replace(" ", "-",$user->name)) ?>">
+          <?php echo htmlspecialchars($user->name) ?>
         </label>
       </li>
 <?php endforeach ?>
