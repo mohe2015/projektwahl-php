@@ -51,17 +51,20 @@ $users = Users::all();
   </div>
 </div>
 
+<?php
+$project_leaders = array_filter($project_with_project_leaders_and_members, function ($user) {
+  return $user->project_leader != NULL;
+});
+$project_leaders = array_map(function($project_leader) {
+    return $project_leader->name;
+}, $project_leaders);
+?>
+
 <div class="form-group">
   <label class="col">Betreuer:</label>
 
   <select class="col" id="select-supervisors" name="supervisors[]" multiple>
-    <?php
-    $project_leaders = array_filter($project_with_project_leaders_and_members, function ($user) {
-      return $user->project_leader != NULL;
-    });
-    $project_leaders = array_map(function($project_leader) {
-        return $project_leader->name;
-    }, $project_leaders);
+  <?php
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="name-<?php echo str_replace(" ", "-",$user->name) ?>" value="<?php echo $user->id ?>"><?php echo $user->name ?></option>
     <?php endforeach ?>
