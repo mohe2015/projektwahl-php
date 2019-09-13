@@ -63,49 +63,56 @@ try {
   );");
   $stmt->closeCursor();
 
+/*
+CREATE TRIGGER trigger_check_choices_grade
+  BEFORE INSERT ON choices
+  FOR EACH ROW
+  BEGIN
+	SELECT 1;
+  END;
+*/
+
   $db->exec("
   DROP TRIGGER IF EXISTS trigger_check_choices_grade;
   CREATE TRIGGER trigger_check_choices_grade
   BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
-	  IF (SELECT min_grade FROM projects WHERE id = NEW.project) > (SELECT grade FROM users WHERE id = NEW.student) OR (SELECT max_grade FROM projects WHERE id = NEW.project) < (SELECT grade FROM users WHERE id = NEW.student) THEN
-	  RAISE EXCEPTION 'Der Schüler passt nicht in die Altersbegrenzung des Projekts!';
-	  END IF;
-	  RETURN NEW;
-  END;
+	  SELECT CASE WHEN     (SELECT min_grade FROM projects WHERE id = NEW.project) > (SELECT grade FROM users WHERE id = NEW.student)
+	  	     OR (SELECT max_grade FROM projects WHERE id = NEW.project) < (SELECT grade FROM users WHERE id = NEW.student) THEN
+	  	RAISE(ABORT, 'Der Schüler passt nicht in die Altersbegrenzung des Projekts!')
+	  END;
+  END;");
 
-  DROP TRIGGER IF EXISTS trigger_update_project_check_choices_grade ON projects;
+  $db->exec("
+  DROP TRIGGER IF EXISTS trigger_update_project_check_choices_grade;
   CREATE TRIGGER trigger_update_project_check_choices_grade
   BEFORE UPDATE ON projects
   FOR EACH ROW
   BEGIN
-	  IF (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.grade < NEW.min_grade OR users.grade > NEW.max_grade)) > 0 THEN
-	  RAISE EXCEPTION 'Geänderte Altersbegrenzung würde Wahlen ungültig machen!';
-	  END IF;
-	  RETURN NEW;
+	  SELECT CASE WHEN (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.grade < NEW.min_grade OR users.grade > NEW.max_grade)) > 0 THEN
+	  	RAISE(ABORT, 'Geänderte Altersbegrenzung würde Wahlen ungültig machen!')
+	  END;
   END;");
 
 
   $db->exec("
-  DROP TRIGGER IF EXISTS trigger_check_project_leader ON users;
+  DROP TRIGGER IF EXISTS trigger_check_project_leader;
   CREATE TRIGGER trigger_check_project_leader BEFORE UPDATE ON users
   FOR EACH ROW
   BEGIN
-	  IF (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.student = NEW.id) > 0 THEN
-	  RAISE EXCEPTION 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!';
-	  END IF;
-	  RETURN NEW;
+	  SELECT CASE WHEN (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.student = NEW.id) > 0 THEN
+	  	RAISE(ABORT, 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!')
+	  END;
   END;
 
-  DROP TRIGGER IF EXISTS trigger_check_project_leader ON choices;
+  DROP TRIGGER IF EXISTS trigger_check_project_leader;
   CREATE TRIGGER trigger_check_roject_leader_choices BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
-  IF (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.student) > 0 THEN
-  RAISE EXCEPTION 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!';
-  END IF;
-  RETURN NEW;
+	  SELECT CASE WHEN (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.student) > 0 THEN
+	  	RAISE(ABORT, 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!')
+	  END;
   END;");
 
   $stmt = $db->query("INSERT INTO settings (id, election_running) VALUES (1, false) ON CONFLICT DO NOTHING;");
