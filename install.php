@@ -63,15 +63,6 @@ try {
   );");
   $stmt->closeCursor();
 
-/*
-CREATE TRIGGER trigger_check_choices_grade
-  BEFORE INSERT ON choices
-  FOR EACH ROW
-  BEGIN
-	SELECT 1;
-  END;
-*/
-
   $db->exec("
   DROP TRIGGER IF EXISTS trigger_check_choices_grade;
   CREATE TRIGGER trigger_check_choices_grade
