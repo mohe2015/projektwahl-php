@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     session_regenerate_id(true);
     $_SESSION['users'][] = $user;
-    error_log(print_r( $_SESSION['users'], true ));
     if (!$user->password_changed) {
       $_SESSION['old_password'] = $password;
       header("Location: /update-password.php");
