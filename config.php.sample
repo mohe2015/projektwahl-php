@@ -1,7 +1,7 @@
 <?php
 
 $database = [
-  'url'      => 'mysql:host=localhost;dbname=projektwahl',
+  'url'      => 'sqlite:projektwahl.db',
   'dbname'   => 'projektwahl',
   'username' => 'root',
   'password' => 'test',

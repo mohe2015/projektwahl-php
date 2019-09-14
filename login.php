@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $password = $_POST['password'];
   $user = Users::findByName($name);
+  error_log(print_r( $user, true ));
   if (password_verify($password, $user->password)) {
     if (password_needs_rehash($user->password, PASSWORD_DEFAULT, $options)) {
       // TODO: needs rehashing

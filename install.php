@@ -4,7 +4,7 @@ require_once __DIR__ . '/head.php';
 
 try {
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
-  id SERIAL PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   title VARCHAR(255) UNIQUE NOT NULL,
   info VARCHAR(4096) NOT NULL,
   place VARCHAR(256) NOT NULL,
@@ -20,7 +20,7 @@ try {
   $stmt->closeCursor();
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   name VARCHAR(64) UNIQUE NOT NULL,
   password VARCHAR(255),
   type VARCHAR(8) NOT NULL,
@@ -58,7 +58,7 @@ try {
   $stmt->closeCursor();
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS settings (
-  id SERIAL PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   election_running BOOLEAN NOT NULL
   );");
   $stmt->closeCursor();
