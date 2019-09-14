@@ -6,13 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $password = $_POST['password'];
   $user = Users::findByName($name);
-  error_log(print_r( $user, true ));
   if (password_verify($password, $user->password)) {
     if (password_needs_rehash($user->password, PASSWORD_DEFAULT, $options)) {
       // TODO: needs rehashing
     }
     session_regenerate_id(true);
     $_SESSION['users'][] = $user;
+    error_log(print_r( $_SESSION['users'], true ));
     if (!$user->password_changed) {
       $_SESSION['old_password'] = $password;
       header("Location: /update-password.php");
