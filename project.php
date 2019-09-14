@@ -117,7 +117,7 @@ class Project extends Record {
       $db->beginTransaction();
 
       // TODO FIXME only delete cache of old project leaders
-      apcu_delete(new APCUIterator('/^user-\./'));
+      // apcu_delete(new APCUIterator('/^user-\./'));
       $stmt = $db->prepare('UPDATE users SET project_leader = NULL WHERE project_leader = :id');
       $stmt->execute(array(
         'id' => $this->id

@@ -13,13 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($new_password !== $new_password_repeated) {
     echo "Passwörter nicht identisch!";
   } else if (password_verify($old_password, $user->password)) {
-    error_log(print_r( $_SESSION['users'], true ));
     $user->password = password_hash($new_password, PASSWORD_DEFAULT, $options);
     $user->password_changed = true;
     $user->save();
     array_pop($_SESSION['users']);
     $_SESSION['users'][] = $user;
-    error_log(print_r( $_SESSION['users'], true ));
     if ($user->type === "student") {
       header("Location: /election.php");
     } else {
