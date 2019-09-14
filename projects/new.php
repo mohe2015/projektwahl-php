@@ -18,5 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h1>Projekt erstellen</h1>
 <?php
+$project_with_project_leaders_and_members = array();
 require_once 'form.php';
 ?>
