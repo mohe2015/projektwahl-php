@@ -72,12 +72,10 @@ $project_leaders = array_map(function($project_leader) {
 
   <button id="show-supervisors-dialog" style="display: none;">
     <?php
-    if (count($project_leaders) === 1 && is_null($project->name)) {
+    if (count($project_leaders) === 0) {
       echo "Keine";
     } else {
-      echo htmlspecialchars(join(', ', array_map(function($project_leader) {
-          return $project_leader->name;
-      }, $project_leaders)));
+      echo htmlspecialchars(join(', ', $project_leaders));
     }
     ?>
   </button>
@@ -89,15 +87,13 @@ $project_leaders = array_map(function($project_leader) {
 foreach ($users as $user): ?>
       <li>
         <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-        <label for="<?php echo htmlspecialchars($user->id) ?>">
+        <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>">
           <?php echo htmlspecialchars($user->name) ?>
         </label>
       </li>
 <?php endforeach ?>
     </ul>
-    <menu>
-      <button id="save-supervisors">Schließen</button>
-    </menu>
+    <button id="save-supervisors">Schließen</button>
   </dialog>
 </div>
 
@@ -132,8 +128,7 @@ dialog.addEventListener('close', function onClose(e) {
 
 $('#save-supervisors').addEventListener('click', function(event) {
   event.preventDefault();
-  var supervisors = $$('input:checked').map(x => x.id).join("; ") || "Keine";
-  button.innerText = supervisors;
+  button.innerText = $$('li input:checked').map(x => x.parentNode.innerText).join("; ") || "Keine";
   dialog.close();
 });
 
