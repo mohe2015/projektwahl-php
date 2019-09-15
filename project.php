@@ -178,7 +178,7 @@ class Projects {
 
   public function allWithRanks() {
     global $db;
-    $stmt = $db->prepare('SELECT id, title, min_grade, max_grade, choices.rank FROM projects LEFT JOIN choices ON id = choices.project AND choices.student = :student ORDER BY rank=0, rank;');
+    $stmt = $db->prepare('SELECT id, title, min_grade, max_grade, choices.rank FROM projects LEFT JOIN choices ON id = choices.project AND choices.student = :student ORDER BY rank=0 DESC, rank ASC;');
     // TODO this value needs to be updated if dependencies update
     //return apcu_entry("project-$this->id-project-leaders", function($key) {
       $stmt->execute(array('student' => end($_SESSION['users'])->id));
