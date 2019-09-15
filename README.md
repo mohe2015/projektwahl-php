@@ -1,5 +1,11 @@
 # projektwahl-php
 
+## Installation
+
+php composer.phar install
+# set apc.enabled=false
+
+
 ## Nginx config
 
 https://nginx.org/en/docs/http/ngx_http_headers_module.html "There could be several add_header directives. These directives are inherited from the previous level if and only if there are no add_header directives defined on the current level."

@@ -33,7 +33,7 @@ class Project extends Record {
     $this->presentation_type = $data['presentation_type'] ?? $this->presentation_type;
     $this->requirements = $data['requirements'] ?? $this->requirements;
     $this->random_assignments = $data['random_assignments'] ?? $this->random_assignments ?? true;
-    $this->supervisors = $data['supervisors'];
+    $this->supervisors = $data['supervisors'] ?? $this->supervisors ?? array();
   }
 
   public function getValidationErrors() {
@@ -117,7 +117,7 @@ class Project extends Record {
       $db->beginTransaction();
 
       // TODO FIXME only delete cache of old project leaders
-      apcu_delete(new APCUIterator('/^user-\./'));
+      // apcu_delete(new APCUIterator('/^user-\./'));
       $stmt = $db->prepare('UPDATE users SET project_leader = NULL WHERE project_leader = :id');
       $stmt->execute(array(
         'id' => $this->id

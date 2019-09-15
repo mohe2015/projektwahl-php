@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   header("Location: /students");
   die();
+} else {
+  $student = new Student(array());
 }
 ?>
 

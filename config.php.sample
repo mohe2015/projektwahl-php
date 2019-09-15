@@ -1,7 +1,8 @@
 <?php
 
 $database = [
-  'url'      => 'mysql:host=localhost;dbname=projektwahl',
+  '_comment' => 'IMPORTANT: absolute path required',
+  'url'      => 'sqlite:/var/www/aes.selfmade4u.de/projektwahl.db',
   'dbname'   => 'projektwahl',
   'username' => 'root',
   'password' => 'test',

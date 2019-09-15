@@ -35,6 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+if (!isset($_SESSION['users'])) {
+    $_SESSION['users'] = array();
+}
 
 // connect to database
 require_once 'config.php';

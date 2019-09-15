@@ -2,22 +2,19 @@
 $allowed_users = array("admin");
 require_once __DIR__ . '/../head.php';
 
-// Import students from a .csv file. The file needs to have three columns (name, class, grade) and no header.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
     $timers = new Timers();
     $timers->startTimer('import');
     $db->beginTransaction();
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $num = count($data);
-            if ($num != 3) {
-              throw new Exception("drei Spalten benötigt (Name, Klasse, Jahrgang)!");
-            }
+        $header = fgetcsv($handle, 1000, ",");
+        while ($csv_data = fgetcsv($handle, 1000, ",")) {
+            $data = array_combine($header, $csv_data);
             $student = new Student();
-            $student->name = $data[0];
-            $student->class = $data[1];
-            $student->grade = $data[2];
+            $student->name = trim($data["name"] ?? "") ?: trim($data["first-name"]) . " " . trim($data["last-name"]);
+            $student->class = trim($data["class"]);
+            $student->grade = trim($data["grade"]);
             $student->away = false;
             $student->password = NULL;
             $student->save();
@@ -42,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <form enctype="multipart/form-data" method="POST">
   <div class="form-group">
-    <label class="col">CSV-Datei:</label>
+    <label class="col">CSV-Datei (name/first-name+last-name, class, grade):</label>
     <input class="col" name="csv-file" type="file" />
   </div>
 

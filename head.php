@@ -32,23 +32,23 @@ function active_exact($path) {
          <li><a <?php active_exact("/") ?> href="/"><i class="fas fa-home"></i><span class="hidden-small"> Startseite</span></a></li>
 <?php
 // hide links if user has no permission to access them
-if (in_array(end($_SESSION['users'])->type, array("admin", "teacher"))): ?>
+if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("admin", "teacher"))): ?>
          <li><a <?php active("/project") ?> href="/projects"><i class="fas fa-users"></i><span class="hidden-small"> Projekte</span></a></li>
 <?php endif; ?>
-<?php if (in_array(end($_SESSION['users'])->type, array("admin"))): ?>
+<?php if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("admin"))): ?>
          <li><a <?php active("/teacher") ?> href="/teachers"><i class="fas fa-chalkboard-teacher"></i><span class="hidden-small"> Lehrer</span></a></li>
 <?php endif; ?>
-<?php if (in_array(end($_SESSION['users'])->type, array("admin", "teacher"))): ?>
+<?php if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("admin", "teacher"))): ?>
          <li><a <?php active("/student") ?> href="/students"><i class="fas fa-user"></i><span class="hidden-small"> Schüler</span></a></li>
 <?php endif; ?>
-<?php if (in_array(end($_SESSION['users'])->type, array("student"))): ?>
+<?php if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("student"))): ?>
          <li><a <?php active("/election.php") ?> href="/election.php"><i class="fas fa-poll"></i><span class="hidden-small"> Wahl</span></a></li>
 <?php endif; ?>
 
 
 
 <?php
-if (in_array(end($_SESSION['users'])->type, array("admin"))):
+if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("admin"))):
 ?>
    <li class="float-right"><a href="/update-election-state.php"><i class="fas fa-ban"></i><span class="hidden-small"> Wahl <?php echo $settings->election_running ? "beenden" : "starten" ?></span></a></li>
  <?php endif; ?>
