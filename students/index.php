@@ -33,27 +33,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 <input class="w-100" type="search" id="search" placeholder="Suche nach Name oder Klasse">
 
-<script>
-var input = $('#search');
-
-function update(query) {
-  var students = $$('tr');
-  var query = query.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  students.forEach(e => {
-    var string = e.id.replace("-", " ").normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-    if (string.toLowerCase().indexOf(query.toLowerCase()) === -1) {
-      e.hidden = true;
-    } else {
-      e.hidden = false;
-    }
-  });
-}
-
-input.addEventListener('input', function(event) {
-  update(event.target.value);
-});
-
-</script>
+<script src="/js/students-search.js"></script>
 
 <div class="responsive">
   <table>

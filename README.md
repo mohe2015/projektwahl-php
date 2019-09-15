@@ -4,7 +4,9 @@
 
 ```bash
 php composer.phar install
-# set apc.enabled=false
+
+sudo nano /etc/php/7.3/fpm/conf.d/20-apcu.ini
+apc.enabled=false
 ```
 
 ## Nginx config
@@ -19,7 +21,8 @@ server_tokens off;
 add_header X-Frame-Options deny always;
 add_header X-Content-Type-Options nosniff always;
 add_header X-XSS-Protection "1; mode=block" always;
-add_header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'" always;
+add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; img-src 'self'; font-src cdnjs.cloudflare.com; upgrade-insecure-requests; block-all-mixed-content; disown-opener; sandbox allow-forms allow-same-origin allow-scripts allow-top-navigation allow-popups; reflected-xss block; referrer no-referrer" always;
+# TODO FIXME inline styles
 ```
 
 then do
@@ -28,14 +31,14 @@ include /etc/nginx/security.conf;
 ```
 FOR THE SERVER BLOCK AND INSIDE OF EVERY LOCATION BLOCK. I recommend checking it using ZAP proxy or so. It should show an alert if you failed.
 
-// Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; disown-opener; require-sri-for script style; sandbox allow-forms allow-same-origin allow-scripts allow-popups; reflected-xss block; referrer no-referrer
-
 ## PHP config
 
 ```bash
 sudo nano /etc/php/7.3/fpm/php.ini
 session.cookie_httponly = 1
 session.cookie_secure = 1 # if using ssl
+session.cookie_samesite = Strict
+session.use_only_cookies = 1
 ```
 
 ## Logging sql queries
