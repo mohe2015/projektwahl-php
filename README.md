@@ -2,9 +2,10 @@
 
 ## Installation
 
+```bash
 php composer.phar install
 # set apc.enabled=false
-
+```
 
 ## Nginx config
 
@@ -12,24 +13,30 @@ https://nginx.org/en/docs/http/ngx_http_headers_module.html "There could be seve
 
 put these in an include file, see notice above.
 
+```bash
 sudo nano /etc/nginx/security.conf
 server_tokens off;
 add_header X-Frame-Options deny always;
 add_header X-Content-Type-Options nosniff always;
 add_header X-XSS-Protection "1; mode=block" always;
 add_header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self'" always;
+```
 
 then do
+```nginx
 include /etc/nginx/security.conf;
+```
 FOR THE SERVER BLOCK AND INSIDE OF EVERY LOCATION BLOCK. I recommend checking it using ZAP proxy or so. It should show an alert if you failed.
 
 // Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; disown-opener; require-sri-for script style; sandbox allow-forms allow-same-origin allow-scripts allow-popups; reflected-xss block; referrer no-referrer
 
 ## PHP config
 
+```bash
 sudo nano /etc/php/7.3/fpm/php.ini
 session.cookie_httponly = 1
 session.cookie_secure = 1 # if using ssl
+```
 
 ## Logging sql queries
 ```bash
