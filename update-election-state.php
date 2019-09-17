@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
 <?php
   $settings->election_running = !$settings->election_running;
   $settings->save();
-  header("Location: /");
+  header("Location: $ROOT/");
   die();
 ?>
 <?php else: ?>

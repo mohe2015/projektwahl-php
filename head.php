@@ -10,7 +10,6 @@ function active($path) {
 function active_exact($path) {
   echo $_SERVER["REQUEST_URI"] === $path ? 'class="active"' : '';
 }
-$ROOT = substr(dirname(__FILE__), strlen($_SERVER["DOCUMENT_ROOT"]));
 ?><!doctype html>
 <html lang="de">
   <head>

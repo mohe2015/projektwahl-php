@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     die(htmlspecialchars($e->getMessage()));
   }
-  header("Location: /projects");
+  header("Location: $ROOT/projects");
   die();
 } else {
   $project = Projects::find($_SERVER['QUERY_STRING']);

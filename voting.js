@@ -9,7 +9,7 @@ function updateOrderCount() {
   }
   if (valid) {
     snackbar.classList.add('background-success');
-    snackbar.innerHTML = "Gültig gewählt - Du kannst Dich nun <a href=\"/logout.php\">abmelden</a>";
+    snackbar.innerHTML = "Gültig gewählt - Du kannst Dich nun <a href=\"logout.php\">abmelden</a>";
   } else {
     snackbar.classList.remove('background-success');
     snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";

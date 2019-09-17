@@ -1,9 +1,11 @@
 <?php
+$ROOT = substr(dirname(__FILE__), strlen($_SERVER["DOCUMENT_ROOT"]));
+
 // show error message if exception is not caught
 function myException($exception) {
   http_response_code(500);
   echo "<b>Interner Fehler: </b> " . $exception->getMessage();
-  echo '<br />Eventuell musst du erst <a href="/install.php">installieren</a>';
+  echo "<br />Eventuell musst du erst <a href=\"$ROOT/install.php\">installieren</a>";
   die();
 }
 //set_exception_handler('myException');
@@ -59,6 +61,6 @@ try {
 }
 
 if (0 !== count($_SESSION['users']) && $_SESSION['users'][0]->type !== 'admin' && $_SERVER['REQUEST_URI'] !== "/update-password.php" && $_SERVER['REQUEST_URI'] !== "/logout.php" && !end($_SESSION['users'])->password_changed) {
-  header("Location: /update-password.php");
+  header("Location: $ROOT/update-password.php");
 }
 ?>

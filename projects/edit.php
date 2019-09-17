@@ -13,14 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     die(htmlspecialchars($e->getMessage()));
   }
-  header("Location: /projects");
+  header("Location: $ROOT/projects");
   die();
 }
 ?>
 
 <h1>Projekt ändern</h1>
 <?php
-require_once __DIR__ . 'form.php';
+require_once __DIR__ . '/form.php';
 ?>
 
 </div>

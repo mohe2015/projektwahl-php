@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     array_pop($_SESSION['users']);
     $_SESSION['users'][] = $user;
     if ($user->type === "student") {
-      header("Location: /election.php");
+      header("Location: $ROOT/election.php");
     } else {
-      header("Location: /");
+      header("Location: $ROOT/");
     }
     die();
   } else {

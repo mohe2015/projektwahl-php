@@ -67,7 +67,7 @@ require_once __DIR__ . '/head.php';
         }
         foreach ($projects as $project): ?>
           <tr data-rank="<?php echo $project->rank ?>">
-            <td><a href="/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
+            <td><a href="<?php echo $ROOT ?>/projects/view.php?<?php echo $project->id ?>"><?php echo htmlspecialchars($project->title) ?></a></td>
             <td class="nowrap right">
                 <?php if ($project->min_grade > $user->grade): ?>
                   zu jung
@@ -111,7 +111,7 @@ require_once __DIR__ . '/head.php';
 if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1):
 ?>
 <div id="snackbar" class="snackbar show background-success">
-  Gültig gewählt - Du kannst Dich nun <a href="/logout.php">abmelden</a>
+  Gültig gewählt - Du kannst Dich nun <a href="<?php echo $ROOT ?>/logout.php">abmelden</a>
 </div>
 <?php
 else:
