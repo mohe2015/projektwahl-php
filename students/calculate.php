@@ -226,7 +226,10 @@ fclose($out);
 // now lp_solve would also work
 
 $solution_filename = tempnam("/tmp", "solution");
-passthru("glpsol --lp $problem_filename -o $solution_filename --dual");
+passthru("glpsol --lp $problem_filename -o $solution_filename --dual", $glpk_return_var);
+if (0 !== $glpk_return_var) {
+	die("Could not execute glpsol successfully. Maybe you need to install glpk?");
+}
 
 $solution_file = fopen("$solution_filename", "r");
 
