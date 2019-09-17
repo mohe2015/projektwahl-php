@@ -10,20 +10,19 @@ function active($path) {
 function active_exact($path) {
   echo $_SERVER["REQUEST_URI"] === $path ? 'class="active"' : '';
 }
-
 ?><!doctype html>
 <html lang="de">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/dialog-polyfill.css">
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/dialog-polyfill.css">
+    <link rel="stylesheet" href="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" integrity="sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=" crossorigin="anonymous" />
     <!-- This is a polyfill to support the old firefox browser in the school. -->
-    <script src="/polyfill.js"></script>
-    <script src="/dialog-polyfill.js"></script>
-    <script src="/base.js"></script>
-    <script src="/scroll.js"></script>
+    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/polyfill.js"></script>
+    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/dialog-polyfill.js"></script>
+    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/base.js"></script>
+    <script src="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/scroll.js"></script>
     <title>Projektwahl</title>
   </head>
   <body>

@@ -19,5 +19,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h1>Schüler ändern</h1>
 <?php
-require_once 'form.php';
+require_once __DIR__ . 'form.php';
 ?>

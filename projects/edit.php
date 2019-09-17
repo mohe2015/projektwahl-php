@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h1>Projekt ändern</h1>
 <?php
-require_once 'form.php';
+require_once __DIR__ . 'form.php';
 ?>
 
 </div>

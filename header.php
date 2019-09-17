@@ -40,7 +40,7 @@ if (!isset($_SESSION['users'])) {
 }
 
 // connect to database
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(
       PDO::ATTR_PERSISTENT => true,
