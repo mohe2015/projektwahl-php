@@ -1,7 +1,7 @@
 function updateOrderCount() {
   var snackbar = document.querySelector('#snackbar');
-  let valid = true;
-  for (let i = 1; i <= 5; i++) {
+  var valid = true;
+  for (var i = 1; i <= 5; i++) {
     if (order_count[i] != 1) {
       valid = false;
       break;
@@ -13,8 +13,8 @@ function updateOrderCount() {
   } else {
     snackbar.classList.remove('background-success');
     snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";
-    for (let i = 1; i <= 5; i++) {
-      let span = document.createElement("span");
+    for (var i = 1; i <= 5; i++) {
+      var span = document.createElement("span");
       span.innerHTML = order_count[i] + "&times;" + i + ".";
       span.classList.add(order_count[i] == 1 ? "success" : "failure");
       snackbar.appendChild(span);
@@ -38,8 +38,8 @@ function is_sorted(arr, func) {
 function onChoiceSubmit(event) {
   event.preventDefault();
 
-  let oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
-  let newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
+  var oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
+  var newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
 
   // disable buttons for updating over network
   this.parentNode.querySelectorAll('button[type="submit"]').forEach(function (e) { e.setAttribute('disabled', null) });
@@ -63,7 +63,7 @@ function onChoiceSubmit(event) {
     order_count[newRank]++;
     updateOrderCount();
 
-    let result = [...document.querySelectorAll('tr[data-rank]')];
+    var result = [...document.querySelectorAll('tr[data-rank]')];
     if (is_sorted(result, sortProjectRanks)) {
       document.querySelector('.scrolltop').classList.remove('show');
     } else {
@@ -126,7 +126,7 @@ function scrollToTop(event) {
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
 
   // get all table rows
-  let result = [...document.querySelectorAll('tr[data-rank]')];
+  var result = [...document.querySelectorAll('tr[data-rank]')];
 
   // store old positions
   result.forEach(function (element) { element.oldBoundingBox = element.getBoundingClientRect()});
@@ -134,7 +134,7 @@ function scrollToTop(event) {
   // reorder them
   result.sort(sortProjectRanks);
 
-  let container = document.querySelector('tbody');
+  var container = document.querySelector('tbody');
   result.forEach(function (element) { element.remove() });
   result.forEach(function (element) { container.appendChild(element) });
 
@@ -168,7 +168,7 @@ function scrollToTop(event) {
 document.querySelector("#scroll").addEventListener("click", scrollToTop);
 
 
-let result = [...document.querySelectorAll('tr[data-rank]')];
+var result = [...document.querySelectorAll('tr[data-rank]')];
 var order_count = [0, 0, 0, 0, 0, 0];
 result.forEach(function (element) {
   order_count[element.getAttribute('data-rank')]++;

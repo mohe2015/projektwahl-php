@@ -29,7 +29,7 @@ function status(response) {
   if (response.status == 200) {
     return Promise.resolve(response)
   } else {
-    let error = new Error(response.statusText);
+    var error = new Error(response.statusText);
     error.response = response;
     return Promise.reject(error)
   }

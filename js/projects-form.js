@@ -38,7 +38,7 @@ function update(query) {
   supervisors.sort(function (a, b) {
     return b.checked - a.checked;
   });
-  let ul = $('ul[class="dropdown"]');
+  var ul = $('ul[class="dropdown"]');
   ul.innerHTML = null;
   supervisors.forEach(function (e) { ul.append(e.parentNode) });
 }
