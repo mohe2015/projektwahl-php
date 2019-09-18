@@ -1,4 +1,4 @@
-const $ = function (selector, context = document) { context.querySelector(selector) }
+const $ = function (selector, context = document) { return context.querySelector(selector) }
 
 const $$ = function $$ (selector, context = document) {
   const elements = Array.from(context.querySelectorAll(selector))

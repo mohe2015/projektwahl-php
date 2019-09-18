@@ -112,4 +112,4 @@ foreach ($users as $user): ?>
 
 </form>
 
-<script src="/js/projects-form.js"></script>
+<script src="<?php echo $ROOT ?>/js/projects-form.js"></script>
