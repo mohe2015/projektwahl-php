@@ -33,8 +33,6 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 <input class="w-100" type="search" id="search" placeholder="Suche nach Name oder Klasse">
 
-<script src="<?php echo $ROOT ?>/js/students-search.js"></script>
-
 <div class="responsive">
   <table>
     <thead>
@@ -74,3 +72,5 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
       </tbody>
   </table>
 </div>
+
+<script src="<?php echo $ROOT ?>/js/students-search.js"></script>

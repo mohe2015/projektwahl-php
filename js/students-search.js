@@ -1,5 +1,3 @@
-var input = $('#search');
-
 function update(query) {
   var students = $$('tr');
   var query = query.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -13,6 +11,8 @@ function update(query) {
   });
 }
 
-input.addEventListener('input', function(event) {
+
+document.getElementById('search').addEventListener('input', function(event) {
   update(event.target.value);
 });
+
