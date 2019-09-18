@@ -44,7 +44,9 @@ function onChoiceSubmit(event) {
   // disable buttons for updating over network
   this.parentNode.querySelectorAll('button[type="submit"]').forEach(function (e) { e.setAttribute('disabled', null) });
 
-  fetch("/election.php", {
+  var that = this;
+
+  fetch("election.php", {
     method: 'POST',
     body: new FormData(this),
     redirect: "error"
@@ -53,11 +55,11 @@ function onChoiceSubmit(event) {
   .then(function (data) {
     console.log(data);
     // reenable buttons (except the newly selected one)
-    [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(function (x) { x.getAttribute('data-rank') != newRank})
+    [...that.parentNode.querySelectorAll('button[type="submit"]')]
+      .filter(function (x) { return x.getAttribute('data-rank') != newRank})
       .forEach(function (e) { e.removeAttribute('disabled') });
     // TODO color duplicate votes red
-    this.parentNode.parentNode.setAttribute('data-rank', newRank);
+    that.parentNode.parentNode.setAttribute('data-rank', newRank);
 
     order_count[oldRank]--;
     order_count[newRank]++;
@@ -89,8 +91,8 @@ function onChoiceSubmit(event) {
   })
   .catch(function (error) {
     // reenable buttons (except the old selected one)
-    [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(function (x) { x.getAttribute('data-rank') != oldRank })
+    [...that.parentNode.querySelectorAll('button[type="submit"]')]
+      .filter(function (x) { return x.getAttribute('data-rank') != oldRank })
       .forEach(function (e) { e.removeAttribute('disabled') });
     if (error.response) {
       error.response.text().then(function (data) {

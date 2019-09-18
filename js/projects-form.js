@@ -20,7 +20,7 @@ $('#save-supervisors').addEventListener('click', function(event) {
 var supervisors = $$('li input[type="checkbox"]');
 supervisors.forEach(function (e) {
   e.addEventListener('change', function (event) {
-    $('.' + this.id).selected = this.checked;
+    $('.' + e.id).selected = e.checked;
   });
 });
 

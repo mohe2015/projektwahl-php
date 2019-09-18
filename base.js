@@ -4,24 +4,26 @@ const $$ = function $$ (selector, context = document) {
   const elements = Array.from(context.querySelectorAll(selector))
 
   elements.html = function(newHtml) {
-    this.forEach(function (element) {
+    elements.forEach(function (element) {
       element.innerHTML = newHtml
     })
-    return this
+    return elements
   };
 
   elements.css = function (newCss) {
-    this.forEach(function (element) {
+    elements.forEach(function (element) {
       Object.assign(element.style, newCss)
     })
-    return this
+    return elements
   };
+
   elements.on = function (event, handler, options) {
-    this.forEach(function (element) {
+    elements.forEach(function (element) {
       element.addEventListener(event, handler, options)
     })
-    return this
+    return elements
   };
+
   return elements;
 }
 
