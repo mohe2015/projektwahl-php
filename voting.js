@@ -42,7 +42,7 @@ function onChoiceSubmit(event) {
   let newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
 
   // disable buttons for updating over network
-  this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.setAttribute('disabled', null));
+  this.parentNode.querySelectorAll('button[type="submit"]').forEach(function (e) { e.setAttribute('disabled', null) });
 
   fetch("/election.php", {
     method: 'POST',
@@ -50,12 +50,12 @@ function onChoiceSubmit(event) {
     redirect: "error"
   })
   .then(status)
-  .then((data) => {
+  .then(function (data) {
     console.log(data);
     // reenable buttons (except the newly selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(x => x.getAttribute('data-rank') != newRank)
-      .forEach(e => e.removeAttribute('disabled'));
+      .filter(function (x) { x.getAttribute('data-rank') != newRank})
+      .forEach(function (e) { e.removeAttribute('disabled') });
     // TODO color duplicate votes red
     this.parentNode.parentNode.setAttribute('data-rank', newRank);
 
@@ -71,7 +71,7 @@ function onChoiceSubmit(event) {
     }
 
     document.querySelectorAll('tr[data-rank="' + newRank + '"] button')
-    .forEach(element => {
+    .forEach(function (element) {
       element.classList.remove('background-failure');
       element.classList.remove('background-success');
       if (newRank != 0) {
@@ -79,7 +79,7 @@ function onChoiceSubmit(event) {
       }
     });
       document.querySelectorAll('tr[data-rank="' + oldRank + '"] button')
-      .forEach(element => {
+      .forEach(function (element) {
         element.classList.remove('background-failure');
         element.classList.remove('background-success');
         if (oldRank != 0) {
@@ -87,16 +87,16 @@ function onChoiceSubmit(event) {
         }
       });
   })
-  .catch((error) => {
+  .catch(function (error) {
     // reenable buttons (except the old selected one)
     [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(x => x.getAttribute('data-rank') != oldRank)
-      .forEach(e => e.removeAttribute('disabled'));
+      .filter(function (x) { x.getAttribute('data-rank') != oldRank })
+      .forEach(function (e) { e.removeAttribute('disabled') });
     if (error.response) {
-      error.response.text().then((data) => {
+      error.response.text().then(function (data) {
         alert(data);
       })
-      .catch((error1) => {
+      .catch(function (error1) {
         alert(error);
       });
     } else {
@@ -108,7 +108,7 @@ function onChoiceSubmit(event) {
 }
 
 // listen on all forms
-document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
+document.querySelectorAll(".choice-form").forEach(function (e) { e.addEventListener("submit", onChoiceSubmit) });
 
 function sortProjectRanks(a, b) {
   a = parseInt(a.getAttribute('data-rank'));
@@ -129,27 +129,27 @@ function scrollToTop(event) {
   let result = [...document.querySelectorAll('tr[data-rank]')];
 
   // store old positions
-  result.forEach(element => element.oldBoundingBox = element.getBoundingClientRect());
+  result.forEach(function (element) { element.oldBoundingBox = element.getBoundingClientRect()});
 
   // reorder them
   result.sort(sortProjectRanks);
 
   let container = document.querySelector('tbody');
-  result.forEach(element => element.remove());
-  result.forEach(element => container.appendChild(element));
+  result.forEach(function (element) { element.remove() });
+  result.forEach(function (element) { container.appendChild(element) });
 
   // store new positions
-  result.forEach(element => {
+  result.forEach(function (element) {
     element.newBoundingBox = element.getBoundingClientRect()
     const deltaY = element.oldBoundingBox.top - element.newBoundingBox.top;
 
-    requestAnimationFrame( () => {
+    requestAnimationFrame(function () {
       // Before the DOM paints, Invert it to its old position
       element.style.transform = `translate(0px, ${deltaY}px)`;
       // Ensure it inverts it immediately
       element.style.transition = 'transform 0s';
 
-      requestAnimationFrame( () => {
+      requestAnimationFrame(function () {
         // In order to get the animation to play, we'll need to wait for
         // the 'invert' animation frame to finish, so that its inverted
         // position has propagated to the DOM.
@@ -170,7 +170,7 @@ document.querySelector("#scroll").addEventListener("click", scrollToTop);
 
 let result = [...document.querySelectorAll('tr[data-rank]')];
 var order_count = [0, 0, 0, 0, 0, 0];
-result.forEach(element => {
+result.forEach(function (element) {
   order_count[element.getAttribute('data-rank')]++;
 });
 console.log(order_count);

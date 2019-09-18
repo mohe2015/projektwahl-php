@@ -2,9 +2,9 @@ height = 600
 width = 600
 function color() {
   const scale = d3.scaleOrdinal(d3.schemeCategory10);
-  return d => scale(d.group);
+  return function(d) { scale(d.group) };
 }
-drag = simulation => {
+drag = function (simulation) {
 
   function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -32,11 +32,11 @@ drag = simulation => {
 async function graph() {
   data = await d3.json("/graph.php")
 
-  const links = data.links.map(d => Object.create(d));
-  const nodes = data.nodes.map(d => Object.create(d));
+  const links = data.links.map(function (d) { Object.create(d) });
+  const nodes = data.nodes.map(function (d) { Object.create(d) });
 
   const simulation = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id))
+      .force("link", d3.forceLink(links).id(function (d) { d.id }))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -48,7 +48,7 @@ async function graph() {
     .selectAll("line")
     .data(links)
     .join("line")
-      .attr("stroke-width", d => Math.sqrt(d.value));
+      .attr("stroke-width", function (d) { Math.sqrt(d.value) });
 
   const node = svg.append("g")
       .attr("stroke", "#fff")
@@ -61,21 +61,21 @@ async function graph() {
       .call(drag(simulation));
 
   node.append("title")
-      .text(d => d.id);
+      .text(function (d) { d.id });
 
-  simulation.on("tick", () => {
+  simulation.on("tick", function () {
     link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
+        .attr("x1", function (d) { d.source.x })
+        .attr("y1", function (d) { d.source.y })
+        .attr("x2", function (d) { d.target.x })
+        .attr("y2", function (d) { d.target.y });
 
     node
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
+        .attr("cx", function (d) { d.x })
+        .attr("cy", function (d) { d.y });
   });
 
-//  invalidation.then(() => simulation.stop());
+//  invalidation.then(function() { simulation.stop() });
 
   return svg.node();
 }

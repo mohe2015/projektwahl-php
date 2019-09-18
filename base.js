@@ -1,23 +1,23 @@
-const $ = (selector, context = document) => context.querySelector(selector)
+const $ = function (selector, context = document) { context.querySelector(selector) }
 
 const $$ = function $$ (selector, context = document) {
   const elements = Array.from(context.querySelectorAll(selector))
 
   elements.html = function(newHtml) {
-    this.forEach(element => {
+    this.forEach(function (element) {
       element.innerHTML = newHtml
     })
     return this
   };
 
   elements.css = function (newCss) {
-    this.forEach(element => {
+    this.forEach(function (element) {
       Object.assign(element.style, newCss)
     })
     return this
   };
   elements.on = function (event, handler, options) {
-    this.forEach(element => {
+    this.forEach(function (element) {
       element.addEventListener(event, handler, options)
     })
     return this
