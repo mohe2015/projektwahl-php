@@ -37,7 +37,7 @@ for ($i = 0; $i < 4; $i++) {
 $password = trim($password);
 ?>
 <!-- TODO format this form -->
-<form method="post">
+<form method="post" id="change-password-form">
   <input style="display: none;" autocomplete="username" type="text" name="username" value="<?php echo $user->name ?>">
   <label for="password">altes Passwort:</label>
   <input autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" /><br>
@@ -52,4 +52,4 @@ $password = trim($password);
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit">Passwort ändern</button>
 </form>
-<script src="/password.js"></script>
+<script src="<?php echo $ROOT ?>/password.js"></script>

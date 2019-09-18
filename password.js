@@ -21,9 +21,11 @@ show_password.addEventListener('click', function() {
 
 function checkPassword() {
   var val = password.value;
+  var formData = new FormData(document.getElementById('change-password-form'));
 
-  fetch("/zxcvbn.php?" + val, {
-    method: 'GET',
+  fetch("zxcvbn.php", {
+    method: 'POST',
+    body: formData,
     redirect: "error"
   })
   .then(status)
