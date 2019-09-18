@@ -22,7 +22,7 @@ show_password.addEventListener('click', function() {
 function checkPassword() {
   var val = password.value;
 
-  fetch(`/zxcvbn.php?${val}`, {
+  fetch("/zxcvbn.php?" + val, {
     method: 'GET',
     redirect: "error"
   })

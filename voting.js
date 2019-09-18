@@ -145,7 +145,7 @@ function scrollToTop(event) {
 
     requestAnimationFrame(function () {
       // Before the DOM paints, Invert it to its old position
-      element.style.transform = `translate(0px, ${deltaY}px)`;
+      element.style.transform = 'translate(0px, ' + deltaY + 'px)';
       // Ensure it inverts it immediately
       element.style.transition = 'transform 0s';
 
