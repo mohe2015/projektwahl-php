@@ -2,7 +2,7 @@ height = 600
 width = 600
 function color() {
   const scale = d3.scaleOrdinal(d3.schemeCategory10);
-  return function(d) { scale(d.group) };
+  return function(d) { return scale(d.group) };
 }
 drag = function (simulation) {
 
@@ -32,11 +32,11 @@ drag = function (simulation) {
 async function graph() {
   data = await d3.json("/graph.php")
 
-  const links = data.links.map(function (d) { Object.create(d) });
-  const nodes = data.nodes.map(function (d) { Object.create(d) });
+  const links = data.links.map(function (d) { return Object.create(d) });
+  const nodes = data.nodes.map(function (d) { return Object.create(d) });
 
   const simulation = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(function (d) { d.id }))
+      .force("link", d3.forceLink(links).id(function (d) { return d.id }))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -48,7 +48,7 @@ async function graph() {
     .selectAll("line")
     .data(links)
     .join("line")
-      .attr("stroke-width", function (d) { Math.sqrt(d.value) });
+      .attr("stroke-width", function (d) { return Math.sqrt(d.value) });
 
   const node = svg.append("g")
       .attr("stroke", "#fff")
@@ -61,18 +61,18 @@ async function graph() {
       .call(drag(simulation));
 
   node.append("title")
-      .text(function (d) { d.id });
+      .text(function (d) { return d.id });
 
   simulation.on("tick", function () {
     link
-        .attr("x1", function (d) { d.source.x })
-        .attr("y1", function (d) { d.source.y })
-        .attr("x2", function (d) { d.target.x })
-        .attr("y2", function (d) { d.target.y });
+        .attr("x1", function (d) { return d.source.x })
+        .attr("y1", function (d) { return d.source.y })
+        .attr("x2", function (d) { return d.target.x })
+        .attr("y2", function (d) { return d.target.y });
 
     node
-        .attr("cx", function (d) { d.x })
-        .attr("cy", function (d) { d.y });
+        .attr("cx", function (d) { return d.x })
+        .attr("cy", function (d) { return d.y });
   });
 
 //  invalidation.then(function() { simulation.stop() });

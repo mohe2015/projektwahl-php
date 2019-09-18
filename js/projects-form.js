@@ -13,7 +13,7 @@ dialog.addEventListener('close', function onClose(e) {
 
 $('#save-supervisors').addEventListener('click', function(event) {
   event.preventDefault();
-  button.innerText = $$('li input:checked').map(function (x) { x.parentNode.innerText }).join("; ") || "Keine";
+  button.innerText = $$('li input:checked').map(function (x) { return x.parentNode.innerText }).join("; ") || "Keine";
   dialog.close();
 });
 
