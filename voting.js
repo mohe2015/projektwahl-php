@@ -100,7 +100,7 @@ function onChoiceSubmit(event) {
         alert(error);
       });
     } else {
-      alert("Nicht angemeldet!"); // TODO redirect to login if signed out
+      alert( "Nicht angemeldet!" + error); // TODO redirect to login if signed out
     }
   });
 
