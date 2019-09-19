@@ -21,14 +21,16 @@ show_password.addEventListener('click', function() {
 
 function checkPassword() {
   var val = password.value;
+  var formData = new FormData(document.getElementById('change-password-form'));
 
-  fetch(`/zxcvbn.php?${val}`, {
-    method: 'GET',
+  fetch("zxcvbn.php", {
+    method: 'POST',
+    body: formData,
     redirect: "error"
   })
   .then(status)
   .then(json)
-  .then((result) => {
+  .then(function (result) {
 
     // Update the password strength meter
     meter.value = result.score;
@@ -41,7 +43,7 @@ function checkPassword() {
     }
     feedback.innerHTML = "Verwende Passwörter aus zufälligen Wörten, da du dir sie leichter merken kannst. Oder verwende am Besten einen Passwort-Manager z.B. <a href=\"https://bitwarden.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Bitwarden</a>. " + result.feedback.suggestions.join('\n') + "\n" + result.feedback.warning;
   })
-  .catch((error) => {
+  .catch(function (error) {
     alert(error);
   });
 }

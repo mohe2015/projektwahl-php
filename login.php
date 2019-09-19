@@ -14,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['users'][] = $user;
     if (!$user->password_changed) {
       $_SESSION['old_password'] = $password;
-      header("Location: /update-password.php");
+      header("Location: $ROOT/update-password.php");
     } else if ($user->type === "student") {
-      header("Location: /election.php");
+      header("Location: $ROOT/election.php");
     } else {
-      header("Location: /");
+      header("Location: $ROOT/");
     }
     die();
   } else {

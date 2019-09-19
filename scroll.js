@@ -1,9 +1,9 @@
 function restoreScroll() {
-  window.scrollTo(0, localStorage.getItem(`scroll${location.pathname}`));
+  window.scrollTo(0, localStorage.getItem("scroll" + location.pathname));
 }
 
 function updateScroll() {
-  localStorage.setItem(`scroll${location.pathname}`, window.scrollY);
+  localStorage.setItem("scroll" + location.pathname, window.scrollY);
 }
 
 window.addEventListener('load', function() {

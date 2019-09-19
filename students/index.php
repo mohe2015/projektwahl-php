@@ -15,14 +15,14 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 <h1>Schüler</h1>
 
-<a href="/students/new.php" class="button">Neuer Schüler</a>
-<a href="/students/import.php" class="button">Schüler importieren</a>
+<a href="<?php echo $ROOT ?>/students/new.php" class="button">Neuer Schüler</a>
+<a href="<?php echo $ROOT ?>/students/import.php" class="button">Schüler importieren</a>
 <form class="inline-block" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
 </form>
-<a href="/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
-<a href="/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
+<a href="<?php echo $ROOT ?>/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
+<a href="<?php echo $ROOT ?>/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
 <br>
 
 <span style="background-color: green;">Gültig gewählt</span>
@@ -32,8 +32,6 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 <span style="background-color: grey;">Abwesend</span>
 
 <input class="w-100" type="search" id="search" placeholder="Suche nach Name oder Klasse">
-
-<script src="/js/students-search.js"></script>
 
 <div class="responsive">
   <table>
@@ -49,10 +47,10 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
           $student = $assoc_students[$student_id];
            ?>
           <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'LightSeaGreen' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
-            <td><a href="/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
+            <td><a href="<?php echo $ROOT ?>/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
-              <a href="/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
+              <a href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
               <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
@@ -67,10 +65,12 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                 <button class="a" type="submit"><i class="fas fa-sign-in-alt"></i></button>
               </form>
-              <a href="/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
+              <a href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
   </table>
 </div>
+
+<script src="<?php echo $ROOT ?>/js/students-search.js"></script>

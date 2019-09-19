@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     die(htmlspecialchars($e->getMessage()));
   }
-  header("Location: /teachers");
+  header("Location: $ROOT/teachers");
   die();
 } else {
   $teacher = Teachers::find($_SERVER['QUERY_STRING']);

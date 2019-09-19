@@ -113,10 +113,10 @@ try {
   $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
     print "Fehler bei der Installation: " . $e . "<br/>";
-    print 'Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href="/">Startseite</a>';
+    print "Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href=\"$ROOT/\">Startseite</a>";
     die();
 }
 
 echo "Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password";
-echo '<br /><a href="/">Zur Startseite</a>';
+echo "<br /><a href=\"$ROOT/\">Zur Startseite</a>";
 ?>

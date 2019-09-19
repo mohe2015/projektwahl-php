@@ -13,6 +13,6 @@ $projects = Projects::all();
 $project_with_project_leaders_and_members = Projects::findWithProjectLeadersAndMembers($project->id); // TODO FIXME this is an N + 1 query which is really bad
 ?>
 <?php
-require 'project.php';
+require __DIR__ . '/project.php';
 ?>
 <?php endforeach;?>

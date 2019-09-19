@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->commit();
         $timers->endTimer('import');
         header('Server-Timing: ' . $timers->getTimers());
-        header("Location: /students");
+        header("Location: $ROOT/students");
         die();
     } else {
       throw new Exception("Keine Datei ausgewählt!");

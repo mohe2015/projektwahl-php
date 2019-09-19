@@ -1,7 +1,7 @@
 function updateOrderCount() {
   var snackbar = document.querySelector('#snackbar');
-  let valid = true;
-  for (let i = 1; i <= 5; i++) {
+  var valid = true;
+  for (var i = 1; i <= 5; i++) {
     if (order_count[i] != 1) {
       valid = false;
       break;
@@ -9,12 +9,12 @@ function updateOrderCount() {
   }
   if (valid) {
     snackbar.classList.add('background-success');
-    snackbar.innerHTML = "Gültig gewählt - Du kannst Dich nun <a href=\"/logout.php\">abmelden</a>";
+    snackbar.innerHTML = "Gültig gewählt - Du kannst Dich nun <a href=\"logout.php\">abmelden</a>";
   } else {
     snackbar.classList.remove('background-success');
     snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";
-    for (let i = 1; i <= 5; i++) {
-      let span = document.createElement("span");
+    for (var i = 1; i <= 5; i++) {
+      var span = document.createElement("span");
       span.innerHTML = order_count[i] + "&times;" + i + ".";
       span.classList.add(order_count[i] == 1 ? "success" : "failure");
       snackbar.appendChild(span);
@@ -38,32 +38,34 @@ function is_sorted(arr, func) {
 function onChoiceSubmit(event) {
   event.preventDefault();
 
-  let oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
-  let newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
+  var oldRank = this.parentNode.querySelector('button[type="submit"]:disabled').getAttribute('data-rank');
+  var newRank = this.querySelector('button[type="submit"]').getAttribute('data-rank');
 
   // disable buttons for updating over network
-  this.parentNode.querySelectorAll('button[type="submit"]').forEach(e => e.setAttribute('disabled', null));
+  this.parentNode.querySelectorAll('button[type="submit"]').forEach(function (e) { e.setAttribute('disabled', null) });
 
-  fetch("/election.php", {
+  var that = this;
+
+  fetch("election.php", {
     method: 'POST',
     body: new FormData(this),
     redirect: "error"
   })
   .then(status)
-  .then((data) => {
+  .then(function (data) {
     console.log(data);
     // reenable buttons (except the newly selected one)
-    [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(x => x.getAttribute('data-rank') != newRank)
-      .forEach(e => e.removeAttribute('disabled'));
+    [...that.parentNode.querySelectorAll('button[type="submit"]')]
+      .filter(function (x) { return x.getAttribute('data-rank') != newRank})
+      .forEach(function (e) { e.removeAttribute('disabled') });
     // TODO color duplicate votes red
-    this.parentNode.parentNode.setAttribute('data-rank', newRank);
+    that.parentNode.parentNode.setAttribute('data-rank', newRank);
 
     order_count[oldRank]--;
     order_count[newRank]++;
     updateOrderCount();
 
-    let result = [...document.querySelectorAll('tr[data-rank]')];
+    var result = [...document.querySelectorAll('tr[data-rank]')];
     if (is_sorted(result, sortProjectRanks)) {
       document.querySelector('.scrolltop').classList.remove('show');
     } else {
@@ -71,7 +73,7 @@ function onChoiceSubmit(event) {
     }
 
     document.querySelectorAll('tr[data-rank="' + newRank + '"] button')
-    .forEach(element => {
+    .forEach(function (element) {
       element.classList.remove('background-failure');
       element.classList.remove('background-success');
       if (newRank != 0) {
@@ -79,7 +81,7 @@ function onChoiceSubmit(event) {
       }
     });
       document.querySelectorAll('tr[data-rank="' + oldRank + '"] button')
-      .forEach(element => {
+      .forEach(function (element) {
         element.classList.remove('background-failure');
         element.classList.remove('background-success');
         if (oldRank != 0) {
@@ -87,16 +89,16 @@ function onChoiceSubmit(event) {
         }
       });
   })
-  .catch((error) => {
+  .catch(function (error) {
     // reenable buttons (except the old selected one)
-    [...this.parentNode.querySelectorAll('button[type="submit"]')]
-      .filter(x => x.getAttribute('data-rank') != oldRank)
-      .forEach(e => e.removeAttribute('disabled'));
+    [...that.parentNode.querySelectorAll('button[type="submit"]')]
+      .filter(function (x) { return x.getAttribute('data-rank') != oldRank })
+      .forEach(function (e) { e.removeAttribute('disabled') });
     if (error.response) {
-      error.response.text().then((data) => {
+      error.response.text().then(function (data) {
         alert(data);
       })
-      .catch((error1) => {
+      .catch(function (error1) {
         alert(error);
       });
     } else {
@@ -108,7 +110,7 @@ function onChoiceSubmit(event) {
 }
 
 // listen on all forms
-document.querySelectorAll(".choice-form").forEach(e => e.addEventListener("submit", onChoiceSubmit));
+document.querySelectorAll(".choice-form").forEach(function (e) { e.addEventListener("submit", onChoiceSubmit) });
 
 function sortProjectRanks(a, b) {
   a = parseInt(a.getAttribute('data-rank'));
@@ -126,30 +128,30 @@ function scrollToTop(event) {
   window.scroll({top: 0, left: 0, behavior: 'smooth' });
 
   // get all table rows
-  let result = [...document.querySelectorAll('tr[data-rank]')];
+  var result = [...document.querySelectorAll('tr[data-rank]')];
 
   // store old positions
-  result.forEach(element => element.oldBoundingBox = element.getBoundingClientRect());
+  result.forEach(function (element) { element.oldBoundingBox = element.getBoundingClientRect()});
 
   // reorder them
   result.sort(sortProjectRanks);
 
-  let container = document.querySelector('tbody');
-  result.forEach(element => element.remove());
-  result.forEach(element => container.appendChild(element));
+  var container = document.querySelector('tbody');
+  result.forEach(function (element) { element.remove() });
+  result.forEach(function (element) { container.appendChild(element) });
 
   // store new positions
-  result.forEach(element => {
+  result.forEach(function (element) {
     element.newBoundingBox = element.getBoundingClientRect()
     const deltaY = element.oldBoundingBox.top - element.newBoundingBox.top;
 
-    requestAnimationFrame( () => {
+    requestAnimationFrame(function () {
       // Before the DOM paints, Invert it to its old position
-      element.style.transform = `translate(0px, ${deltaY}px)`;
+      element.style.transform = 'translate(0px, ' + deltaY + 'px)';
       // Ensure it inverts it immediately
       element.style.transition = 'transform 0s';
 
-      requestAnimationFrame( () => {
+      requestAnimationFrame(function () {
         // In order to get the animation to play, we'll need to wait for
         // the 'invert' animation frame to finish, so that its inverted
         // position has propagated to the DOM.
@@ -168,9 +170,9 @@ function scrollToTop(event) {
 document.querySelector("#scroll").addEventListener("click", scrollToTop);
 
 
-let result = [...document.querySelectorAll('tr[data-rank]')];
+var result = [...document.querySelectorAll('tr[data-rank]')];
 var order_count = [0, 0, 0, 0, 0, 0];
-result.forEach(element => {
+result.forEach(function (element) {
   order_count[element.getAttribute('data-rank')]++;
 });
 console.log(order_count);

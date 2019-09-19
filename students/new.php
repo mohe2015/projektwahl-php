@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     die(htmlspecialchars($e->getMessage()));
   }
-  header("Location: /students");
+  header("Location: $ROOT/students");
   die();
 } else {
   $student = new Student(array());
@@ -18,5 +18,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h1>Schüler erstellen</h1>
 <?php
-require_once 'form.php';
+require_once __DIR__ . '/form.php';
 ?>
