@@ -52,4 +52,4 @@ $password = trim($password);
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit">Passwort ändern</button>
 </form>
-<script src="<?php echo $ROOT ?>/password.js"></script>
+<script src="<?php echo $ROOT ?>/password.js?v=2"></script>

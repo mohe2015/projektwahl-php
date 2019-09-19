@@ -49,7 +49,8 @@ function onChoiceSubmit(event) {
   fetch("election.php", {
     method: 'POST',
     body: new FormData(this),
-    redirect: "error"
+    redirect: "error",
+    credentials: "same-origin"
   })
   .then(status)
   .then(function (data) {

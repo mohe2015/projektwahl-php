@@ -128,4 +128,4 @@ else:
 endif;
 ?>
 
-<script src="voting.js"></script>
+<script src="voting.js?v=3"></script>

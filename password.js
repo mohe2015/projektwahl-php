@@ -26,7 +26,8 @@ function checkPassword() {
   fetch("zxcvbn.php", {
     method: 'POST',
     body: formData,
-    redirect: "error"
+    redirect: "error",
+    credentials: "same-origin"
   })
   .then(status)
   .then(json)
