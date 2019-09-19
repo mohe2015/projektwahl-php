@@ -153,46 +153,24 @@ button:disabled {
   text-align: center;
 }
 
-@keyframes heartbeat {
-  0% {
-    transform: scale(.9);
-  }
-  20% {
-   transform: scale(1.2);
-  }
-  40% {
-    transform: scale(.9);
-  }
-  60% {
-    transform: scale(1.2);
-  }
-  80% {
-    transform: scale(.9);
-  }
-  100% {
-    transform: scale(.9);
-  }
-}
-
 .scrolltop {
 	visibility: hidden;
-  opacity: 0;
+	opacity: 0;
 	position:fixed;
 	right:10px;
-  transition: visibility 0s, opacity 0.5s linear, bottom 0.5s linear;
-  bottom: -2em;
-  z-index: 2;
+	transition: visibility 0s, opacity 0.5s linear, bottom 0.5s linear;
+	bottom: -2em;
+	z-index: 2;
 }
 .scroll {
 	position:absolute;
 	right:20px;
 	bottom:20px;
-  background-color: var(--background-color-light);
-  animation: heartbeat 1s infinite;
+	background-color: var(--background-color-light);
 	padding:20px;
 	cursor:pointer;
-  border-radius: 1em;
-  transition: 1s;
+	border-radius: 1em;
+	transition: 1s;
 }
 .scroll:hover {
 	background:rgba(178,178,178,1.0);
