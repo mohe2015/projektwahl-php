@@ -33,12 +33,12 @@ function active_exact($path) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="<?php echo $ROOT ?>/base.js"></script>
-    <link rel="stylesheet" href="<?php echo $ROOT ?>/dialog-polyfill.css">
+    <link rel="stylesheet" href="<?php echo $ROOT ?>/dialog-polyfill/dialog-polyfill.css">
     <link rel="stylesheet" href="<?php echo $ROOT ?>/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" integrity="sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=" crossorigin="anonymous" />
     <!-- This is a polyfill to support the old firefox browser in the school. -->
     <script src="<?php echo $ROOT ?>/polyfill.js"></script>
-    <script src="<?php echo $ROOT ?>/dialog-polyfill.js"></script>
+    <script src="<?php echo $ROOT ?>/dialog-polyfill/dialog-polyfill.js"></script>
     <script src="<?php echo $ROOT ?>/scroll.js"></script>
     <title>Projektwahl</title>
   </head>
