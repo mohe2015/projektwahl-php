@@ -1,3 +1,22 @@
+<?php
+/*
+projektwahl-php - manage project selection for many people
+Copyright (C) 2019 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+projektwahl-php is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+projektwahl-php is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
+*/
+?>
 <div style="page-break-inside: avoid;">
   <h2><?php echo htmlspecialchars($project->title) ?> <a class="print-display-none" href="<?php echo $ROOT ?>/projects/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a> <a class="print-display-none" href="<?php echo $ROOT ?>/projects/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a></h2>
   <b>Info: </b><?php echo htmlspecialchars($project->info) ?><br>

@@ -1,4 +1,21 @@
 <?php
+/*
+projektwahl-php - manage project selection for many people
+Copyright (C) 2019 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+projektwahl-php is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+projektwahl-php is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
+*/
 require_once __DIR__ . '/header.php';
 
 // used to add the active class to the current tab
@@ -16,12 +33,12 @@ function active_exact($path) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="<?php echo $ROOT ?>/base.js"></script>
-    <link rel="stylesheet" href="<?php echo $ROOT ?>/dialog-polyfill.css">
+    <link rel="stylesheet" href="<?php echo $ROOT ?>/dialog-polyfill/dialog-polyfill.css">
     <link rel="stylesheet" href="<?php echo $ROOT ?>/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" integrity="sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=" crossorigin="anonymous" />
     <!-- This is a polyfill to support the old firefox browser in the school. -->
     <script src="<?php echo $ROOT ?>/polyfill.js"></script>
-    <script src="<?php echo $ROOT ?>/dialog-polyfill.js"></script>
+    <script src="<?php echo $ROOT ?>/dialog-polyfill/dialog-polyfill.js"></script>
     <script src="<?php echo $ROOT ?>/scroll.js"></script>
     <title>Projektwahl</title>
   </head>
