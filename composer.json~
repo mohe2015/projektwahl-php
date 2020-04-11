@@ -1,0 +1,11 @@
+{
+  "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mohe2015/zxcvbn-php"
+        }
+    ],
+    "require": {
+        "mkopinsky/zxcvbn-php": "dev-german"
+    }
+}

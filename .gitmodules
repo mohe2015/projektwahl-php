@@ -1,3 +1,6 @@
 [submodule "dialog-polyfill"]
 	path = dialog-polyfill
 	url = https://github.com/GoogleChrome/dialog-polyfill
+[submodule "tabler"]
+	path = tabler
+	url = https://github.com/tabler/tabler

@@ -1,0 +1,371 @@
+/*
+projektwahl-php - manage project selection for many people
+Copyright (C) 2019 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+projektwahl-php is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+projektwahl-php is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
+*/
+/* body sizing */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* basic style */
+body {
+  margin: 0;
+  /* TODO: these vars are not supported by internet explorer yet and need to be transpiled */
+  --background-color: hsl(240, 100%, 14%);
+  --background-color-light: hsl(240, 100%, 50%);
+  --foreground-color: white;
+  --disabled-color: hsla(0, 0%, 50%, 1);
+  --hover-color: hsla(0, 100%, 53%, 1);
+}
+
+body, button[type=submit] {
+  font-size: inherit;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+body, input, textarea, select {
+  background-color: black;
+  color: white;
+}
+
+/* style forms */
+input, textarea, select {
+  border: 1px solid var(--background-color-light);
+  padding: 0.5em 0.5em;
+  margin: 0.5em 0;
+}
+
+/* fading colors */
+* {
+  transition: background-color 0.25s;
+}
+
+/* align headers */
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+
+/* default table styling */
+table, .w-100 {
+  width: 100%;
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border-bottom: 1px solid #bbb;
+  padding: 0.2em;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.right {
+  text-align: right;
+}
+
+th {
+  text-align: left;
+}
+
+tr:hover {background-color: #0d0d0d;}
+
+.responsive {
+  overflow-x: auto;
+}
+
+/* basic styling of navbar */
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+/* menu from the left */
+nav li {
+  float: left;
+}
+
+/* put some menu items on the right */
+.float-right {
+  float: right;
+}
+
+/* style nav links */
+li a {
+  display: inline-block;
+  color: var(--foreground-color);
+  padding: 0.5em 0.5em;
+  text-decoration: none;
+}
+
+/* red on hover */
+li a:hover {
+  background-color: var(--hover-color);
+}
+
+/* show active tab */
+.active {
+  background-color: var(--background-color-light);
+}
+
+/* only icons on small screen */
+@media screen and (max-width: 45em) {
+  .hidden-small {
+    display: none;
+  }
+}
+
+/* restyle button */
+.button, button {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+  padding: 0.75rem;
+  color: var(--foreground-color);
+  background-color: var(--background-color-light);
+  border: 0;
+  margin-bottom: 0.5em;
+  display: inline-block;
+}
+
+button:disabled {
+  background-color: var(--disabled-color);
+}
+
+/* container has no full width on big screens */
+.container {
+  max-width: 50em;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.col {
+  width: 100%;
+}
+
+.fa-square-size {
+  width: 1em;
+  text-align: center;
+}
+
+.scrolltop {
+	visibility: hidden;
+	opacity: 0;
+	position:fixed;
+	right:10px;
+	transition: visibility 0s, opacity 0.5s linear, bottom 0.5s linear;
+	bottom: -2em;
+	z-index: 2;
+}
+.scroll {
+	position:absolute;
+	right:20px;
+	bottom:20px;
+	background-color: var(--background-color-light);
+	padding:20px;
+	cursor:pointer;
+	border-radius: 1em;
+	transition: 1s;
+}
+.scroll:hover {
+	background:rgba(178,178,178,1.0);
+}
+
+.snackbar {
+  visibility: hidden;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 16px;
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 0;
+}
+
+.success {
+  color: green;
+}
+
+.failure {
+  color: red;
+}
+
+div.background-success {
+  background-color: green;
+}
+
+div.background-failure {
+  background-color: red;
+}
+
+button[type="submit"]:disabled.background-success {
+  background-color: green;
+}
+
+button[type="submit"]:disabled.background-failure {
+  background-color: red;
+}
+
+.monospace {
+  font-family: monospace;
+}
+
+@media print {
+
+  .print-display-none {
+    display: none;
+  }
+
+  nav {
+    display: none;
+  }
+
+  body {
+    background-color: white;
+    color: black;
+    font-size: 150%;
+  }
+}
+
+.dropdown {
+  list-style-type: none;
+  max-height: 50%;
+  overflow-y: auto;
+  padding-left: 0;
+}
+
+dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+dialog[open] {
+  animation: appear .15s cubic-bezier(0, 1.8, 1, 1.8);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateX(-3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+dialog {
+  overflow-y: auto;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+td.min {
+    width: 1%;
+    white-space: nowrap;
+}
+
+button.a {
+  background:none!important;
+  border:none;
+  padding:0!important;
+
+  /*optional*/
+  font-family:arial,sans-serif; /*input has OS specific font-family*/
+  color: rgb(0, 0, 238);
+  cursor:pointer;
+}
+
+button.a:hover{
+  text-decoration:underline;
+}
+
+/* don't make icons dark-blue when already visited */
+a:visited i.fas {
+  color: blue;
+}
+
+nav i.fas {
+  color: white !important; /* TODO FIXME */
+}
+
+
+
+meter {
+  margin: 0;
+  width: 100%;
+  height: 0.5em;
+
+  /* Applicable only to Firefox */
+  background: none;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+meter::-webkit-meter-bar {
+  background: none;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+meter::-webkit-meter-optimum-value {
+  background: #000;
+  transition: background-color 0.5s, width 0.5s;
+}
+
+/* Webkit based browsers */
+meter[value="1"]::-webkit-meter-optimum-value { background-color: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background-color: yellow; }
+meter[value="3"]::-webkit-meter-optimum-value { background-color: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background-color: green; }
+
+meter::-moz-meter-bar {
+  background: #000;
+  transition: background-color 0.5s, width 0.5s;
+}
+
+/* Gecko based browsers */
+meter[value="1"]::-moz-meter-bar { background-color: red; }
+meter[value="2"]::-moz-meter-bar { background-color: yellow; }
+meter[value="3"]::-moz-meter-bar { background-color: orange; }
+meter[value="4"]::-moz-meter-bar { background-color: green; }
