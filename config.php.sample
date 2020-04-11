@@ -19,7 +19,7 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 
 $database = [
   '_comment' => 'IMPORTANT: absolute path required',
-  'url'      => 'sqlite:/var/www/aes.selfmade4u.de/projektwahl.db',
+  'url'      => 'sqlite:/usr/share/nginx/html/projektwahl.db',
   'dbname'   => 'projektwahl',
   'username' => 'root',
   'password' => 'test',
