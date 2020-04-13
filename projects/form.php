@@ -20,37 +20,37 @@ $users = Users::all();
 ?>
 <form method="post">
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Titel*:</label>
   <input autofocus class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Info*:</label>
   <textarea class="col" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Ich benötige:</label>
   <textarea class="col" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Präsentationsart:</label>
   <input class="col" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Ort/Raum*:</label>
   <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Kosten:</label>
   <input class="col" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Jahrgangsstufe*:</label>
   <div class="col">
     <input type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
@@ -59,7 +59,7 @@ $users = Users::all();
   </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Teilnehmeranzahl*:</label>
   <div class="col">
     <input type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
@@ -77,7 +77,7 @@ $project_leaders = array_map(function($project_leader) {
 }, $project_leaders);
 ?>
 
-<div class="form-group">
+<div class="mb-3">
   <label class="col">Betreuer:</label>
 
   <select class="col" id="select-supervisors" name="supervisors[]" multiple>
@@ -114,7 +114,7 @@ foreach ($users as $user): ?>
   </dialog>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
   <label>
     <input type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
     Zufällige Projektzuweisungen erlaubt
@@ -123,7 +123,7 @@ foreach ($users as $user): ?>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="form-group">
+<div class="mb-3">
   <button type="submit" class="w-100">Projekt speichern</button>
 </div>
 

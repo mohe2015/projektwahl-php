@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1>Schüler löschen</h1>
+<h1 class="text-center">Schüler löschen</h1>
 
 <form method="post">
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
 <div class="form-group">
-  <button type="submit" class="w-100">Schüler löschen</button>
+  <button class="btn w-100 btn-primary" type="submit" class="w-100">Schüler löschen</button>
 </div>
 
 </form>
