@@ -39,10 +39,10 @@ function active_exact($path) {
     <script src="<?php echo $ROOT ?>/scroll.js"></script>
     <title>Projektwahl</title>
   </head>
-  <body>
+  <body class="bg-dark text-white">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Projektwahl</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

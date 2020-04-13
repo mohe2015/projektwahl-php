@@ -129,11 +129,11 @@ try {
   $stmt = $db->prepare("INSERT INTO users (name, password, type) VALUES (:name, :password, 'admin') ON CONFLICT DO NOTHING");
   $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 } catch (PDOException $e) {
-    print "Fehler bei der Installation: " . $e . "<br/>";
-    print "Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href=\"$ROOT/\">Startseite</a>";
+    print '<div class="alert alert-danger" role="alert">Fehler bei der Installation: ' . $e . '<br/>';
+    print "Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href=\"$ROOT\" class=\"alert-link\">Startseite</a></div>";
     die();
 }
 
-echo "Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password";
-echo "<br /><a href=\"$ROOT/\">Zur Startseite</a>";
+echo '<div class="alert alert-success" role="alert">Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password';
+echo "<br /><a href=\"$ROOT/\" class=\"alert-link\">Zur Startseite</a></div>";
 ?>

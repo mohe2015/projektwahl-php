@@ -25,15 +25,15 @@ if (!$settings->election_running && $user->type !== 'admin') {
   require_once __DIR__ . '/head.php';
   if ($user->in_project !== NULL) {
     // TODO highlight
-    echo("<p>Die Wahl ist beendet! Du bist" . ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) . ".</p>");
+    echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet! Du bist' . ($user->in_project == $user->project_leader ? ' Projektleiter' : '') . ' im Projekt ' . htmlspecialchars(Projects::find($user->in_project)->title) . '.</div>');
   } else {
-    echo("<p>Die Wahl ist beendet!</p>");
+    echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet!</div>');
   }
 }
 ?>
-<h1>Willkommen</h1>
+<h1 class="text-center">Willkommen</h1>
 
-<h2>Credits</h2>
+<h2 class="text-center">Credits</h2>
 
 <p>Diese Software wurde von Moritz Hedtke entwickelt.</p>
 

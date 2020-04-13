@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     die();
   } else {
-    echo "invalid password";
+    echo '<div class="alert alert-danger" role="alert">Passwort falsch!</div>';
   }
 }
 ?>

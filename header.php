@@ -21,8 +21,7 @@ $ROOT = substr(dirname(__FILE__), strlen($_SERVER["DOCUMENT_ROOT"]));
 // show error message if exception is not caught
 function myException($exception) {
   http_response_code(500);
-  echo "<b>Interner Fehler: </b> " . $exception->getMessage();
-  echo "<br />Eventuell musst du erst <a href=\"$ROOT/install.php\">installieren</a>";
+  echo '<div class="alert alert-danger" role="alert">Interner Fehler: ' . $exception->getMessage() . '<br />Eventuell musst du erst <a href="$ROOT/install.php" class="alert-link">installieren</a>.</div>';
   die();
 }
 //set_exception_handler('myException');
@@ -48,7 +47,7 @@ require_once __DIR__ . '/permissions.php';
 // SECURITY: checks whether the CSRF csrf_token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    die("CSRF csrf_token not valid");
+    die('<div class="alert alert-danger" role="alert">CSRF csrf_token not valid</div>');
   }
 }
 if (empty($_SESSION['csrf_token'])) {
