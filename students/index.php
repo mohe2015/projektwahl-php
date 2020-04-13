@@ -65,26 +65,26 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
         <?php foreach ($grouped_choices as $student_id => $student_choices):
           $student = $assoc_students[$student_id];
            ?>
-          <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'LightSeaGreen' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
+          <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" class="bg-<?php echo $student->away ? 'secondary' : ($student->project_leader ? 'info' : ($student->valid ? 'success' : (count($student_choices) > 0 ? 'warning' : 'danger'))) ?>">
             <td><a href="<?php echo $ROOT ?>/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
-              <a href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
-              <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
+              <a role="button" class="btn btn-primary" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
+              <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
-              <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
+              <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="password" value="">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas fa-key"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-key"></i></button>
               </form>
-              <form class="inline-block" method="post" action="sudo.php?<?php echo $student->id ?>">
+              <form class="d-inline" method="post" action="sudo.php?<?php echo $student->id ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt"></i></button>
               </form>
-              <a href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
+              <a role="button" class="btn btn-primary" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach; ?>
