@@ -4,3 +4,6 @@
 [submodule "tabler"]
 	path = tabler
 	url = https://github.com/tabler/tabler
+[submodule "bootstrap"]
+	path = bootstrap
+	url = https://github.com/twbs/bootstrap/
