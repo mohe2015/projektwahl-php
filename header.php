@@ -66,14 +66,13 @@ try {
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
 } catch (PDOException $e) {
-    print "Error!: " . $e . "<br/>";
-    die();
+  die('<div class="alert alert-danger" role="alert">' . $e . '</div>');
 }
 
 try {
   $settings = Settings::get();
 } catch (PDOException $e) {
-  echo $e->getMessage();
+  echo('<div class="alert alert-danger" role="alert">' . $e->getMessage() . '</div>');
 }
 
 if (0 !== count($_SESSION['users']) && $_SESSION['users'][0]->type !== 'admin' && $_SERVER['REQUEST_URI'] !== "/update-password.php" && $_SERVER['REQUEST_URI'] !== "/zxcvbn.php" && $_SERVER['REQUEST_URI'] !== "/logout.php" && !end($_SESSION['users'])->password_changed) {

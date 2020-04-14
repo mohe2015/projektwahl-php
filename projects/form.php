@@ -18,54 +18,38 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $users = Users::all();
 ?>
-<form method="post">
+<form method="post" style="display: grid; grid-template-columns: min-content 1fr; grid-auto-rows: 100%; grid-auto-flow: row;">
 
-<div class="mb-3">
-  <label class="col">Titel*:</label>
-  <input autofocus class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+<label class="col-sm-2 col-form-label">Titel*:</label>
+<input autofocus class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+
+<label class="col-sm-2 col-form-label">Info*:</label>
+<textarea class="col" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
+
+<label  class="col-sm-2 col-form-label">Ich benötige:</label>
+<textarea class="col" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
+
+<label  class="col-sm-3 col-form-label">Präsentationsart:</label>
+<input class="col-sm-9" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
+
+<label  class="col-sm-2 col-form-label">Ort/Raum*:</label>
+<input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
+
+<label  class="col-sm-2 col-form-label">Kosten:</label>
+<input  class="col" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
+
+<label  class="col-sm-2 col-form-label">Jahrgangsstufe*:</label>
+<div  class="col">
+  <input type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
+  <span>bis</span>
+  <input type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
-<div class="mb-3">
-  <label class="col">Info*:</label>
-  <textarea class="col" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
-</div>
-
-<div class="mb-3">
-  <label class="col">Ich benötige:</label>
-  <textarea class="col" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
-</div>
-
-<div class="mb-3">
-  <label class="col">Präsentationsart:</label>
-  <input class="col" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
-</div>
-
-<div class="mb-3">
-  <label class="col">Ort/Raum*:</label>
-  <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
-</div>
-
-<div class="mb-3">
-  <label class="col">Kosten:</label>
-  <input class="col" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
-</div>
-
-<div class="mb-3">
-  <label class="col">Jahrgangsstufe*:</label>
-  <div class="col">
-    <input type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
-    <span>bis</span>
-    <input type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
-  </div>
-</div>
-
-<div class="mb-3">
-  <label class="col">Teilnehmeranzahl*:</label>
-  <div class="col">
-    <input type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
-    <span>bis</span>
-    <input type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
-  </div>
+<label  class="col-sm-2 col-form-label">Teilnehmeranzahl*:</label>
+<div  class="col">
+  <input type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
+  <span>bis</span>
+  <input type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
 </div>
 
 <?php
@@ -77,9 +61,9 @@ $project_leaders = array_map(function($project_leader) {
 }, $project_leaders);
 ?>
 
-<div class="mb-3">
-  <label class="col">Betreuer:</label>
+<label  class="col-sm-2 col-form-label">Betreuer:</label>
 
+<div >
   <select class="col" id="select-supervisors" name="supervisors[]" multiple>
   <?php
     foreach ($users as $user): ?>
@@ -100,32 +84,26 @@ $project_leaders = array_map(function($project_leader) {
     <h1>Betreuer</h1>
     <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
     <ul class="dropdown">
-<?php
-foreach ($users as $user): ?>
+  <?php
+  foreach ($users as $user): ?>
       <li>
         <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
         <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>">
           <?php echo htmlspecialchars($user->name) ?>
         </label>
       </li>
-<?php endforeach ?>
+  <?php endforeach ?>
     </ul>
     <button id="save-supervisors">Schließen</button>
   </dialog>
 </div>
 
-<div class="mb-3">
-  <label>
-    <input type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
-    Zufällige Projektzuweisungen erlaubt
-  </label>
-</div>
+<label >Zufällige Projektzuweisungen erlaubt</label>
+<input  type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="mb-3">
-  <button type="submit" class="w-100">Projekt speichern</button>
-</div>
+<button style="grid-column: span 2;" type="submit" class="w-100 btn btn-primary">Projekt speichern</button>
 
 </form>
 
