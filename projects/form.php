@@ -18,7 +18,7 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $users = Users::all();
 ?>
-<form method="post" style="display: grid; grid-template-columns: min-content 1fr; grid-auto-rows: 100%; grid-auto-flow: row; row-gap: 1rem; column-gap: 0.5rem">
+<form method="post">
 
 <label class="form-label">Titel*:</label>
 <input autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
@@ -105,7 +105,7 @@ $project_leaders = array_map(function($project_leader) {
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button style="grid-column: span 2;" type="submit" class="btn btn-primary mb-3">Projekt speichern</button>
+<button type="submit" class="btn btn-primary mb-3">Projekt speichern</button>
 
 </form>
 

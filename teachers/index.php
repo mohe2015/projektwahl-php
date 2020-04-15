@@ -22,17 +22,18 @@ require_once __DIR__ . '/../head.php';
 $teachers = Teachers::all();
 ?>
 
-<h1>Lehrer</h1>
+<h1 class="text-center">Lehrer</h1>
 
-<a href="<?php echo $ROOT ?>/teachers/new.php" class="button">Neuer Lehrer</a>
-<a href="<?php echo $ROOT ?>/teachers/import.php" class="button">Lehrer importieren</a>
-<form class="inline-block" method="POST" action="generate_passwords.php">
+<a href="<?php echo $ROOT ?>/teachers/new.php" class="btn btn-primary mb-1">Neuer Lehrer</a>
+<a href="<?php echo $ROOT ?>/teachers/import.php" class="btn btn-primary mb-1">Lehrer importieren</a>
+
+<form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="btn btn-primary mb-1">Passwortliste generieren</button>
 </form>
 
 <div class="responsive">
-  <table>
+  <table class="table">
     <thead>
         <tr>
           <th scope="col">Name</th>

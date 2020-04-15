@@ -1,0 +1,12 @@
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: 100%;
+  grid-auto-flow: row;
+  row-gap: 1rem;
+  column-gap: 0.5rem;
+}
+
+button[type=submit] {
+  grid-column: span 2;
+}

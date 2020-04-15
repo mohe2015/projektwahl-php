@@ -34,7 +34,7 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 <a href="<?php echo $ROOT ?>/students/new.php" class="btn btn-primary mb-1" role="button">Neuer Schüler</a>
 <a href="<?php echo $ROOT ?>/students/import.php" class="btn btn-primary mb-1" role="button">Schüler importieren</a>
-<form class="inline-block" method="POST" action="generate_passwords.php">
+<form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
   <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php"  class="btn btn-primary mb-1" role="button">Passwortliste generieren</button>
 </form>
