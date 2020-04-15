@@ -18,7 +18,7 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
 <div style="page-break-inside: avoid;">
-  <h2 class="text-center"><?php echo htmlspecialchars($student->name) ?> <a class="print-display-none" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a> <a class="print-display-none" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a></h2>
+  <h2 class="text-center"><?php echo htmlspecialchars($student->name) ?> <a class="d-print-none" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a> <a class="d-print-none" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a></h2>
   <b>Klasse: </b><?php echo htmlspecialchars($student->class) ?><br>
   <b>Jahrgang: </b><?php echo htmlspecialchars($student->grade) ?><br>
   <b>Abwesend? </b><?php echo htmlspecialchars($student->away) ? "ja" : "nein" ?><br>

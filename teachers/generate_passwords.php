@@ -23,9 +23,9 @@ $users = Teachers::allWithoutPasswords();
 ?>
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-  <h1 class="print-display-none">Passwörter</h1>
-  <p class="print-display-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
-  <p class="print-display-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p>
+  <h1 class="d-print-none">Passwörter</h1>
+  <p class="d-print-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
+  <p class="d-print-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p>
   <?php
   $db->beginTransaction();
   ?>

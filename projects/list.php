@@ -22,7 +22,7 @@ require_once __DIR__ . '/../head.php';
 $projects = Projects::all();
 ?>
 
-<h1 class="print-display-none">Projektliste</h1>
+<h1 class="d-print-none">Projektliste</h1>
 
 <!-- TODO remove space + remove some info from the list or put some things on one line to not waste space -->
 
