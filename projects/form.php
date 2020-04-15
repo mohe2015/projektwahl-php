@@ -20,32 +20,32 @@ $users = Users::all();
 ?>
 <form method="post">
 
-<label class="form-label">Titel*:</label>
+<label>Titel*:</label>
 <input autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
 
-<label class="form-label">Info*:</label>
+<label>Info*:</label>
 <textarea name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
 
-<label class="form-label">Ich benötige:</label>
+<label>Ich benötige:</label>
 <textarea name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
 
-<label class="form-label">Präsentationsart:</label>
+<label>Präsentationsart:</label>
 <input type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
 
-<label class="form-label">Ort/Raum*:</label>
+<label>Ort/Raum*:</label>
 <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
 
-<label class="form-label">Kosten:</label>
+<label>Kosten:</label>
 <input type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 
-<label class="form-label">Jahrgangsstufe*:</label>
+<label>Jahrgangsstufe*:</label>
 <div class="input-group mb-3">
   <input class="form-control" type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
   <span class="input-group-text">bis</span>
   <input class="form-control" type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
-<label class="form-label">Teilnehmeranzahl*:</label>
+<label>Teilnehmeranzahl*:</label>
 <div class="input-group mb-3">
   <input class="form-control" type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
   <span class="input-group-text">bis</span>
@@ -61,7 +61,7 @@ $project_leaders = array_map(function($project_leader) {
 }, $project_leaders);
 ?>
 
-<label class="form-label">Betreuer:</label>
+<label>Betreuer:</label>
 
 <div>
   <select id="select-supervisors" name="supervisors[]" multiple>
@@ -105,7 +105,7 @@ $project_leaders = array_map(function($project_leader) {
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button type="submit" class="btn btn-primary mb-3">Projekt speichern</button>
+<button type="submit">Projekt speichern</button>
 
 </form>
 

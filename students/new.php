@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1 class="text-center">Schüler erstellen</h1>
+<h1>Schüler erstellen</h1>
 <?php
 require_once __DIR__ . '/form.php';
 ?>

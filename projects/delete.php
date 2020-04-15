@@ -42,8 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="form-group">
-  <button type="submit" class="w-100">Projekt löschen</button>
-</div>
+<button type="submit">Projekt löschen</button>
 
 </form>

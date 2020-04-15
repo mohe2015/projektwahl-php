@@ -55,14 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <form enctype="multipart/form-data" method="POST">
-  <div class="form-group">
-    <label class="col">CSV-Datei (name/first-name+last-name, class, grade):</label>
-    <input class="col" name="csv-file" type="file" />
-  </div>
 
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+<label>CSV-Datei (name/first-name+last-name, class, grade):</label>
+<input name="csv-file" type="file" />
 
-  <div class="form-group">
-    <button class="w-100" type="submit">Schüler importieren</button>
-  </div>
+<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+
+<button type="submit">Schüler importieren</button>
+
 </form>

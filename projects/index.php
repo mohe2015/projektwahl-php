@@ -22,13 +22,13 @@ require_once __DIR__ . '/../head.php';
 $projects = Projects::all();
 ?>
 
-<h1 class="text-center">Projekte</h1>
+<h1>Projekte</h1>
 
-<a href="<?php echo $ROOT ?>/projects/new.php" class="btn btn-primary" role="button">Neues Projekt<a>
-<a href="<?php echo $ROOT ?>/projects/list.php" class="btn btn-primary" role="button">Projektliste<a>
+<a href="<?php echo $ROOT ?>/projects/new.php" role="button">Neues Projekt<a>
+<a href="<?php echo $ROOT ?>/projects/list.php" role="button">Projektliste<a>
 
 <div class="responsive">
-  <table class="table">
+  <table>
     <thead>
         <tr>
           <th scope="col">Name</th>
