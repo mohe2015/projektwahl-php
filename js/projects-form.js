@@ -26,6 +26,7 @@ var supervisors = $$('li input[type="checkbox"]');
 supervisors.forEach(function (e) {
   e.addEventListener('change', function (event) {
     $('.' + e.id).selected = e.checked;
+    update(input.value);
   });
 });
 
