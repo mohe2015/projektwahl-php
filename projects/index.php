@@ -24,8 +24,8 @@ $projects = Projects::all();
 
 <h1>Projekte</h1>
 
-<a href="<?php echo $ROOT ?>/projects/new.php" role="button">Neues Projekt<a>
-<a href="<?php echo $ROOT ?>/projects/list.php" role="button">Projektliste<a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/projects/new.php">Neues Projekt<a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/projects/list.php">Projektliste<a>
 
 <div class="responsive">
   <table>

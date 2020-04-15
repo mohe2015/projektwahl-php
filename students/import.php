@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: $ROOT/students");
         die();
     } else {
-      throw new Exception("Keine Datei ausgewählt!");
+      throw new Exception('<div class="alert alert-danger" role="alert">Keine Datei ausgewählt!</div>');
     }
   } catch (Exception $e) {
     echo $e->getMessage();
@@ -50,8 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <form enctype="multipart/form-data" method="POST">
 
-<label>CSV-Datei (name/first-name+last-name, class, grade):</label>
-<input name="csv-file" type="file" />
+<div class="form-file">
+  <input type="file" class="form-file-input" id="customFile" name="csv-file" accept="text/csv">
+  <label class="form-file-label" for="customFile">
+    <span class="form-file-text">CSV-Datei (name/first-name+last-name, class, grade) auswählen</span>
+    <span class="form-file-button">Durchsuchen</span>
+  </label>
+</div>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
