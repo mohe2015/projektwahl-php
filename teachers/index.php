@@ -24,12 +24,12 @@ $teachers = Teachers::all();
 
 <h1>Lehrer</h1>
 
-<a href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
-<a href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
+<a role="button" href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
+<a role="button" href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
 
 <form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="btn btn-primary mb-1">Passwortliste generieren</button>
+  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
 </form>
 
 <div class="responsive">

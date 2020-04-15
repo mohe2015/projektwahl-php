@@ -21,8 +21,6 @@ require_once __DIR__ . '/../head.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
-    $timers = new Timers();
-    $timers->startTimer('import');
     $db->beginTransaction();
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
         $header = fgetcsv($handle, 1000, ",");
@@ -39,8 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fclose($handle);
 
         $db->commit();
-        $timers->endTimer('import');
-        header('Server-Timing: ' . $timers->getTimers());
         header("Location: $ROOT/students");
         die();
     } else {
@@ -49,8 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     echo $e->getMessage();
     $db->rollback();
-    $timers->endTimer('import');
-    header('Server-Timing: ' . $timers->getTimers());
   }
 }
 ?>

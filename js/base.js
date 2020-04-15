@@ -64,4 +64,6 @@ window.addEventListener("load", function () {
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
+
+  bsCustomFileInput.init()
 })

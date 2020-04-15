@@ -19,10 +19,7 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 $allowed_users = array("admin");
 require_once __DIR__ . '/../head.php';
 
-$timers = new Timers();
-$timers->startTimer('all_users');
 $users = Students::allWithoutPasswords();
-$timers->endTimer('all_users');
 
 $grouped_users = array();
 foreach ($users as $user) {
@@ -35,7 +32,6 @@ foreach ($users as $user) {
   <p class="print-display-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
   <p class="print-display-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p>
   <?php
-  $timers->startTimer('generate_passwords');
   $db->beginTransaction();
   foreach ($grouped_users as $class_name => $class) :?>
     <h1 class="print-display-none"><?php echo $class_name ?></h1>
@@ -66,8 +62,6 @@ foreach ($users as $user) {
     </div>
   <?php endforeach;
   $db->commit();
-  $timers->endTimer('generate_passwords');
-  header('Server-Timing: ' . $timers->getTimers());
   ?>
 
 <?php else: ?>

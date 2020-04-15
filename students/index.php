@@ -32,14 +32,14 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
 <h1>Schüler</h1>
 
-<a href="<?php echo $ROOT ?>/students/new.php" role="button">Neuer Schüler</a>
-<a href="<?php echo $ROOT ?>/students/import.php" role="button">Schüler importieren</a>
+<a role="button" href="<?php echo $ROOT ?>/students/new.php">Neuer Schüler</a>
+<a role="button" href="<?php echo $ROOT ?>/students/import.php">Schüler importieren</a>
 <form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php"  class="btn btn-primary mb-1" role="button">Passwortliste generieren</button>
+  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
 </form>
-<a href="<?php echo $ROOT ?>/students/not_voted.php" role="button">Schüler ohne gewählte Projekte</a>
-<a href="<?php echo $ROOT ?>/students/calculate.php" role="button">Projektzuordnungen berechnen</a>
+<a role="button" href="<?php echo $ROOT ?>/students/not_voted.php">Schüler ohne gewählte Projekte</a>
+<a role="button" href="<?php echo $ROOT ?>/students/calculate.php">Projektzuordnungen berechnen</a>
 <br>
 
 <div>
