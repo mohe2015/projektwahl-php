@@ -34,14 +34,13 @@ function startsWith($haystack, $needle)
      return (substr($haystack, 0, $length) === $needle);
 }
 
-require_once __DIR__ . '/user.php';
+require_once __DIR__ . '/model/user.php';
 session_start();
-require_once __DIR__ . '/project.php';
-require_once __DIR__ . '/teacher.php';
-require_once __DIR__ . '/student.php';
-require_once __DIR__ . '/choice.php';
-require_once __DIR__ . '/settings.php';
-require_once __DIR__ . '/timers.php';
+require_once __DIR__ . '/model/project.php';
+require_once __DIR__ . '/model/teacher.php';
+require_once __DIR__ . '/model/student.php';
+require_once __DIR__ . '/model/choice.php';
+require_once __DIR__ . '/model/settings.php';
 require_once __DIR__ . '/permissions.php';
 
 // SECURITY: checks whether the CSRF csrf_token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
