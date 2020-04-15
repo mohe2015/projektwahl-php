@@ -39,14 +39,14 @@ $users = Users::all();
 <input type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 
 <label>Jahrgangsstufe*:</label>
-<div class="input-group mb-3">
+<div class="input-group">
   <input class="form-control" type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
   <span class="input-group-text">bis</span>
   <input class="form-control" type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
 <label>Teilnehmeranzahl*:</label>
-<div class="input-group mb-3">
+<div class="input-group">
   <input class="form-control" type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
   <span class="input-group-text">bis</span>
   <input class="form-control" type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
@@ -80,22 +80,33 @@ $project_leaders = array_map(function($project_leader) {
     }
     ?>
   </button>
-  <dialog id="dialog-supervisors">
-    <h1>Betreuer</h1>
-    <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
-    <ul class="dropdown">
-  <?php
-  foreach ($users as $user): ?>
-      <li>
-        <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-        <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>">
-          <?php echo htmlspecialchars($user->name) ?>
-        </label>
-      </li>
-  <?php endforeach ?>
-    </ul>
-    <button id="save-supervisors">Schließen</button>
-  </dialog>
+  <div class="modal fade" tabindex="-1" role="dialog" id="dialog-supervisors">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title">Betreuer</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
+            <ul class="dropdown">
+            <?php
+            foreach ($users as $user): ?>
+                <li>
+                  <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
+                  <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></label>
+                </li>
+            <?php endforeach ?>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button id="save-supervisors" data-dismiss="modal">Schließen</button>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>
 
 <div style="grid-column: span 2;">
