@@ -22,10 +22,10 @@ require_once __DIR__ . '/../head.php';
 $teachers = Teachers::all();
 ?>
 
-<h1 class="text-center">Lehrer</h1>
+<h1>Lehrer</h1>
 
-<a href="<?php echo $ROOT ?>/teachers/new.php" class="btn btn-primary mb-1">Neuer Lehrer</a>
-<a href="<?php echo $ROOT ?>/teachers/import.php" class="btn btn-primary mb-1">Lehrer importieren</a>
+<a href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
+<a href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
 
 <form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
@@ -33,7 +33,7 @@ $teachers = Teachers::all();
 </form>
 
 <div class="responsive">
-  <table class="table">
+  <table>
     <thead>
         <tr>
           <th scope="col">Name</th>
