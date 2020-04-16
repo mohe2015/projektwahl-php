@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "teacher"); // TODO teachers only absent
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 $student = Students::find($_SERVER['QUERY_STRING']);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
