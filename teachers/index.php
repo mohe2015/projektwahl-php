@@ -17,18 +17,28 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin");
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 $teachers = Teachers::all();
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Lehrer</h1>
 
-<a href="<?php echo $ROOT ?>/teachers/new.php" class="button">Neuer Lehrer</a>
-<a href="<?php echo $ROOT ?>/teachers/import.php" class="button">Lehrer importieren</a>
-<form class="inline-block" method="POST" action="generate_passwords.php">
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
+
+<form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+  <button type="submit" class="mb-1" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
 </form>
 
 <div class="responsive">
@@ -44,16 +54,22 @@ $teachers = Teachers::all();
           <tr>
             <td><?php echo htmlspecialchars($teacher->name) ?></td>
             <td>
-              <a href="<?php echo $ROOT ?>/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
-              <form class="inline-block" method="post" action="edit.php?<?php echo $teacher->id ?>">
+              <a role="button" href="<?php echo $ROOT ?>/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
+              <form class="d-inline" method="post" action="edit.php?<?php echo $teacher->id ?>">
                 <input type="hidden" name="password" value="">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas fa-key"></i></button>
+                <button type="submit"><i class="fas fa-key"></i></button>
               </form>
-              <a href="<?php echo $ROOT ?>/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
+              <a role="button" href="<?php echo $ROOT ?>/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach;?>
       </tbody>
   </table>
 </div>
+
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>

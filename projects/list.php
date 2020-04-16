@@ -17,12 +17,21 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "teacher");
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 $projects = Projects::all();
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
 
-<h1 class="print-display-none">Projektliste</h1>
+    <div class="container">
+
+<h1 class="d-print-none">Projektliste</h1>
 
 <!-- TODO remove space + remove some info from the list or put some things on one line to not waste space -->
 
@@ -33,3 +42,8 @@ $project_with_project_leaders_and_members = Projects::findWithProjectLeadersAndM
 require __DIR__ . '/project.php';
 ?>
 <?php endforeach;?>
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>

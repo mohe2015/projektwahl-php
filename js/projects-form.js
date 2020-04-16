@@ -17,27 +17,16 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 var form = $("#form-supervisors");
 var dialog = $("#dialog-supervisors");
-dialogPolyfill.registerDialog(dialog);
+var myModal = new bootstrap.Modal(dialog, {show: false})
 var button = $('#show-supervisors-dialog');
 var input = $('#search-supervisors');
 button.style = "";
-
-// TODO implement escape
-dialog.addEventListener('close', function onClose(e) {
-  e.preventDefault();
-  $('body').classList.remove('modal-open');
-});
-
-$('#save-supervisors').addEventListener('click', function(event) {
-  event.preventDefault();
-  button.innerText = $$('li input:checked').map(function (x) { return x.parentNode.innerText }).join("; ") || "Keine";
-  dialog.close();
-});
 
 var supervisors = $$('li input[type="checkbox"]');
 supervisors.forEach(function (e) {
   e.addEventListener('change', function (event) {
     $('.' + e.id).selected = e.checked;
+    update(input.value);
   });
 });
 
@@ -58,12 +47,13 @@ function update(query) {
   var ul = $('ul[class="dropdown"]');
   ul.innerHTML = null;
   supervisors.forEach(function (e) { ul.append(e.parentNode) });
+
+  button.innerText = $$('li input:checked + label').map(function (x) { return x.innerText }).join("; ") || "Keine";
 }
 
 button.addEventListener('click', function (event) {
   event.preventDefault();
-  document.querySelector('body').classList.add('modal-open');
-  dialog.show();
+  myModal.show();
 });
 
 input.addEventListener('input', function(event) {

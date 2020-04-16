@@ -21,17 +21,8 @@ require_once __DIR__ . '/header.php';
 
 $user = end($_SESSION['users']); // TODO this needs to be updated from database
 
-if (!$settings->election_running) {
-  require_once __DIR__ . '/head.php';
-  if ($user->in_project !== NULL) {
-    // TODO highlight
-    die("<p>Die Wahl ist beendet! Du bist" . ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) . ".</p>");
-  }
-  die("<p>Die Wahl ist beendet!</p>");
-}
-
 // save an updated choice
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($settings->election_running && $_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = Projects::find($_POST['project_id']);
   if ($user->project_leader == $_POST['project_id'] && $_POST['choice_id'] != 0) {
     http_response_code(500);
@@ -49,11 +40,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $choice->save();
 }
 
-// TODO only load the list if this is not a fetch post request
 $projects = Projects::allWithRanks();
-
-require_once __DIR__ . '/head.php';
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/nav.php' ?>
+
+    <div class="container">
+
+<?php if (!$settings->election_running) {
+  if ($user->in_project !== NULL) { ?>
+    <div class="alert alert-danger" role="alert">
+      Die Wahl ist beendet! Du bist <?php echo ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) ?>!
+    </div>
+  <?php } else { ?>
+  <div class="alert alert-danger" role="alert">
+    Die Wahl ist beendet!
+  </div>
+<?php } } else { ?>
 
 <h1>Wahl</h1>
 
@@ -145,4 +153,11 @@ else:
 endif;
 ?>
 
-<script src="voting.js?v=3"></script>
+    <?php } ?>
+
+    </div>
+
+    <?php require __DIR__ . '/footer.php' ?>
+    <script src="/js/voting.js?v=3"></script>
+  </body>
+</html>

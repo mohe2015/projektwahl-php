@@ -20,52 +20,36 @@ $users = Users::all();
 ?>
 <form method="post">
 
-<div class="form-group">
-  <label class="col">Titel*:</label>
-  <input autofocus class="col" type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+<label>Titel*:</label>
+<input autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+
+<label>Info*:</label>
+<textarea name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
+
+<label>Ich benötige:</label>
+<textarea name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
+
+<label>Präsentationsart:</label>
+<input type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
+
+<label>Ort/Raum*:</label>
+<input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
+
+<label>Kosten:</label>
+<input type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
+
+<label>Jahrgangsstufe*:</label>
+<div class="input-group">
+  <input class="form-control" type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
+  <span class="input-group-text">bis</span>
+  <input class="form-control" type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
-<div class="form-group">
-  <label class="col">Info*:</label>
-  <textarea class="col" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
-</div>
-
-<div class="form-group">
-  <label class="col">Ich benötige:</label>
-  <textarea class="col" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
-</div>
-
-<div class="form-group">
-  <label class="col">Präsentationsart:</label>
-  <input class="col" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
-</div>
-
-<div class="form-group">
-  <label class="col">Ort/Raum*:</label>
-  <input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
-</div>
-
-<div class="form-group">
-  <label class="col">Kosten:</label>
-  <input class="col" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
-</div>
-
-<div class="form-group">
-  <label class="col">Jahrgangsstufe*:</label>
-  <div class="col">
-    <input type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
-    <span>bis</span>
-    <input type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col">Teilnehmeranzahl*:</label>
-  <div class="col">
-    <input type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
-    <span>bis</span>
-    <input type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
-  </div>
+<label>Teilnehmeranzahl*:</label>
+<div class="input-group">
+  <input class="form-control" type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
+  <span class="input-group-text">bis</span>
+  <input class="form-control" type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
 </div>
 
 <?php
@@ -77,10 +61,10 @@ $project_leaders = array_map(function($project_leader) {
 }, $project_leaders);
 ?>
 
-<div class="form-group">
-  <label class="col">Betreuer:</label>
+<label>Betreuer:</label>
 
-  <select class="col" id="select-supervisors" name="supervisors[]" multiple>
+<div>
+  <select id="select-supervisors" name="supervisors[]" multiple>
   <?php
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="supervisor-<?php echo htmlspecialchars($user->id) ?>" value="<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></option>
@@ -96,36 +80,43 @@ $project_leaders = array_map(function($project_leader) {
     }
     ?>
   </button>
-  <dialog id="dialog-supervisors">
-    <h1>Betreuer</h1>
-    <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
-    <ul class="dropdown">
-<?php
-foreach ($users as $user): ?>
-      <li>
-        <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-        <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>">
-          <?php echo htmlspecialchars($user->name) ?>
-        </label>
-      </li>
-<?php endforeach ?>
-    </ul>
-    <button id="save-supervisors">Schließen</button>
-  </dialog>
+  <div class="modal fade" tabindex="-1" role="dialog" id="dialog-supervisors">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title">Betreuer</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
+            <ul class="dropdown">
+            <?php
+            foreach ($users as $user): ?>
+                <li>
+                  <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
+                  <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></label>
+                </li>
+            <?php endforeach ?>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button id="save-supervisors" data-dismiss="modal">Schließen</button>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>
 
-<div class="form-group">
-  <label>
-    <input type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
-    Zufällige Projektzuweisungen erlaubt
-  </label>
+<div style="grid-column: span 2;">
+  <input id="random_assignments" type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
+  <label for="random_assignments">Zufällige Projektzuweisungen erlaubt</label>
 </div>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="form-group">
-  <button type="submit" class="w-100">Projekt speichern</button>
-</div>
+<button type="submit">Projekt speichern</button>
 
 </form>
 

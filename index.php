@@ -17,24 +17,40 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("student", "teacher", "admin");
-require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/header.php';
 
 $user = end($_SESSION['users']); // TODO this needs to be updated from database
-
-if (!$settings->election_running && $user->type !== 'admin') {
-  require_once __DIR__ . '/head.php';
-  if ($user->in_project !== NULL) {
-    // TODO highlight
-    echo("<p>Die Wahl ist beendet! Du bist" . ($user->in_project == $user->project_leader ? " Projektleiter" : "") . " im Projekt " . htmlspecialchars(Projects::find($user->in_project)->title) . ".</p>");
-  } else {
-    echo("<p>Die Wahl ist beendet!</p>");
-  }
-}
 ?>
-<h1>Willkommen</h1>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/nav.php' ?>
 
-<h2>Credits</h2>
+    <div class="container container-medium">
 
-<p>Diese Software wurde von Moritz Hedtke entwickelt.</p>
+      <?php
+      if (!$settings->election_running && $user->type !== 'admin') {
+        if ($user->in_project !== NULL) {
+          echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet! Du bist' . ($user->in_project == $user->project_leader ? ' Projektleiter' : '') . ' im Projekt ' . htmlspecialchars(Projects::find($user->in_project)->title) . '.</div>');
+        } else {
+          echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet!</div>');
+        }
+      }
+      ?>
 
-<p>Der Quellcode ist aus Transparenzgründen unter <a target="_blank" rel="noopener noreferrer" href="https://github.com/mohe2015/projektwahl-php">https://github.com/mohe2015/projektwahl-php</a> einzusehen.</p>
+      <h1>Willkommen</h1>
+
+      <h2>Credits</h2>
+
+      <p>Diese Software wurde von Moritz Hedtke entwickelt.</p>
+
+      <p>Der Quellcode ist aus Transparenzgründen unter <a target="_blank" rel="noopener noreferrer" href="https://github.com/mohe2015/projektwahl-php">https://github.com/mohe2015/projektwahl-php</a> einzusehen.</p>
+
+    </div>
+
+    <?php require __DIR__ . '/footer.php' ?>
+  </body>
+</html>

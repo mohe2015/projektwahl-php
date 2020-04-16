@@ -17,14 +17,11 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin");
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 // Import teachers from a .csv file. The file needs to have one column (name) and no header.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   try {
-    $timers = new Timers();
-    $timers->startTimer('import');
-    $db->beginTransaction();
     if (($handle = fopen($_FILES['csv-file']['tmp_name'], "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $num = count($data);
@@ -39,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fclose($handle);
 
         $db->commit();
-        $timers->endTimer('import');
-        header('Server-Timing: ' . $timers->getTimers());
         header("Location: $ROOT/teachers");
         die();
     } else {
@@ -49,20 +44,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } catch (Exception $e) {
     echo $e->getMessage();
     $db->rollback();
-    $timers->endTimer('import');
-    header('Server-Timing: ' . $timers->getTimers());
   }
 }
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
+
+
 <form enctype="multipart/form-data" method="POST">
-  <div class="form-group">
-    <label class="col">CSV-Datei:</label>
-    <input class="col" name="csv-file" type="file" />
-  </div>
 
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+<div class="form-file">
+  <input type="file" class="form-file-input" id="customFile" name="csv-file" accept="text/csv">
+  <label class="form-file-label" for="customFile">
+    <span class="form-file-text">CSV-Datei auswählen</span>
+    <span class="form-file-button">Durchsuchen</span>
+  </label>
+</div>
 
-  <div class="form-group">
-    <button class="w-100" type="submit">Lehrer importieren</button>
-  </div>
+<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+
+<button type="submit">Lehrer importieren</button>
+
 </form>
+
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>

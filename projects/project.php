@@ -18,7 +18,7 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
 <div style="page-break-inside: avoid;">
-  <h2><?php echo htmlspecialchars($project->title) ?> <a class="print-display-none" href="<?php echo $ROOT ?>/projects/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a> <a class="print-display-none" href="<?php echo $ROOT ?>/projects/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a></h2>
+  <h2><?php echo htmlspecialchars($project->title) ?> <a class="d-print-none" href="<?php echo $ROOT ?>/projects/edit.php?<?php echo $project->id ?>"><i class="fas fa-pen"></i></a> <a class="d-print-none" href="<?php echo $ROOT ?>/projects/delete.php?<?php echo $project->id ?>"><i class="fas fa-trash"></i></a></h2>
   <b>Info: </b><?php echo htmlspecialchars($project->info) ?><br>
   <b>Ort/Raum: </b><?php echo htmlspecialchars($project->place) ?><br>
   <b>Ich benötige: </b><?php echo htmlspecialchars($project->requirements) ?><br>

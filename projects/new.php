@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "teacher"); // FIXME add teacher as supervisor
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = new Project($_POST);
@@ -32,9 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = new Project(array());
 }
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Projekt erstellen</h1>
 <?php
 $project_with_project_leaders_and_members = array();
 require_once __DIR__ . '/form.php';
 ?>
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>

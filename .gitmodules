@@ -1,3 +1,6 @@
-[submodule "dialog-polyfill"]
-	path = dialog-polyfill
-	url = https://github.com/GoogleChrome/dialog-polyfill
+[submodule "bootstrap"]
+	path = bootstrap
+	url = git@github.com:mohe2015/bootstrap.git
+[submodule "bs-custom-file-input"]
+	path = bs-custom-file-input
+	url = https://github.com/Johann-S/bs-custom-file-input

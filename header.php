@@ -21,8 +21,7 @@ $ROOT = substr(dirname(__FILE__), strlen($_SERVER["DOCUMENT_ROOT"]));
 // show error message if exception is not caught
 function myException($exception) {
   http_response_code(500);
-  echo "<b>Interner Fehler: </b> " . $exception->getMessage();
-  echo "<br />Eventuell musst du erst <a href=\"$ROOT/install.php\">installieren</a>";
+  echo '<div class="alert alert-danger" role="alert">Interner Fehler: ' . $exception->getMessage() . '<br />Eventuell musst du erst <a href="$ROOT/install.php" class="alert-link">installieren</a>.</div>';
   die();
 }
 //set_exception_handler('myException');
@@ -35,20 +34,19 @@ function startsWith($haystack, $needle)
      return (substr($haystack, 0, $length) === $needle);
 }
 
-require_once __DIR__ . '/user.php';
+require_once __DIR__ . '/model/user.php';
 session_start();
-require_once __DIR__ . '/project.php';
-require_once __DIR__ . '/teacher.php';
-require_once __DIR__ . '/student.php';
-require_once __DIR__ . '/choice.php';
-require_once __DIR__ . '/settings.php';
-require_once __DIR__ . '/timers.php';
+require_once __DIR__ . '/model/project.php';
+require_once __DIR__ . '/model/teacher.php';
+require_once __DIR__ . '/model/student.php';
+require_once __DIR__ . '/model/choice.php';
+require_once __DIR__ . '/model/settings.php';
 require_once __DIR__ . '/permissions.php';
 
 // SECURITY: checks whether the CSRF csrf_token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    die("CSRF csrf_token not valid");
+    die('<div class="alert alert-danger" role="alert">CSRF csrf_token not valid</div>');
   }
 }
 if (empty($_SESSION['csrf_token'])) {
@@ -67,17 +65,26 @@ try {
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
 } catch (PDOException $e) {
-    print "Error!: " . $e . "<br/>";
-    die();
+  die('<div class="alert alert-danger" role="alert">' . $e . '</div>');
 }
 
 try {
   $settings = Settings::get();
 } catch (PDOException $e) {
-  echo $e->getMessage();
+  echo('<div class="alert alert-danger" role="alert">' . $e->getMessage() . '</div>');
 }
 
 if (0 !== count($_SESSION['users']) && $_SESSION['users'][0]->type !== 'admin' && $_SERVER['REQUEST_URI'] !== "/update-password.php" && $_SERVER['REQUEST_URI'] !== "/zxcvbn.php" && $_SERVER['REQUEST_URI'] !== "/logout.php" && !end($_SESSION['users'])->password_changed) {
   header("Location: $ROOT/update-password.php");
+}
+
+// used to add the active class to the current tab
+function active($path) {
+  echo startsWith($_SERVER["REQUEST_URI"], $path) ? ' active' : '';
+}
+
+// used to add the active class to the current tab
+function active_exact($path) {
+  echo $_SERVER["REQUEST_URI"] === $path ? ' active' : '';
 }
 ?>

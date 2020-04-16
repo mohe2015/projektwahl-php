@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "teacher");
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 $stmt = $db->prepare("SELECT id, * FROM users WHERE type = 'student' ORDER BY class,name;");
 $stmt->execute();
@@ -29,26 +29,37 @@ $grouped_choices = Choices::groupChoices($choices);
 
 $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Schüler</h1>
 
-<a href="<?php echo $ROOT ?>/students/new.php" class="button">Neuer Schüler</a>
-<a href="<?php echo $ROOT ?>/students/import.php" class="button">Schüler importieren</a>
-<form class="inline-block" method="POST" action="generate_passwords.php">
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/new.php">Neuer Schüler</a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/import.php">Schüler importieren</a>
+<form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" href="<?php echo $ROOT ?>/teachers/generate_passwords.php" class="button">Passwortliste generieren</button>
+  <button type="submit" class="mb-1" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
 </form>
-<a href="<?php echo $ROOT ?>/students/not_voted.php" class="button">Schüler ohne gewählte Projekte</a>
-<a href="<?php echo $ROOT ?>/students/calculate.php" class="button">Projektzuordnungen berechnen</a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/not_voted.php">Schüler ohne gewählte Projekte</a>
+<a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/calculate.php">Projektzuordnungen berechnen</a>
 <br>
 
-<span style="background-color: green;">Gültig gewählt</span>
-<span style="background-color: orange;">Ungültig gewählt</span>
-<span style="background-color: red;">Nicht gewählt</span>
-<span style="background-color: LightSeaGreen;">vorraussichtlich Projektleiter</span>
-<span style="background-color: grey;">Abwesend</span>
+<div>
+  <span class="bg-success">Gültig gewählt</span>
+  <span class="bg-warning">Ungültig gewählt</span>
+  <span class="bg-danger">Nicht gewählt</span>
+  <span class="bg-info">vorraussichtlich Projektleiter</span>
+  <span class="bg-secondary">Abwesend</span>
+</div>
 
-<input class="w-100" type="search" id="search" placeholder="Suche nach Name oder Klasse">
+<input class="w-100 form-control" type="search" id="search" placeholder="Suche nach Name oder Klasse">
 
 <div class="responsive">
   <table>
@@ -63,26 +74,26 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
         <?php foreach ($grouped_choices as $student_id => $student_choices):
           $student = $assoc_students[$student_id];
            ?>
-          <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" style="background-color: <?php echo $student->away ? 'grey' : ($student->project_leader ? 'LightSeaGreen' : ($student->valid ? 'green' : (count($student_choices) > 0 ? 'orange' : 'red'))) ?>;">
+          <tr id="<?php echo str_replace(" ", "-", $student->name . " " . $student->class) ?>" class="bg-<?php echo $student->away ? 'secondary' : ($student->project_leader ? 'info' : ($student->valid ? 'success' : (count($student_choices) > 0 ? 'warning' : 'danger'))) ?>">
             <td><a href="<?php echo $ROOT ?>/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
-              <a href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
-              <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
+              <a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>" data-toggle="tooltip" data-placement="top" title="Schüler bearbeiten"><i class="fas fa-pen"></i></a>
+              <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="als abwesend / anwesend markieren"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
-              <form class="inline-block" method="post" action="edit.php?<?php echo $student->id ?>">
+              <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="password" value="">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas fa-key"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="Passwort zurücksetzen"><i class="fas fa-key"></i></button>
               </form>
-              <form class="inline-block" method="post" action="sudo.php?<?php echo $student->id ?>">
+              <form class="d-inline" method="post" action="sudo.php?<?php echo $student->id ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button class="a" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="Als Schüler anmelden (sudo)"><i class="fas fa-sign-in-alt"></i></button>
               </form>
-              <a href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
+              <a role="button" class="mb-1" data-toggle="tooltip" data-placement="top" title="Schüler löschen" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -90,4 +101,9 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
   </table>
 </div>
 
-<script src="<?php echo $ROOT ?>/js/students-search.js"></script>
+    </div>
+
+    <?php require __DIR__ . '/../footer.php' ?>
+    <script src="<?php echo $ROOT ?>/js/students-search.js"></script>
+  </body>
+</html>

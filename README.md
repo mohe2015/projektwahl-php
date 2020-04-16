@@ -2,13 +2,6 @@
 
 ## Installation
 
-```bash
-php composer.phar install
-
-sudo nano /etc/php/7.3/fpm/conf.d/20-apcu.ini
-apc.enabled=false
-```
-
 ## Nginx config
 
 https://nginx.org/en/docs/http/ngx_http_headers_module.html "There could be several add_header directives. These directives are inherited from the previous level if and only if there are no add_header directives defined on the current level."
@@ -58,7 +51,3 @@ log_statement = 'all'
 sudo systemctl restart postgresql
 sudo tail -f /var/lib/postgresql/11/main/log/postgresql-2019-06-12_185549.log
 ```
-
-## Licenses
-
-https://www.eff.org/files/2016/09/08/eff_short_wordlist_2_0.txt by Joseph Bonneau https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases

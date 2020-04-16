@@ -19,32 +19,24 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 ?>
 <form method="post">
 
-<div class="form-group">
-  <label class="col">Name*:</label>
-  <input autofocus class="col" type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
-</div>
+<label for="student-new-name">Name*:</label>
+<input id="student-new-name" autofocus type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
 
-<div class="form-group">
-  <label class="col">Klasse*:</label>
-  <input class="col" type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
-</div>
+<label for="student-new-class">Klasse*:</label>
+<input id="student-new-class" type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
 
-<div class="form-group">
-  <label class="col">Jahrgang*:</label>
-  <input class="col" type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
-</div>
+<label for="student-new-grade">Jahrgang*:</label>
+<input id="student-new-grade" type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
 
-<div class="form-group">
-  <label>
-    <input type="checkbox" name="away" <?php echo (!empty($student->away)) ? "checked" : "" ?>>
+<div class="form-check">
+  <input id="student-new-away" class="form-check-input" type="checkbox" value="" name="away" <?php echo (!empty($student->away)) ? "checked" : "" ?>>
+  <label for="student-new-away" class="form-check-label">
     Abwesend
   </label>
 </div>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="form-group">
-  <button type="submit" class="w-100">Schüler speichern</button>
-</div>
+<button type="submit">Schüler speichern</button>
 
 </form>

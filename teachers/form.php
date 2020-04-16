@@ -19,15 +19,11 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 ?>
 <form method="post">
 
-<div class="form-group">
-  <label class="col">Name*:</label>
-  <input autofocus class="col" type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
-</div>
+<label>Name*:</label>
+<input autofocus type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<div class="form-group">
-  <button type="submit" class="w-100">Lehrer speichern</button>
-</div>
+<button type="submit">Lehrer speichern</button>
 
 </form>

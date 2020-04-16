@@ -17,13 +17,15 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array();
-require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $password = $_POST['password'];
   $user = Users::findByName($name);
-  if (password_verify($password, $user->password)) {
+  if (!$user) {
+    $invalid_username = true;
+  } else if (password_verify($password, $user->password)) {
     if (password_needs_rehash($user->password, PASSWORD_DEFAULT, $options)) {
       // TODO: needs rehashing
     }
@@ -39,15 +41,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     die();
   } else {
-    echo "invalid password";
+    $invalid_password = true;
   }
+} else {
+  $invalid_password = false;
+  $invalid_username = false;
 }
 ?>
-<form method="post">
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" autofocus />
-  <label for="password">Passwort:</label>
-  <input type="password" id="password" name="password" />
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit">Anmelden</button>
-</form>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/nav.php' ?>
+
+    <div class="container container-small">
+
+      <?php if ($invalid_username): ?>
+        <div class="alert alert-danger" role="alert">Name falsch!</div>
+      <?php endif; ?>
+      <?php if ($invalid_password): ?>
+        <div class="alert alert-danger" role="alert">Passwort falsch!</div>
+      <?php endif; ?>
+
+      <form method="post">
+        <label class="form-label" for="name">Name:</label>
+        <input class="form-control" type="text" id="name" name="name" autofocus autocomplete="name" />
+
+        <label class="form-label" for="password">Passwort:</label>
+        <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" />
+
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+
+        <button type="submit" class="btn btn-primary">Anmelden</button>
+      </form>
+
+    </div>
+
+    <?php require __DIR__ . '/footer.php' ?>
+  </body>
+</html>

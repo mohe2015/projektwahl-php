@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array();
-require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/header.php';
 
 $user = end($_SESSION['users']);
 
@@ -52,20 +52,36 @@ for ($i = 0; $i < 4; $i++) {
 }
 $password = trim($password);
 ?>
-<!-- TODO format this form -->
-<form method="post" id="change-password-form">
-  <input style="display: none;" autocomplete="username" type="text" name="username" value="<?php echo $user->name ?>">
-  <label for="password">altes Passwort:</label>
-  <input autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" /><br>
-  <label for="password">neues Passwort:</label>
-  <input autocomplete="new-password" required type="text" id="new_password" name="new_password" value="<?php echo $password ?>" /> <button type="button" id="show-password"><i class="fas fa-eye"></i></button><br>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/nav.php' ?>
 
-  <meter max="4" id="password-strength-meter"></meter>
-  <p id="password-strength-text"></p>
+    <div class="container container-small">
 
-  <label for="password">neues Passwort wiederholen:</label>
-  <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" /><br>
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit">Passwort ändern</button>
-</form>
-<script src="<?php echo $ROOT ?>/password.js?v=2"></script>
+      <form method="post" id="change-password-form">
+
+        <input style="display: none;" type="text" name="username" value="<?php echo $user->name ?>">
+
+        <label for="password">altes Passwort:</label>
+        <input autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
+
+        <label for="password">neues Passwort:</label>
+        <input autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
+
+        <label for="password">neues Passwort wiederholen:</label>
+        <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
+
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+
+        <button type="submit" class="btn btn-primary">Passwort ändern</button>
+      </form>
+
+    </div>
+
+    <?php require __DIR__ . '/footer.php' ?>
+  </body>
+</html>
