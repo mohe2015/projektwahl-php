@@ -22,22 +22,27 @@ require_once __DIR__ . '/header.php';
 $user = end($_SESSION['users']); // TODO this needs to be updated from database
 
 // save an updated choice
-if ($settings->election_running && $_SERVER['REQUEST_METHOD'] === 'POST') {
-  $project = Projects::find($_POST['project_id']);
-  if ($user->project_leader == $_POST['project_id'] && $_POST['choice_id'] != 0) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if ($settings->election_running === true) {
+    $project = Projects::find($_POST['project_id']);
+    if ($user->project_leader == $_POST['project_id'] && $_POST['choice_id'] != 0) {
+      http_response_code(500);
+      die("Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!");
+    }
+    if ($project->min_grade > $user->grade || $project->max_grade < $user->grade) {
+      http_response_code(500);
+      die("zu alt/jung");
+    }
+    $choice = new Choice(array(
+      'project' => $_POST['project_id'],
+      'student' => $user->id,
+      'rank' => $_POST['choice_id'],
+    ));
+    $choice->save();
+  } else {
     http_response_code(500);
-    die("Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!");
+    die("Wahl beendet!");
   }
-  if ($project->min_grade > $user->grade || $project->max_grade < $user->grade) {
-    http_response_code(500);
-    die("zu alt/jung");
-  }
-  $choice = new Choice(array(
-    'project' => $_POST['project_id'],
-    'student' => $user->id,
-    'rank' => $_POST['choice_id'],
-  ));
-  $choice->save();
 }
 
 $projects = Projects::allWithRanks();
@@ -61,7 +66,7 @@ $projects = Projects::allWithRanks();
   <div class="alert alert-danger" role="alert">
     Die Wahl ist beendet!
   </div>
-<?php } } else { ?>
+<?php } } ?>
 
 <h1>Wahl</h1>
 
@@ -152,8 +157,6 @@ else:
 <?php
 endif;
 ?>
-
-    <?php } ?>
 
     </div>
 
