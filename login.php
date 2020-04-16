@@ -43,14 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 ?>
-<form method="post">
-  <label class="form-label" for="name">Name:</label>
-  <input class="form-control" type="text" id="name" name="name" autofocus autocomplete="name" />
+  <form method="post">
+    <label class="form-label" for="name">Name:</label>
+    <input class="form-control" type="text" id="name" name="name" autofocus autocomplete="name" />
 
-  <label class="form-label" for="password">Passwort:</label>
-  <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" />
+    <label class="form-label" for="password">Passwort:</label>
+    <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" />
 
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-  <button type="submit" class="btn btn-primary">Anmelden</button>
-</form>
+    <button type="submit" class="btn btn-primary">Anmelden</button>
+  </form>

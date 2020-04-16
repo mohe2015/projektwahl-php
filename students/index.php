@@ -69,22 +69,22 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
             <td><a href="<?php echo $ROOT ?>/students/view.php?<?php echo $student->id ?>"><?php echo htmlspecialchars($student->name) ?></a></td>
             <td><?php echo htmlspecialchars($student->class) ?></td>
             <td>
-              <a data-toggle="tooltip" data-placement="top" title="Schüler bearbeiten"  role="button" class="btn btn-primary" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>"><i class="fas fa-pen"></i></a>
+              <a role="button" class="mb-1" href="<?php echo $ROOT ?>/students/edit.php?<?php echo $student->id ?>" data-toggle="tooltip" data-placement="top" title="Schüler bearbeiten"><i class="fas fa-pen"></i></a>
               <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="away" value="<?php echo $student->away ? "" : "checked" ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button data-toggle="tooltip" data-placement="top" title="als abwesend / anwesend markieren" class="btn btn-primary" type="submit"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="als abwesend / anwesend markieren"><i class="fas <?php echo $student->away ? "fa-user-slash" : "fa-user" ?>"></i></button>
               </form>
               <form class="d-inline" method="post" action="edit.php?<?php echo $student->id ?>">
                 <input type="hidden" name="password" value="">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button data-toggle="tooltip" data-placement="top" title="Passwort zurücksetzen" class="btn btn-primary" type="submit"><i class="fas fa-key"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="Passwort zurücksetzen"><i class="fas fa-key"></i></button>
               </form>
               <form class="d-inline" method="post" action="sudo.php?<?php echo $student->id ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button data-toggle="tooltip" data-placement="top" title="Als Schüler anmelden (sudo)" class="btn btn-primary" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                <button type="submit" class="mb-1" data-toggle="tooltip" data-placement="top" title="Als Schüler anmelden (sudo)"><i class="fas fa-sign-in-alt"></i></button>
               </form>
-              <a data-toggle="tooltip" data-placement="top" title="Schüler löschen"  role="button" class="btn btn-primary" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
+              <a role="button" class="mb-1" data-toggle="tooltip" data-placement="top" title="Schüler löschen" href="<?php echo $ROOT ?>/students/delete.php?<?php echo $student->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach; ?>
