@@ -31,7 +31,7 @@ function updateOrderCount() {
   } else {
     snackbar.classList.remove('alert-success');
     snackbar.classList.add('alert-danger');
-    snackbar.innerHTML = "<span class=\"failure\">Ungültig gewählt</span> - ";
+    snackbar.innerHTML = "<span>Ungültig gewählt</span> - ";
     for (var i = 1; i <= 5; i++) {
       var span = document.createElement("span");
       span.innerHTML = order_count[i] + "&times;" + i + ".";
@@ -78,7 +78,7 @@ function onChoiceSubmit(event) {
     [...that.parentNode.querySelectorAll('button[type="submit"]')]
       .filter(function (x) { return x.getAttribute('data-rank') != newRank})
       .forEach(function (e) { e.removeAttribute('disabled') });
-    // TODO color duplicate votes red
+
     that.parentNode.parentNode.setAttribute('data-rank', newRank);
 
     order_count[oldRank]--;
@@ -94,18 +94,24 @@ function onChoiceSubmit(event) {
 
     document.querySelectorAll('tr[data-rank="' + newRank + '"] button')
     .forEach(function (element) {
-      element.classList.remove('background-failure');
-      element.classList.remove('background-success');
-      if (newRank != 0) {
-        element.classList.add(order_count[newRank] == 1 ? 'background-success' : 'background-failure');
+      element.classList.remove('btn-danger');
+      element.classList.remove('btn-success');
+      element.classList.remove('btn-primary');
+      if (newRank != 0 && element.getAttribute('data-rank') == newRank) {
+        element.classList.add(order_count[newRank] == 1 ? 'btn-success' : 'btn-danger');
+      } else {
+        element.classList.add('btn-primary');
       }
     });
       document.querySelectorAll('tr[data-rank="' + oldRank + '"] button')
       .forEach(function (element) {
-        element.classList.remove('background-failure');
-        element.classList.remove('background-success');
-        if (oldRank != 0) {
-          element.classList.add(order_count[oldRank] == 1 ? 'background-success' : 'background-failure');
+        element.classList.remove('btn-danger');
+        element.classList.remove('btn-success');
+        element.classList.remove('btn-primary');
+        if (oldRank != 0 && element.getAttribute('data-rank') == oldRank) {
+          element.classList.add(order_count[oldRank] == 1 ? 'btn-success' : 'btn-danger');
+        } else {
+          element.classList.add('btn-primary');
         }
       });
   })
@@ -131,6 +137,21 @@ function onChoiceSubmit(event) {
 
 // listen on all forms
 document.querySelectorAll(".choice-form").forEach(function (e) { e.addEventListener("submit", onChoiceSubmit) });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// reordering
 
 function sortProjectRanks(a, b) {
   a = parseInt(a.getAttribute('data-rank'));
