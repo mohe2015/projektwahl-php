@@ -77,4 +77,14 @@ try {
 if (0 !== count($_SESSION['users']) && $_SESSION['users'][0]->type !== 'admin' && $_SERVER['REQUEST_URI'] !== "/update-password.php" && $_SERVER['REQUEST_URI'] !== "/zxcvbn.php" && $_SERVER['REQUEST_URI'] !== "/logout.php" && !end($_SESSION['users'])->password_changed) {
   header("Location: $ROOT/update-password.php");
 }
+
+// used to add the active class to the current tab
+function active($path) {
+  echo startsWith($_SERVER["REQUEST_URI"], $path) ? ' active' : '';
+}
+
+// used to add the active class to the current tab
+function active_exact($path) {
+  echo $_SERVER["REQUEST_URI"] === $path ? ' active' : '';
+}
 ?>
