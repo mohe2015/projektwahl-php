@@ -1,3 +1,14 @@
+<?php $allowed_users = array("admin"); ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
+      <pre>
 <?php
 /*
 projektwahl-php - manage project selection for many people
@@ -16,34 +27,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
-function disable_ob() {
-    // Turn off output buffering
-    ini_set('output_buffering', 'off');
-    // Turn off PHP output compression
-    ini_set('zlib.output_compression', false);
-    // Implicitly flush the buffer(s)
-    ini_set('implicit_flush', true);
-    ob_implicit_flush(true);
-    // Clear, and turn off output buffering
-    while (ob_get_level() > 0) {
-        // Get the curent level
-        $level = ob_get_level();
-        // End the buffering
-        ob_end_clean();
-        // If the current level has not changed, abort
-        if (ob_get_level() == $level) break;
-    }
-    // Disable apache output buffering/compression
-    if (function_exists('apache_setenv')) {
-        apache_setenv('no-gzip', '1');
-        apache_setenv('dont-vary', '1');
-    }
-}
-disable_ob();
-
-header("Content-Type: text/plain");
-$allowed_users = array("admin");
-require_once __DIR__ . '/../header.php';
 
 function rank2points($rank) {
   switch ($rank) {
@@ -345,3 +328,8 @@ if ($settings->election_running) {
 
 
 ?>
+    </pre>
+    </div>
+    <?php require __DIR__ . '/../footer.php' ?>
+  </body>
+</html>

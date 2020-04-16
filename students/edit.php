@@ -33,8 +33,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   die();
 }
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Schüler ändern</h1>
 <?php
 require_once __DIR__ . '/form.php';
 ?>
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>
