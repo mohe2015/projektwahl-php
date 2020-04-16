@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/header.php'; ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-print-none">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Projektwahl</a>
@@ -21,8 +22,6 @@ if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("ad
 <?php if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("student"))): ?>
         <li class="nav-item <?php active($ROOT . "/election.php") ?>"><a class="nav-link" href="<?php echo $ROOT ?>/election.php"><i class="fas fa-poll"></i><span class="hidden-small"> Wahl</span></a></li>
 <?php endif; ?>
-
-
 
 <?php
 if (end($_SESSION['users']) && in_array(end($_SESSION['users'])->type, array("admin"))):

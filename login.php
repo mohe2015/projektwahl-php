@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     die();
   } else {
-    echo '<div class="alert alert-danger" role="alert">Passwort falsch!</div>';
+    $invalid_password = true;
   }
 }
 ?>
@@ -52,6 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php require __DIR__ . '/nav.php' ?>
 
     <div class="container container-small">
+
+      <?php if ($invalid_password): ?>
+        <div class="alert alert-danger" role="alert">Passwort falsch!</div>
+      <?php endif; ?>
 
       <form method="post">
         <label class="form-label" for="name">Name:</label>
