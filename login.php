@@ -23,7 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $password = $_POST['password'];
   $user = Users::findByName($name);
-  if (password_verify($password, $user->password)) {
+  if (!$user) {
+    $invalid_username = true;
+  } else if (password_verify($password, $user->password)) {
     if (password_needs_rehash($user->password, PASSWORD_DEFAULT, $options)) {
       // TODO: needs rehashing
     }
@@ -41,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else {
     $invalid_password = true;
   }
+} else {
+  $invalid_password = false;
+  $invalid_username = false;
 }
 ?>
 <!doctype html>
@@ -53,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container container-small">
 
+      <?php if ($invalid_username): ?>
+        <div class="alert alert-danger" role="alert">Name falsch!</div>
+      <?php endif; ?>
       <?php if ($invalid_password): ?>
         <div class="alert alert-danger" role="alert">Passwort falsch!</div>
       <?php endif; ?>

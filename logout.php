@@ -17,18 +17,32 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "student", "teacher");
-require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/header.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST'):
   session_regenerate_id(true);
   array_pop($_SESSION['users']);
   header("Location: $ROOT/");
   die();
-}
-?>
-<br>
-<form method="post">
-  Möchtest Du dich wirklich abmelden?
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" class="btn btn-primary">Ja</button>
-</form>
+else: ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/nav.php' ?>
+
+    <div class="container container-small">
+
+      <form method="post">
+        Möchtest Du dich wirklich abmelden?
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+        <button type="submit" class="btn btn-primary">Ja</button>
+      </form>
+    </div>
+  <?php require __DIR__ . '/footer.php' ?>
+</body>
+</html>
+
+<?php endif; ?>

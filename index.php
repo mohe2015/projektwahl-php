@@ -20,15 +20,6 @@ $allowed_users = array("student", "teacher", "admin");
 require_once __DIR__ . '/header.php';
 
 $user = end($_SESSION['users']); // TODO this needs to be updated from database
-
-if (!$settings->election_running && $user->type !== 'admin') {
-  require_once __DIR__ . '/head.php';
-  if ($user->in_project !== NULL) {
-    echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet! Du bist' . ($user->in_project == $user->project_leader ? ' Projektleiter' : '') . ' im Projekt ' . htmlspecialchars(Projects::find($user->in_project)->title) . '.</div>');
-  } else {
-    echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet!</div>');
-  }
-}
 ?>
 <!doctype html>
 <html lang="de">
@@ -38,7 +29,17 @@ if (!$settings->election_running && $user->type !== 'admin') {
   <body class="bg-dark text-white">
     <?php require __DIR__ . '/nav.php' ?>
 
-    <div class="container">
+    <div class="container container-medium">
+
+      <?php
+      if (!$settings->election_running && $user->type !== 'admin') {
+        if ($user->in_project !== NULL) {
+          echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet! Du bist' . ($user->in_project == $user->project_leader ? ' Projektleiter' : '') . ' im Projekt ' . htmlspecialchars(Projects::find($user->in_project)->title) . '.</div>');
+        } else {
+          echo('<div class="alert alert-info" role="alert">Die Wahl ist beendet!</div>');
+        }
+      }
+      ?>
 
       <h1>Willkommen</h1>
 

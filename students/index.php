@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $allowed_users = array("admin", "teacher");
-require_once __DIR__ . '/../head.php';
+require_once __DIR__ . '/../header.php';
 
 $stmt = $db->prepare("SELECT id, * FROM users WHERE type = 'student' ORDER BY class,name;");
 $stmt->execute();
@@ -29,6 +29,15 @@ $grouped_choices = Choices::groupChoices($choices);
 
 $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Schüler</h1>
 
@@ -92,4 +101,9 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
   </table>
 </div>
 
-<script src="<?php echo $ROOT ?>/js/students-search.js"></script>
+    </div>
+
+    <?php require __DIR__ . '/../footer.php' ?>
+    <script src="<?php echo $ROOT ?>/js/students-search.js"></script>
+  </body>
+</html>
