@@ -87,8 +87,6 @@ class User extends Record {
         'in_project' => $this->in_project
       ));
       $this->id = $db->lastInsertId();
-      apcu_store("user-$this->id", $this);
-      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
       return $this;
     } else {
       $stmt = self::getUpdateStatement();
@@ -104,8 +102,6 @@ class User extends Record {
         'away' => $this->away ? 1 : 0,
         'in_project' => $this->in_project
       ));
-      apcu_store("user-$this->id", $this);
-      apcu_delete(['users', 'teachers', 'students']); // TODO alternatively update vars
       return $this;
     }
   }
@@ -118,22 +114,15 @@ class User extends Record {
     $stmt->execute(array(
       'id' => $this->id
     ));
-    apcu_delete(["user-$this->id", 'users', 'teachers', 'students']); // TODO alternatively update vars
   }
 }
 
 class Users {
   public function find($id) {
-    // TODO combine user, teacher and student cache
-    $result = apcu_fetch("user-$id");
-    if ($result) {
-      return $result;
-    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
     $stmt->execute(array('id' => $id));
     $result = $stmt->fetchObject('User');
-    apcu_add("user-$id", $result);
     return $result;
   }
 
@@ -146,15 +135,10 @@ class Users {
   }
 
   public function all() {
-    $result = apcu_fetch('users');
-    if ($result) {
-      return $result;
-    }
     global $db;
     $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
-    apcu_add("users", $result);
     return $result;
   }
 }

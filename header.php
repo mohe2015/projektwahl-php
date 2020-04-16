@@ -26,8 +26,6 @@ function myException($exception) {
 }
 //set_exception_handler('myException');
 
-apcu_clear_cache(); // TODO FIXME just for developing so that code changes update
-
 function startsWith($haystack, $needle)
 {
      $length = strlen($needle);
