@@ -23,7 +23,7 @@ $user = end($_SESSION['users']); // TODO this needs to be updated from database
 
 // save an updated choice
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if ($settings->election_running === true) {
+  if ($settings->election_running) {
     $project = Projects::find($_POST['project_id']);
     if ($user->project_leader == $_POST['project_id'] && $_POST['choice_id'] != 0) {
       http_response_code(500);
@@ -112,7 +112,7 @@ $projects = Projects::allWithRanks();
                   <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                   <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
                 </form>
                 <?php
                 endfor;
@@ -121,7 +121,7 @@ $projects = Projects::allWithRanks();
                   <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                   <input type="hidden" name="choice_id" value="0">
                   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "background-success" : "background-failure") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
+                  <button class="<?php echo $project->rank != 0 ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
                 </form>
               <?php endif; ?>
             </td>
@@ -140,19 +140,19 @@ $projects = Projects::allWithRanks();
 <?php
 if ($rank_count[1] == 1 && $rank_count[2] == 1 && $rank_count[3] == 1 && $rank_count[4] == 1 && $rank_count[5] == 1):
 ?>
-<div id="snackbar" class="snackbar show background-success">
+<div id="snackbar" class="fixed-bottom alert alert-success mb-0 rounded-0" role="alert">
   Gültig gewählt - Du kannst Dich nun <a href="<?php echo $ROOT ?>/logout.php">abmelden</a>
 </div>
 <?php
 else:
 ?>
-<div id="snackbar" class="snackbar show">
+<div id="snackbar" class="fixed-bottom alert alert-danger mb-0 rounded-0" role="alert">
   <span class=\"failure\">Ungültig gewählt</span> -
-  <span class="<?php echo $rank_count[1] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
-  <span class="<?php echo $rank_count[2] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
-  <span class="<?php echo $rank_count[3] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[3]; ?>&times;3.</span> |
-  <span class="<?php echo $rank_count[4] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[4]; ?>&times;4.</span> |
-  <span class="<?php echo $rank_count[5] == 1 ? "success" : "failure" ?>"><?php echo $rank_count[5]; ?>&times;5.</span>
+  <span class="<?php echo $rank_count[1] == 1 ? "text-success" : "text-danger" ?>"><?php echo $rank_count[1]; ?>&times;1.</span> |
+  <span class="<?php echo $rank_count[2] == 1 ? "text-success" : "text-danger" ?>"><?php echo $rank_count[2]; ?>&times;2.</span> |
+  <span class="<?php echo $rank_count[3] == 1 ? "text-success" : "text-danger" ?>"><?php echo $rank_count[3]; ?>&times;3.</span> |
+  <span class="<?php echo $rank_count[4] == 1 ? "text-success" : "text-danger" ?>"><?php echo $rank_count[4]; ?>&times;4.</span> |
+  <span class="<?php echo $rank_count[5] == 1 ? "text-success" : "text-danger" ?>"><?php echo $rank_count[5]; ?>&times;5.</span>
 </div>
 <?php
 endif;
