@@ -33,6 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $teacher = Teachers::find($_SERVER['QUERY_STRING']);
 }
 ?>
+<!doctype html>
+<html lang="de">
+  <head>
+    <?php require __DIR__ . '/../head.php' ?>
+  </head>
+  <body class="bg-dark text-white">
+    <?php require __DIR__ . '/../nav.php' ?>
+
+    <div class="container">
 
 <h1>Lehrer löschen</h1>
 
@@ -45,3 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <button type="submit">Lehrer löschen</button>
 
 </form>
+
+</div>
+<?php require __DIR__ . '/../footer.php' ?>
+</body>
+</html>
