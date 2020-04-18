@@ -65,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="alert alert-danger" role="alert">Passwort falsch!</div>
       <?php endif; ?>
 
-      <form method="post">
+      <form novalidate method="post" class="needs-validation">
         <label class="form-label" for="name">Name:</label>
-        <input class="form-control" type="text" id="name" name="name" autofocus autocomplete="name" />
+        <input class="form-control" type="text" id="name" name="name" required autofocus autocomplete="name" />
 
         <label class="form-label" for="password">Passwort:</label>
-        <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" />
+        <input class="form-control" type="password" id="password" name="password" required autocomplete="current-password" />
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
