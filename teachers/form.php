@@ -17,10 +17,15 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
-<form method="post">
+<form novalidate method="post" class="needs-validation">
 
-<label class="form-label">Name*:</label>
-<input class="form-control" autofocus type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
+<div class="mb-3">
+  <label class="form-label">Name*:</label>
+  <input class="form-control" required autofocus type="text" name="name" value="<?php echo htmlspecialchars($teacher->name) ?>" />
+  <div class="invalid-feedback">
+    Name fehlt!
+  </div>
+</div>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 

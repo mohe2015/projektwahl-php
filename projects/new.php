@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <body class="bg-dark text-white">
     <?php require __DIR__ . '/../nav.php' ?>
 
-    <div class="container">
+    <div class="container container-medium">
 
 <h1 class="text-center">Projekt erstellen</h1>
 <?php

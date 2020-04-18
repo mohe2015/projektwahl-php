@@ -61,22 +61,32 @@ $password = '';
 
         <input style="display: none;" type="text" name="username" value="<?php echo $user->name ?>">
 
-        <label class="form-label" for="password">altes Passwort:</label>
-        <input class="form-control" autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
+        <div class="mb-3">
+          <label class="form-label" for="password">altes Passwort:</label>
+          <input class="form-control" autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
+        </div>
 
-        <label class="form-label" for="password">neues Passwort:</label>
-        <input class="form-control" autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
+        <div class="mb-3">
+          <label class="form-label" for="password">neues Passwort:</label>
+          <input class="form-control" autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
+        </div>
 
-        <label class="form-label" for="password">neues Passwort wiederholen:</label>
-        <input class="form-control" autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
+        <div class="mb-3">
+          <label class="form-label" for="password">neues Passwort wiederholen:</label>
+          <input class="form-control" autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
+        </div>
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
         <button type="submit" class="btn btn-primary">Passwort ändern</button>
       </form>
-
     </div>
 
+    <script>
+
+    </script>
+
     <?php require __DIR__ . '/footer.php' ?>
+    <script src="<?php echo $ROOT ?>/js/password_check.js"></script>
   </body>
 </html>

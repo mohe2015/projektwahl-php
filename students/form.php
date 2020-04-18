@@ -17,18 +17,33 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 ?>
-<form method="post">
+<form novalidate method="post" class="needs-validation">
 
-<label class="form-label" for="student-new-name">Name*:</label>
-<input class="form-control" id="student-new-name" autofocus type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
+<div class="mb-3">
+  <label class="form-label" for="student-new-name">Name*:</label>
+  <input class="form-control" id="student-new-name" required autofocus type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
+  <div class="invalid-feedback">
+    Name fehlt!
+  </div>
+</div>
 
-<label class="form-label" for="student-new-class">Klasse*:</label>
-<input class="form-control" id="student-new-class" type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
+<div class="mb-3">
+  <label class="form-label" for="student-new-class">Klasse*:</label>
+  <input class="form-control" id="student-new-class" required type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
+  <div class="invalid-feedback">
+    Klasse fehlt!
+  </div>
+</div>
 
-<label class="form-label" for="student-new-grade">Jahrgang*:</label>
-<input class="form-control" id="student-new-grade" type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
+<div class="mb-3">
+  <label class="form-label" for="student-new-grade">Jahrgang*:</label>
+  <input class="form-control" id="student-new-grade" min="1" max="13" required type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
+  <div class="invalid-feedback">
+    Jahrgang muss zwischen 1 und 13 liegen!
+  </div>
+</div>
 
-<div class="form-check">
+<div class="form-check mb-3">
   <input id="student-new-away" class="form-check-input" type="checkbox" value="" name="away" <?php echo (!empty($student->away)) ? "checked" : "" ?>>
   <label for="student-new-away" class="form-check-label">
     Abwesend
@@ -37,6 +52,8 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button class="btn btn-primary" type="submit">Schüler speichern</button>
+<div class="mb-3">
+  <button class="btn btn-primary" type="submit">Schüler speichern</button>
+</div>
 
 </form>
