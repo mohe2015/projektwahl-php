@@ -68,13 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <form novalidate method="post" class="needs-validation">
         <label class="form-label" for="name">Name:</label>
         <input class="form-control" type="text" id="name" name="name" required autofocus autocomplete="name" />
+        <div class="invalid-feedback">
+          Bitte gebe Deinen Namen ein.
+        </div>
 
-        <label class="form-label" for="password">Passwort:</label>
-        <input class="form-control" type="password" id="password" name="password" required autocomplete="current-password" />
+        <label class="form-label mt-3" for="password">Passwort:</label>
+        <input class="form-control mt-3" type="password" id="password" name="password" required autocomplete="current-password" />
+        <div class="invalid-feedback">
+          Bitte gebe Dein Passwort ein.
+        </div>
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-        <button type="submit" class="btn btn-primary">Anmelden</button>
+        <button type="submit" class="mt-3 btn btn-primary">Anmelden</button>
       </form>
 
     </div>
