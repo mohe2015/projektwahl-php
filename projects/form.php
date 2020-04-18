@@ -18,13 +18,19 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $users = Users::all();
 ?>
-<form method="post">
+<form novalidate method="post" class="needs-validation">
 
 <label class="form-label">Titel*:</label>
-<input class="form-control" autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+<input class="form-control" required autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+<div class="invalid-feedback">
+  Titel wird benötigt.
+</div>
 
 <label class="form-label">Info*:</label>
-<textarea class="form-control" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
+<textarea class="form-control" required name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
+<div class="invalid-feedback">
+  Info wird benötigt.
+</div>
 
 <label class="form-label">Ich benötige:</label>
 <textarea class="form-control" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
@@ -33,23 +39,26 @@ $users = Users::all();
 <input class="form-control" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
 
 <label class="form-label">Ort/Raum*:</label>
-<input class="form-control" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
+<input class="form-control" required type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
+<div class="invalid-feedback">
+  Ort wird benötigt.
+</div>
 
 <label class="form-label">Kosten:</label>
 <input class="form-control" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 
 <label class="form-label">Jahrgangsstufe*:</label>
 <div class="input-group">
-  <input class="form-control" type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
+  <input class="form-control" min="1" max="13" required type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
   <span class="input-group-text">bis</span>
-  <input class="form-control" type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
+  <input class="form-control" min="1" max="13" required type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
 <label class="form-label">Teilnehmeranzahl*:</label>
 <div class="input-group">
-  <input class="form-control" type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
+  <input class="form-control" min="1" required type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
   <span class="input-group-text">bis</span>
-  <input class="form-control" type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
+  <input class="form-control" min="1" required type="number" name="max_participants" value="<?php echo htmlspecialchars($project->max_participants) ?>" />
 </div>
 
 <?php
