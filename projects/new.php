@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
 
-<h1>Projekt erstellen</h1>
+<h1 class="text-center">Projekt erstellen</h1>
 <?php
 $project_with_project_leaders_and_members = array();
 require_once __DIR__ . '/form.php';

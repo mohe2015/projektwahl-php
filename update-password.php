@@ -45,12 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$lines = file("eff_short_wordlist_1.txt", FILE_IGNORE_NEW_LINES);
 $password = '';
-for ($i = 0; $i < 4; $i++) {
-  $password = $password . " " . $lines[random_int(0, count($lines)-1)];
-}
-$password = trim($password);
 ?>
 <!doctype html>
 <html lang="de">
@@ -66,14 +61,14 @@ $password = trim($password);
 
         <input style="display: none;" type="text" name="username" value="<?php echo $user->name ?>">
 
-        <label for="password">altes Passwort:</label>
-        <input autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
+        <label class="form-label" for="password">altes Passwort:</label>
+        <input class="form-control" autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
 
-        <label for="password">neues Passwort:</label>
-        <input autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
+        <label class="form-label" for="password">neues Passwort:</label>
+        <input class="form-control" autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
 
-        <label for="password">neues Passwort wiederholen:</label>
-        <input autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
+        <label class="form-label" for="password">neues Passwort wiederholen:</label>
+        <input class="form-control" autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 

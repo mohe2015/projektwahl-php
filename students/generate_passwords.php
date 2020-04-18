@@ -37,15 +37,15 @@ foreach ($users as $user) {
     <div class="container">
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-  <h1 class="d-print-none">Passwörter</h1>
+  <h1 class="text-center d-print-none">Passwörter</h1>
   <p class="d-print-none">Bitte 4 Seiten pro Blatt drucken, um die Umwelt zu schonen.</p>
   <p class="d-print-none">Die Listen sollten in Streifen geschnitten werden, um zu verhindern, dass Passwörter in falsche Hände gelangen.</p>
   <?php
   $db->beginTransaction();
   foreach ($grouped_users as $class_name => $class) :?>
-    <h1 class="d-print-none"><?php echo $class_name ?></h1>
+    <h1 class="text-center d-print-none"><?php echo $class_name ?></h1>
     <div class="monospace">
-      <table>
+      <table class="table table-dark">
         <thead>
           <tr>
             <th scope="col">Name (<?php echo $class_name ?>)</th>
@@ -78,7 +78,7 @@ foreach ($users as $user) {
   <form method="post">
     Möchtest Du wirklich die Passwörter generieren?
     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-    <button type="submit">Ja</button>
+    <button class="btn btn-primary" type="submit">Ja</button>
   </form>
 <?php endif; ?>
 

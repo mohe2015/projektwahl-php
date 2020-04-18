@@ -20,32 +20,32 @@ $users = Users::all();
 ?>
 <form method="post">
 
-<label>Titel*:</label>
-<input autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
+<label class="form-label">Titel*:</label>
+<input class="form-control" autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
 
-<label>Info*:</label>
-<textarea name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
+<label class="form-label">Info*:</label>
+<textarea class="form-control" name="info"><?php echo htmlspecialchars($project->info) ?></textarea>
 
-<label>Ich benötige:</label>
-<textarea name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
+<label class="form-label">Ich benötige:</label>
+<textarea class="form-control" name="requirements"><?php echo htmlspecialchars($project->requirements) ?></textarea>
 
-<label>Präsentationsart:</label>
-<input type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
+<label class="form-label">Präsentationsart:</label>
+<input class="form-control" type="text" name="presentation_type" value="<?php echo htmlspecialchars($project->presentation_type) ?>" />
 
-<label>Ort/Raum*:</label>
-<input class="col" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
+<label class="form-label">Ort/Raum*:</label>
+<input class="form-control" type="text" name="place" value="<?php echo htmlspecialchars($project->place) ?>" />
 
-<label>Kosten:</label>
-<input type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
+<label class="form-label">Kosten:</label>
+<input class="form-control" type="number" name="costs" value="<?php echo htmlspecialchars($project->costs) ?>" />
 
-<label>Jahrgangsstufe*:</label>
+<label class="form-label">Jahrgangsstufe*:</label>
 <div class="input-group">
   <input class="form-control" type="number" name="min_grade" value="<?php echo htmlspecialchars($project->min_grade) ?>" />
   <span class="input-group-text">bis</span>
   <input class="form-control" type="number" name="max_grade" value="<?php echo htmlspecialchars($project->max_grade) ?>" />
 </div>
 
-<label>Teilnehmeranzahl*:</label>
+<label class="form-label">Teilnehmeranzahl*:</label>
 <div class="input-group">
   <input class="form-control" type="number" name="min_participants" value="<?php echo htmlspecialchars($project->min_participants) ?>" />
   <span class="input-group-text">bis</span>
@@ -61,17 +61,17 @@ $project_leaders = array_map(function($project_leader) {
 }, $project_leaders);
 ?>
 
-<label>Betreuer:</label>
+<label class="form-label">Betreuer:</label>
 
 <div>
-  <select id="select-supervisors" name="supervisors[]" multiple>
+  <select class="form-control" id="select-supervisors" name="supervisors[]" multiple>
   <?php
     foreach ($users as $user): ?>
       <option<?php echo in_array($user->name, $project_leaders) ? " selected" : "" ?> class="supervisor-<?php echo htmlspecialchars($user->id) ?>" value="<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></option>
     <?php endforeach ?>
   </select>
 
-  <button id="show-supervisors-dialog" style="display: none;">
+  <button class="btn btn-primary" id="show-supervisors-dialog" style="display: none;">
     <?php
     if (count($project_leaders) === 0) {
       echo "Keine";
@@ -90,33 +90,33 @@ $project_leaders = array_map(function($project_leader) {
             </button>
           </div>
           <div class="modal-body">
-            <input class="w-100" type="text" placeholder="Suche" id="search-supervisors">
+            <input class="form-control" class="w-100" type="text" placeholder="Suche" id="search-supervisors">
             <ul class="dropdown">
             <?php
             foreach ($users as $user): ?>
                 <li>
-                  <input type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
-                  <label for="supervisor-<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></label>
+                  <input class="form-control" type="checkbox" value="" id="supervisor-<?php echo htmlspecialchars($user->id) ?>" <?php echo in_array($user->name, $project_leaders) ? " checked" : " "?>>
+                  <label class="form-label" for="supervisor-<?php echo htmlspecialchars($user->id) ?>"><?php echo htmlspecialchars($user->name) ?></label>
                 </li>
             <?php endforeach ?>
             </ul>
           </div>
           <div class="modal-footer">
-            <button id="save-supervisors" data-dismiss="modal">Schließen</button>
+            <button class="btn btn-primary" id="save-supervisors" data-dismiss="modal">Schließen</button>
           </div>
         </div>
     </div>
   </div>
 </div>
 
-<div style="grid-column: span 2;">
-  <input id="random_assignments" type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
-  <label for="random_assignments">Zufällige Projektzuweisungen erlaubt</label>
+<div class="form-check" style="grid-column: span 2;">
+  <input class="form-check-input" id="random_assignments" type="checkbox" name="random_assignments" <?php echo (!empty($project->random_assignments)) ? "checked" : "" ?>>
+  <label class="form-check-label" for="random_assignments">Zufällige Projektzuweisungen erlaubt</label>
 </div>
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button type="submit">Projekt speichern</button>
+<button class="btn btn-primary" type="submit">Projekt speichern</button>
 
 </form>
 

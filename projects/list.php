@@ -31,7 +31,7 @@ $projects = Projects::all();
 
     <div class="container">
 
-<h1 class="d-print-none">Projektliste</h1>
+<h1 class="d-print-none text-center">Projektliste</h1>
 
 <!-- TODO remove space + remove some info from the list or put some things on one line to not waste space -->
 

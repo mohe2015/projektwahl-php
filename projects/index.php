@@ -31,13 +31,13 @@ $projects = Projects::all();
 
     <div class="container">
 
-<h1>Projekte</h1>
+<h1 class="text-center">Projekte</h1>
 
-<a role="button" class="mb-1" href="<?php echo $ROOT ?>/projects/new.php">Neues Projekt</a>
-<a role="button" class="mb-1" href="<?php echo $ROOT ?>/projects/list.php">Projektliste</a>
+<a role="button" class="btn btn-primary mb-1" href="<?php echo $ROOT ?>/projects/new.php">Neues Projekt</a>
+<a role="button" class="btn btn-primary mb-1" href="<?php echo $ROOT ?>/projects/list.php">Projektliste</a>
 
 <div class="responsive">
-  <table>
+  <table class="table table-dark">
     <thead>
         <tr>
           <th scope="col">Name</th>

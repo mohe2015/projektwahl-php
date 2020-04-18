@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <form method="post">
           Möchtest du die Wahl wirklich <?php echo $settings->election_running ? "beenden" : "starten" ?>?
           <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-          <button type="submit" class="btn btn-primary">Ja</button>
+          <button class="btn btn-primary" type="submit" class="btn btn-primary">Ja</button>
         </form>
       </div>
     <?php require __DIR__ . '/footer.php' ?>

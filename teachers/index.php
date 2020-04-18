@@ -31,18 +31,18 @@ $teachers = Teachers::all();
 
     <div class="container">
 
-<h1>Lehrer</h1>
+<h1 class="text-center">Lehrer</h1>
 
-<a role="button" class="mb-1" href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
-<a role="button" class="mb-1" href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
+<a role="button" class="btn btn-primary mb-1" href="<?php echo $ROOT ?>/teachers/new.php">Neuer Lehrer</a>
+<a role="button" class="btn btn-primary mb-1" href="<?php echo $ROOT ?>/teachers/import.php">Lehrer importieren</a>
 
 <form class="d-inline" method="POST" action="generate_passwords.php">
   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-  <button type="submit" class="mb-1" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
+  <button type="submit" class="btn btn-primary mb-1" href="<?php echo $ROOT ?>/teachers/generate_passwords.php">Passwortliste generieren</button>
 </form>
 
 <div class="responsive">
-  <table>
+  <table class="table table-dark">
     <thead>
         <tr>
           <th scope="col">Name</th>
@@ -54,13 +54,13 @@ $teachers = Teachers::all();
           <tr>
             <td><?php echo htmlspecialchars($teacher->name) ?></td>
             <td>
-              <a role="button" href="<?php echo $ROOT ?>/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
+              <a role="button" class="btn btn-primary" href="<?php echo $ROOT ?>/teachers/edit.php?<?php echo $teacher->id ?>"><i class="fas fa-pen"></i></a>
               <form class="d-inline" method="post" action="edit.php?<?php echo $teacher->id ?>">
                 <input type="hidden" name="password" value="">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                <button type="submit"><i class="fas fa-key"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-key"></i></button>
               </form>
-              <a role="button" href="<?php echo $ROOT ?>/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
+              <a class="btn btn-primary" role="button" href="<?php echo $ROOT ?>/teachers/delete.php?<?php echo $teacher->id ?>"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
         <?php endforeach;?>

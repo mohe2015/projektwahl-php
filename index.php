@@ -41,9 +41,9 @@ $user = end($_SESSION['users']); // TODO this needs to be updated from database
       }
       ?>
 
-      <h1>Willkommen</h1>
+      <h1 class="text-center">Willkommen</h1>
 
-      <h2>Credits</h2>
+      <h2 class="text-center">Credits</h2>
 
       <p>Diese Software wurde von Moritz Hedtke entwickelt.</p>
 

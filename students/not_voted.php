@@ -39,10 +39,10 @@ $assoc_students = Choices::validateChoices($grouped_choices, $assoc_students);
 
     <div class="container">
 
-<h1>Schüler, die noch nicht gewählt haben</h1>
+<h1 class="text-center">Schüler, die noch nicht gewählt haben</h1>
 
 <div class="responsive">
-  <table>
+  <table class="table table-dark">
     <thead>
         <tr>
           <th scope="col">Name</th>

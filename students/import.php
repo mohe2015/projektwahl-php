@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button type="submit">Schüler importieren</button>
+<button class="btn btn-primary" type="submit">Schüler importieren</button>
 
 </form>
 

@@ -38,7 +38,7 @@ else: ?>
       <form method="post">
         Möchtest Du dich wirklich abmelden?
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-        <button type="submit" class="btn btn-primary">Ja</button>
+        <button class="btn btn-primary" type="submit" class="btn btn-primary">Ja</button>
       </form>
     </div>
   <?php require __DIR__ . '/footer.php' ?>

@@ -19,14 +19,14 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 ?>
 <form method="post">
 
-<label for="student-new-name">Name*:</label>
-<input id="student-new-name" autofocus type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
+<label class="form-label" for="student-new-name">Name*:</label>
+<input class="form-control" id="student-new-name" autofocus type="text" name="name" value="<?php echo htmlspecialchars($student->name) ?>" />
 
-<label for="student-new-class">Klasse*:</label>
-<input id="student-new-class" type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
+<label class="form-label" for="student-new-class">Klasse*:</label>
+<input class="form-control" id="student-new-class" type="text" name="class" value="<?php echo htmlspecialchars($student->class) ?>" />
 
-<label for="student-new-grade">Jahrgang*:</label>
-<input id="student-new-grade" type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
+<label class="form-label" for="student-new-grade">Jahrgang*:</label>
+<input class="form-control" id="student-new-grade" type="number" name="grade" value="<?php echo htmlspecialchars($student->grade) ?>" />
 
 <div class="form-check">
   <input id="student-new-away" class="form-check-input" type="checkbox" value="" name="away" <?php echo (!empty($student->away)) ? "checked" : "" ?>>
@@ -37,6 +37,6 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
 
-<button type="submit">Schüler speichern</button>
+<button class="btn btn-primary" type="submit">Schüler speichern</button>
 
 </form>

@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container">
 
-<h1>Lehrer ändern</h1>
+<h1 class="text-center">Lehrer ändern</h1>
 <?php
 require_once __DIR__ . '/form.php';
 ?>

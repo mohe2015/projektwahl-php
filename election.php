@@ -68,12 +68,12 @@ $projects = Projects::allWithRanks();
   </div>
 <?php } } ?>
 
-<h1>Wahl</h1>
+<h1 class="text-center">Wahl</h1>
 
 <p>Bitte wähle Deine Erst- bis Fünftwahl aus.</p>
 
 <div class="responsive">
-  <table>
+  <table class="table table-dark">
     <thead>
         <tr>
           <th scope="col">Projektname</th>
@@ -112,7 +112,7 @@ $projects = Projects::allWithRanks();
                   <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                   <input type="hidden" name="choice_id" value="<?php echo $i ?>">
                   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                  <button class="<?php echo $project->rank != 0 && $project->rank == $i ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "btn-primary" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
+                  <button class="btn <?php echo $project->rank != 0 && $project->rank == $i ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "btn-primary" ?>" data-rank="<?php echo $i ?>" type="submit" <?php echo $project->rank == $i ? "disabled=disabled" : "" ?>><?php echo $i ?>.</button>
                 </form>
                 <?php
                 endfor;
@@ -121,7 +121,7 @@ $projects = Projects::allWithRanks();
                   <input type="hidden" name="project_id" value="<?php echo $project->id ?>">
                   <input type="hidden" name="choice_id" value="0">
                   <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
-                  <button class="<?php echo $project->rank != 0 && $project->rank == 0 ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "btn-primary" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
+                  <button class="btn <?php echo $project->rank != 0 && $project->rank == 0 ? ($rank_count[$project->rank] == 1 ? "btn-success" : "btn-danger") : "btn-primary" ?>" data-rank="0" type="submit" <?php echo $project->rank == 0 ? "disabled=disabled" : "" ?>>X</button>
                 </form>
               <?php endif; ?>
             </td>
