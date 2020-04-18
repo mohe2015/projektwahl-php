@@ -57,23 +57,32 @@ $password = '';
 
     <div class="container container-small">
 
-      <form method="post" id="change-password-form">
+      <form novalidate method="post" class="needs-validation" id="change-password-form">
 
         <input style="display: none;" type="text" name="username" value="<?php echo $user->name ?>">
 
         <div class="mb-3">
           <label class="form-label" for="password">altes Passwort:</label>
           <input class="form-control" autocomplete="current-password" required type="password" id="old_password" name="old_password" value="<?php echo $_SESSION['old_password'] ?? ""; unset($_SESSION['old_password']); ?>" />
+          <div class="invalid-feedback">
+              A
+          </div>
         </div>
 
         <div class="mb-3">
           <label class="form-label" for="password">neues Passwort:</label>
           <input class="form-control" autocomplete="new-password" required type="password" id="new_password" name="new_password" value="<?php echo $password ?>" />
+          <div class="invalid-feedback">
+              A
+          </div>
         </div>
 
         <div class="mb-3">
           <label class="form-label" for="password">neues Passwort wiederholen:</label>
           <input class="form-control" autocomplete="new-password" required type="password" id="new_password_repeated" name="new_password_repeated" value="<?php echo $password ?>" />
+          <div class="invalid-feedback">
+              A
+          </div>
         </div>
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
