@@ -65,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="alert alert-danger" role="alert">Passwort falsch!</div>
       <?php endif; ?>
 
-      <form novalidate method="post" class="needs-validation">
+      <form id="login-form" novalidate method="post" class="needs-validation">
         <label class="form-label" for="name">Name:</label>
-        <input class="form-control" type="text" id="name" name="name" required autofocus autocomplete="name" />
+        <input class="form-control" type="text" id="name" name="name" required autofocus autocomplete="username" />
         <div class="invalid-feedback">
           Bitte gebe Deinen Namen ein.
         </div>
