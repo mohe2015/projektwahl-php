@@ -1,0 +1,11 @@
+body {
+  overflow-y: scroll;
+}
+
+.container-small {
+  max-width: 25em;
+}
+
+.container-medium {
+  max-width: 50em;
+}
