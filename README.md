@@ -1,5 +1,13 @@
 # projektwahl-php
 
+https://dev.to/open-graphql/building-powerful-graphql-servers-with-rust-3gla
+https://github.com/davidpdrsn/juniper-eager-loading
+https://github.com/davidpdrsn/graphql-app-example
+https://github.com/graphql-rust/juniper # warnings alpha and no subscriptions
+
+https://relay.dev/ (but seems to be required to use with React?)
+then maybe also use javascript for the server like sponsorenlauf???
+
 ## Installation
 
 ## Nginx config
