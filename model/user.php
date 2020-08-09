@@ -106,8 +106,6 @@ class User extends Record {
     }
   }
 
-  // TODO FIXME if somebody edits and deletes at the same time there could be a race condition. I don't know of a way to fix this.
-
   public function delete() {
     global $db;
     $stmt = $db->prepare('DELETE FROM users WHERE id = :id;');

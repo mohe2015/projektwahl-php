@@ -49,8 +49,6 @@ class Settings extends Record {
     return self::$update_stmt;
   }
 
-  // stale data should be fine (for a few milliseconds)
-
   public function save() {
     global $db;
     $this->validate();

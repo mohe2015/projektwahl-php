@@ -19,14 +19,16 @@ along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 $allowed_users = array("admin", "teacher"); // FIXME add teacher as supervisor
 require_once __DIR__ . '/../header.php';
 
+$databaseError = NULL;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $project = new Project($_POST);
   try {
     $project->save();
     header("Location: $ROOT/projects");
     die();
-  } catch (Exception $e) {
-    echo (htmlspecialchars($e->getMessage()));
+  } catch (PDOException $e) {
+    $databaseError = $e;
   }
 } else {
   $project = new Project(array());
@@ -43,6 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container container-medium">
 
 <h1 class="text-center">Projekt erstellen</h1>
+
+<?php
+if ($databaseError !== NULL) {
+  if ($databaseError->getCode() === "23000") {
+    ?>
+    Projekt mit diesem Titel existiert bereits!
+    <?php
+  } else {
+    ?>
+    <div class="alert alert-danger" role="alert">
+      Interner Datenbankfehler: <?php echo htmlspecialchars($databaseError->getMessage()) ?>
+    </div>
+    <?php  
+  }
+}
+?>
+
 <?php
 $project_with_project_leaders_and_members = array();
 require_once __DIR__ . '/form.php';

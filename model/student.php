@@ -31,7 +31,7 @@ class Student extends User {
   }
 
   public function update($data) {
-    User::update($data); // TODO prevent updating type - this would be a privilege escalation
+    User::update($data); // TODO FIXME prevent updating type - this would be a privilege escalation
     $this->project_leader = $data['project_leader'] ?? $this->project_leader;
     $this->class = $data['class'] ?? $this->class;
     $this->grade = $data['grade'] ?? $this->grade;

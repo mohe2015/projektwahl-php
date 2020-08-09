@@ -110,7 +110,7 @@ class Project extends Record {
         'requirements' => $this->requirements,
         'random_assignments' => $this->random_assignments ? 1 : 0
       ));
-      $project->id = $db->lastInsertId();
+      $this->id = $db->lastInsertId();
     } else {
       $stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
       $stmt->execute(array(
