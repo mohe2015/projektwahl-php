@@ -1,4 +1,7 @@
-<?php $allowed_users = array(); ?>
+<?php
+$allowed_users = array(); 
+require_once __DIR__ . '/header.php';
+?>
 <!doctype html>
 <html lang="de">
   <head>
@@ -26,7 +29,6 @@
       You should have received a copy of the GNU General Public License
       along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
       */
-      require_once __DIR__ . '/header.php';
 
       try {
         $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
