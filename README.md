@@ -1,5 +1,22 @@
 # projektwahl-php
 
+TODO ADD types to function and classes
+
+## Model classes
+
+have list of fields with types (for generating forms)
+
+Edit, DELETE, FORM, ... get generated from that list
+
+Validation also adds errors to that list so they can be shown inline
+
+Hopefully this will clean up the code
+
+
+
+
+
+
 ## Installation
 
 Edit copy config.sample.php to config.sample and edit settings. Then open /install.php
@@ -16,6 +33,7 @@ add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style
 
 ## PHP config
 
+TODO FIXME this options can now be passed in session_start (probably?)
 ```bash
 sudo nano /etc/php/7.3/fpm/php.ini
 session.cookie_httponly = 1

@@ -41,6 +41,10 @@ require_once __DIR__ . '/model/choice.php';
 require_once __DIR__ . '/model/settings.php';
 require_once __DIR__ . '/permissions.php';
 
+require_once __DIR__ . '/form-controls/text_input.php';
+require_once __DIR__ . '/form-controls/number_input.php';
+require_once __DIR__ . '/form-controls/range_input.php';
+
 // SECURITY: checks whether the CSRF csrf_token is valid https://en.wikipedia.org/wiki/Cross-site_request_forgery
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {

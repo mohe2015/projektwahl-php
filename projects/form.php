@@ -17,8 +17,19 @@ You should have received a copy of the GNU General Public License
 along with projektwahl-php.  If not, see <https://www.gnu.org/licenses/>.
 */
 $users = Users::all();
+
+$form_controls = array(
+  new TextInput("Titel", "title", true, true)
+)
+
 ?>
 <form novalidate method="post" class="needs-validation">
+
+<?php
+foreach ($form_controls as $form_control) {
+  $form_control->render();
+}
+?>
 
 <label class="form-label">Titel*:</label>
 <input class="form-control" required autofocus type="text" name="title" value="<?php echo htmlspecialchars($project->title) ?>" />
