@@ -17,28 +17,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById } from './utils.js'
+window.addEventListener('error', (event) => {
+    alert("Ein unerwarteter Fehler ist aufgetreten: " + event.message + " " + event.filename + ":" + event.lineno + ":" + event.colno)
+})
 
-/**
- * @type import("./router").Route
- */
-const setupRoute = {
-  path: '/setup',
-  render: async () => {
-    const response = await fetch('/api/v1/setup.php', {
-      method: 'POST'
-    })
-    if (response.ok) {
-      const html = await response.text()
-
-      getElementById('route-setup').innerHTML = html
-    } else {
-      alert('Serverfehler: ' + response.status + ' ' + response.statusText)
-    }
-  }
-}
-
-export const routes = [
-  setupRoute
-]
-f
+window.addEventListener('unhandledrejection', (event) => {
+    alert("Ein unerwarteter Fehler in asynchronem Code ist aufgetreten: " + event.reason)
+})
