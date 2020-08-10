@@ -17,21 +17,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-/**
- * @typedef {Object} Route
- * @property {string} path
- * @property {function(): Promise<void>} render
- */
+export class Route {
+
+  /**
+   * @returns {Promise<void>}
+   */
+  render = () => {
+    throw new Error("Route is abstract.")
+  }
+}
 
 export class Router {
-  /**
-     * @param {Route[]} routes
-     */
-  constructor (routes) {
-    this.routes = routes
 
-    window.addEventListener('popstate', (event) => {
-      this.render()
+  /**
+   * @param {Route} route
+   */
+  constructor (route) {
+    this.route = route
+
+    window.addEventListener('popstate', async (event) => {
+      await this.route.render()
     })
 
     document.addEventListener('click', (event) => {
@@ -47,25 +52,14 @@ export class Router {
       }
     }, {
       capture: true,
-
     })
   }
 
-    render = async () => {
-      const matchedRoute = this.routes.find((route) => route.path === document.location.pathname)
-      if (matchedRoute) {
-        await matchedRoute.render()
-      } else {
-        // 404
-        alert('404 Not Found')
-      }
-    }
-
-    /**
-     * @param {string} url
-     */
-    navigate = (url) => {
-      history.pushState(null, document.title, url)
-      this.render()
-    }
+  /**
+   * @param {string} url
+   */
+  navigate = async (url) => {
+    history.pushState(null, document.title, url)
+    await this.route.render()
+  }
 }

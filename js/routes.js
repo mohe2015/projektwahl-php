@@ -18,33 +18,108 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 import { getElementById } from './utils.js'
+import { Route } from './router.js'
+
+class Routes extends Route {
+  /**
+   * @type {Route[]}
+   */
+  routes;
+
+  /**
+   * @param {Route[]} routes
+   */
+  constructor(routes) {
+    super();
+    this.routes = routes;
+  }
+
+  render = async () => {
+    for (let route of this.routes) {
+      try {
+        await route.render()
+        return;
+      } catch (e) {
+
+      }
+    }
+    throw new Error("no matching route found")
+  }
+}
+
+class PathRoute extends Route {
+  /**
+   * @type {string}
+   */
+  path;
+
+  /**
+   * @type {Route}
+   */
+  route;
+
+  /**
+   * @param {string} path
+   * @param {Route} route
+   */
+  constructor(path, route) {
+    super();
+    this.path = path;
+    this.route = route;
+  }
+
+  render = async () => {
+    if (this.path !== document.location.pathname) {
+      throw new Error("path " + document.location.pathname + " does not match " + this.path)
+    }
+    await this.route.render()
+  }
+}
 
 /**
  * @type import("./router").Route
  */
-const setupRoute = {
-  path: '/setup',
-  render: async () => {
-    const response = await fetch('/api/v1/setup.php', {
-      method: 'POST'
-    })
-    if (response.ok) {
-      const html = await response.text()
-
-      let tab = getElementById('route-setup');
-      tab.innerHTML = html
-
-      Array.from(getElementById('routes').children).forEach(child => {
-        child.classList.add("d-none")
+const setupRoute = new PathRoute(
+  '/setup',
+  new class extends Route {
+    render = async () => {
+      const response = await fetch('/api/v1/setup.php', {
+        method: 'POST'
       })
-      tab.classList.remove("d-none")
-      
-    } else {
-      alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+      if (response.ok) {
+        const html = await response.text()
+
+        let tab = getElementById('route-setup');
+        tab.innerHTML = html
+
+        Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
+        tab.classList.remove("d-none")
+
+      } else {
+        alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+      }
+    }
+  }
+)
+
+const indexRoute = new PathRoute(
+  '/',
+  new class extends Route {
+    render = async () => {
+      // TODO FIXME fetch election status
+
+      Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
+      getElementById('route-index').classList.remove("d-none")
+    }
+  }
+)
+
+const rootRoutfe = {
+  render: async () => {
+    if (document.cookie === "") {
+
     }
   }
 }
 
-export const routes = [
-  setupRoute
-]
+export const rootRoute = new Routes([indexRoute, setupRoute])

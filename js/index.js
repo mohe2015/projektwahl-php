@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { } from './bootstrap.esm.js'
 import { Router } from './router.js'
-import { routes } from './routes.js'
+import { rootRoute } from './routes.js'
 
-export const router = new Router(routes)
-router.render()
+export const router = new Router(rootRoute)
+router.route.render()
