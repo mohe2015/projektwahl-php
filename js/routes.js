@@ -37,8 +37,8 @@ const setupRoute = {
       Array.from(getElementById('routes').children).forEach(child => {
         child.classList.add("d-none")
       })
-
       tab.classList.remove("d-none")
+      
     } else {
       alert('Serverfehler: ' + response.status + ' ' + response.statusText)
     }

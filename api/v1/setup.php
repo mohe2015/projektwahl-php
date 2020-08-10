@@ -139,9 +139,9 @@ try {
   $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
 
   echo '<div class="alert alert-success" role="alert">Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password';
-  echo "<br /><a href=\"//\" class=\"alert-link\">Zur Startseite</a></div>";
+  echo "<br /><a href=\"/\" class=\"alert-link\">Zur Startseite</a></div>";
 } catch (PDOException $e) {
   print '<div class="alert alert-danger" role="alert">Fehler bei der Installation: ' . $e . '<br/>';
-  print "Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href=\"//\" class=\"alert-link\">Startseite</a></div>";
+  print "Vielleicht hast du bereits alles installiert? Versuchs mal mit der <a href=\"/\" class=\"alert-link\">Startseite</a></div>";
 }
 ?>

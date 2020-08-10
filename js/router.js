@@ -33,6 +33,22 @@ export class Router {
     window.addEventListener('popstate', (event) => {
       this.render()
     })
+
+    document.addEventListener('click', (event) => {
+      console.log(event)
+
+      if (event.target instanceof Element) {
+        let a = event.target.closest("a")
+
+        if (a) {
+          event.preventDefault()
+          this.navigate(a.href)
+        }
+      }
+    }, {
+      capture: true,
+
+    })
   }
 
     render = async () => {
