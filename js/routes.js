@@ -31,7 +31,14 @@ const setupRoute = {
     if (response.ok) {
       const html = await response.text()
 
-      getElementById('route-setup').innerHTML = html
+      let tab = getElementById('route-setup');
+      tab.innerHTML = html
+
+      Array.from(getElementById('routes').children).forEach(child => {
+        child.classList.remove("active", "show")
+      })
+
+      tab.classList.add("active", "show")
     } else {
       alert('Serverfehler: ' + response.status + ' ' + response.statusText)
     }
@@ -41,4 +48,3 @@ const setupRoute = {
 export const routes = [
   setupRoute
 ]
-f
