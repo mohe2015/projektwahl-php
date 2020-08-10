@@ -1,4 +1,4 @@
-# [CURRENTLY-REWRITING]  projektwahl-php
+# [CURRENTLY-REWRITING-CODE]  projektwahl-php
 
 ## Installation
 
