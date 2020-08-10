@@ -17,9 +17,39 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { } from './bootstrap.esm.js';
-import { Router } from './router.js';
-import { routes } from './routes.js';
+/**
+ * @typedef {Object} Route
+ * @property {string} path
+ * @property {function(): void} render
+ */
 
-export const router = new Router(routes);
-router.render();
+export class Router {
+    /**
+     * @param {Route[]} routes
+     */
+    constructor(routes) {
+        this.routes = routes;
+
+        window.addEventListener('popstate', (event) => {
+            this.render();
+        })
+    }
+
+    render = () => {
+        const matchedRoute = this.routes.find((route) => route.path === document.location.pathname);
+        if (matchedRoute) {
+            matchedRoute.render();
+        } else {
+            // 404
+            alert("404 Not Found");
+        }
+    }
+
+    /**
+     * @param {string} url
+     */
+    navigate = (url) => {
+        history.pushState(null, document.title, url);
+        this.render();
+    }
+}

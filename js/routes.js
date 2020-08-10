@@ -17,9 +17,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { } from './bootstrap.esm.js';
-import { Router } from './router.js';
-import { routes } from './routes.js';
+/**
+ * @type import("./router").Route
+ */
+const setupRoute = {
+    path: "/setup",
+    render: () => {
 
-export const router = new Router(routes);
-router.render();
+    },
+};
+
+export const routes = [
+    setupRoute
+];

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist",
+      "target": "esnext",
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "strict": true,
+    },
+    "include": ["./js/**/*", "./js/*"]
+  }
