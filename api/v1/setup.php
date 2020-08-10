@@ -123,7 +123,7 @@ try {
     END;
   END;
 
-  DROP TRIGGER IF EXISTS trigger_check_project_leader;
+  DROP TRIGGER IF EXISTS trigger_check_roject_leader_choices;
   CREATE TRIGGER trigger_check_roject_leader_choices BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
