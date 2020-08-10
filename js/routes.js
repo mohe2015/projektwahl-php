@@ -35,10 +35,10 @@ const setupRoute = {
       tab.innerHTML = html
 
       Array.from(getElementById('routes').children).forEach(child => {
-        child.classList.remove("active", "show")
+        child.classList.add("d-none")
       })
 
-      tab.classList.add("active", "show")
+      tab.classList.remove("d-none")
     } else {
       alert('Serverfehler: ' + response.status + ' ' + response.statusText)
     }
