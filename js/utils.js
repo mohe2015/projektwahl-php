@@ -1,5 +1,5 @@
 /*
-Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @returns {HTMLElement}
  */
 export const getElementById = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-        return element;
-    } else {
-        throw new Error("getElementById could not find element with id: " + id);
-    }
+  const element = document.getElementById(id)
+  if (element) {
+    return element
+  } else {
+    throw new Error('getElementById could not find element with id: ' + id)
+  }
 }

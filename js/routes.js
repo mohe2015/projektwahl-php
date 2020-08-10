@@ -1,5 +1,5 @@
 /*
-Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById } from './utils.js';
+import { getElementById } from './utils.js'
 
 /**
  * @type import("./router").Route
  */
 const setupRoute = {
-    path: "/setup",
-    render: async () => {
-        let response = await fetch("/api/v1/setup.php", {
-            method: "POST",
-        });
-        if (response.ok) {        
-            const html = await response.text();
+  path: '/setup',
+  render: async () => {
+    const response = await fetch('/api/v1/setup.php', {
+      method: 'POST'
+    })
+    if (response.ok) {
+      const html = await response.text()
 
-            getElementById("route-setup").innerHTML = html;
-        } else {
-            alert("Serverfehler: " + response.status + " " + response.statusText)
-        }
-    },
-};
+      getElementById('route-setup').innerHTML = html
+    } else {
+      alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+    }
+  }
+}
 
 export const routes = [
-    setupRoute
-];
+  setupRoute
+]

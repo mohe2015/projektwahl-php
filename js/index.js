@@ -1,5 +1,5 @@
 /*
-Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { } from './bootstrap.esm.js';
-import { Router } from './router.js';
-import { routes } from './routes.js';
+import { } from './bootstrap.esm.js'
+import { Router } from './router.js'
+import { routes } from './routes.js'
 
-export const router = new Router(routes);
-router.render();
+export const router = new Router(routes)
+router.render()

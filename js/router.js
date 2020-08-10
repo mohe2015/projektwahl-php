@@ -1,5 +1,5 @@
 /*
-Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 export class Router {
-    /**
+  /**
      * @param {Route[]} routes
      */
-    constructor(routes) {
-        this.routes = routes;
+  constructor (routes) {
+    this.routes = routes
 
-        window.addEventListener('popstate', (event) => {
-            this.render();
-        })
-    }
+    window.addEventListener('popstate', (event) => {
+      this.render()
+    })
+  }
 
     render = async () => {
-        const matchedRoute = this.routes.find((route) => route.path === document.location.pathname);
-        if (matchedRoute) {
-            await matchedRoute.render();
-        } else {
-            // 404
-            alert("404 Not Found");
-        }
+      const matchedRoute = this.routes.find((route) => route.path === document.location.pathname)
+      if (matchedRoute) {
+        await matchedRoute.render()
+      } else {
+        // 404
+        alert('404 Not Found')
+      }
     }
 
     /**
      * @param {string} url
      */
     navigate = (url) => {
-        history.pushState(null, document.title, url);
-        this.render();
+      history.pushState(null, document.title, url)
+      this.render()
     }
 }
