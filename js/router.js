@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /**
  * @typedef {Object} Route
  * @property {string} path
- * @property {function(): void} render
+ * @property {function(): Promise<void>} render
  */
 
 export class Router {
@@ -35,10 +35,10 @@ export class Router {
         })
     }
 
-    render = () => {
+    render = async () => {
         const matchedRoute = this.routes.find((route) => route.path === document.location.pathname);
         if (matchedRoute) {
-            matchedRoute.render();
+            await matchedRoute.render();
         } else {
             // 404
             alert("404 Not Found");

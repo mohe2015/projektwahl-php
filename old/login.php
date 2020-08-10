@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$user) {
     $invalid_username = true;
   } else if (password_verify($password, $user->password)) {
-    if (password_needs_rehash($user->password, PASSWORD_DEFAULT, $options)) {
+    if (password_needs_rehash($user->password, PASSWORD_ARGON2ID, $options)) {
       // TODO: needs rehashing
     }
     session_regenerate_id(true);

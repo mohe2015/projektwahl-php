@@ -17,27 +17,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById } from './utils.js';
-
 /**
- * @type import("./router").Route
+ * @param {string} id
+ * @returns {HTMLElement}
  */
-const setupRoute = {
-    path: "/setup",
-    render: async () => {
-        let response = await fetch("/api/v1/setup.php", {
-            method: "POST",
-        });
-        if (response.ok) {        
-            const html = await response.text();
-
-            getElementById("route-setup").innerHTML = html;
-        } else {
-            alert("Serverfehler: " + response.status + " " + response.statusText)
-        }
-    },
-};
-
-export const routes = [
-    setupRoute
-];
+export const getElementById = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+        return element;
+    } else {
+        throw new Error("getElementById could not find element with id: " + id);
+    }
+}

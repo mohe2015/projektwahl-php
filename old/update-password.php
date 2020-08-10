@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($new_password !== $new_password_repeated) {
     echo "Passwörter nicht identisch!";
   } else if (password_verify($old_password, $user->password)) {
-    $user->password = password_hash($new_password, PASSWORD_DEFAULT, $options);
+    $user->password = password_hash($new_password, PASSWORD_ARGON2ID, $options);
     $user->password_changed = true;
     $user->save();
     array_pop($_SESSION['users']);
