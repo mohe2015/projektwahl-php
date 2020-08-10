@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.css">
+
+    <title>Projektwahl</title>
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-print-none">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Projektwahl</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Startseite
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/projects">
+                                <i class="fas fa-users"></i>
+                                Projekte
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/teachers">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Lehrer
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/students">
+                                <i class="fas fa-user"></i>
+                                Schüler
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/election.php">
+                                <i class="fas fa-poll"></i>
+                                Wahl
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/update-election-state.php">
+                                <i class="fas fa-ban"></i>
+                                Wahl beenden / starten
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout.php">
+                                <i class="fas fa-sign-out-alt"></i>
+                                abmelden
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/update-password.php">
+                                <i class="fas fa-key"></i>
+                                Passwort ändern
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>          
+    </header>
+
+    <main>
+        <h1>Hello, world!</h1>
+
+    </main>
+
+    <footer>
+        Copyright &copy; 2020 Moritz Hedtke <a href="mailto:Moritz.Hedtke@t-online.de">Moritz.Hedtke@t-online.de</a>. Lizensiert unter <a href="https://github.com/mohe2015/projektwahl-php/blob/main/LICENSE">AGPL-3.0</a>. <a href="https://github.com/mohe2015/projektwahl-php">Quellcode</a>
+    </footer>
+
+    <script nomodule>
+        alert("Dein Webbrowser wird nicht unterstützt! Bitte verwende eine aktuelle Version von Mozilla Firefox, Google Chrome, Microsoft Edge oder Safari.");
+    </script>
+    <script type="module" src="/js/index.js"></script>
+</body>
+</html>
