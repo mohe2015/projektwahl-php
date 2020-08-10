@@ -1,0 +1,12 @@
+{
+  "name": "projektwahl-php",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:mohe2015/projektwahl-php.git",
+  "author": "mohe2015 <Moritz.Hedtke@t-online.de>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^3.9.7"
+  }
+}

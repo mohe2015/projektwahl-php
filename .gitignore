@@ -1,7 +1,5 @@
+node_modules
 fontawesome
-phpmyadmin
 config.php
-phppgadmin
-vendor/
 projektwahl.db
 *.*~
