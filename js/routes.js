@@ -114,6 +114,16 @@ const indexRoute = new PathRoute(
   }
 )
 
+const loginRoute = new PathRoute(
+  '/login',
+  new class extends Route {
+    render = async () => {
+      Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
+      getElementById('route-login').classList.remove("d-none")
+    }
+  }
+)
+
 const rootRoutfe = {
   render: async () => {
     if (document.cookie === "") {
@@ -122,4 +132,4 @@ const rootRoutfe = {
   }
 }
 
-export const rootRoute = new Routes([indexRoute, setupRoute])
+export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute])

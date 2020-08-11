@@ -76,7 +76,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout.php">
+                            <a class="nav-link" href="/login">
                                 <i class="fas fa-sign-out-alt"></i>
                                 anmelden
                             </a>
@@ -93,7 +93,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </nav>          
     </header>
 
-    <main id="routes">
+    <main id="routes" class="container">
         <div id="route-loading">
             <div class="d-flex justify-content-center mt-2">
                 <div class="spinner-border" role="status">
@@ -108,6 +108,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
         <div class="d-none" id="route-setup">
             hidden
+        </div>
+
+        <div class="d-none" id="route-login">
+            
+            <h1 class="text-center">Anmelden</h1>
+
+            <form id="login-form" novalidate method="post" class="needs-validation">
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+
+                <button type="submit" class="mt-3 btn btn-primary">Anmelden</button>
+
+            </form>
+
         </div>
     </main>
 
