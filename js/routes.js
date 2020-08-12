@@ -129,16 +129,57 @@ const loginRoute = new PathRoute(
 
         let formData = new FormData(form)
 
-        const response = await fetch('/api/v1/login.php', {
-          method: 'POST',
-          body: formData,
-        })
-        if (response.ok) {
-          const json = await response.json()
-  
-          console.log(json)
-        } else {
-          alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+        let valid = form.checkValidity();
+
+        for (let element of form.elements) {
+          let element1 = /** @type HTMLInputElement */ (element);
+
+          let parentElement = element.parentElement;
+
+          if (!parentElement) {
+            throw new Error("Could not find parent of input");
+          }
+
+          let invalidFeedback = /** @type {HTMLElement | null} */ (parentElement.querySelector('.invalid-feedback'))
+
+          if (!invalidFeedback) {
+            throw new Error("Could not find feedback element")
+          }
+
+          console.log("jo: " + element1.validationMessage)
+          invalidFeedback.innerText = element1.validationMessage
+        }
+
+        form.classList.add('was-validated')
+
+        if (!valid) {
+          event.stopPropagation()
+          return;
+        }
+
+        for (let element of form.elements) {
+          let element1 = /** @type HTMLInputElement */ (element);
+          element1.disabled = true;
+        }
+
+        try {
+          const response = await fetch('/api/v1/login.php', {
+            method: 'POST',
+            body: formData,
+          })
+          if (response.ok) {
+            const json = await response.json()
+    
+            console.log(json)
+          } else {
+            alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+          }
+
+        } finally {
+          for (let element of form.elements) {
+            let element1 = /** @type HTMLInputElement */ (element);
+            element1.disabled = false;
+          }
         }
       })
     }

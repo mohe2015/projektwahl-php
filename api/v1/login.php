@@ -29,8 +29,9 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
 
+header('Content-Type: application/json');
+
 if (!$user) {
-  header('Content-Type: application/json');
   die('{"errors": { "username": "not-found" }}');
 } else if (password_verify($password, $user->password_hash)) {
   if (password_needs_rehash($user->password_hash, PASSWORD_ARGON2ID, $options)) {
