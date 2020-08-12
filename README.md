@@ -1,3 +1,9 @@
+sudo systemctl show phpfpm-projektwahl.service | grep ProtectHome
+
+
+https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/web-apps/wordpress.nix
+
+
 
 https://nixos.wiki/wiki/Phpfpm
 

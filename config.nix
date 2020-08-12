@@ -15,31 +15,60 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-services.httpd = {
+  users.users.projektwahl = {
+    group = config.services.httpd.group;
+    isSystemUser = true;
+  };
+
+  services.phpfpm.pools.projektwahl = {
+    user = "projektwahl";
+    group = config.services.httpd.group;
+    settings = {
+      "listen.owner" = config.services.httpd.user;
+      "listen.group" = config.services.httpd.group;
+      "pm" = "dynamic";
+      "pm.max_children" = 32;
+      "pm.start_servers" = 2;
+      "pm.min_spare_servers" = 2;
+      "pm.max_spare_servers" = 4;
+      "pm.max_requests" = 500;
+      "php_admin_value[error_log]" = "stderr";
+      "php_admin_flag[log_errors]" = true;
+      "catch_workers_output" = true;
+      #"log_level" = "notice";
+      "access.log" = "/var/log/$pool.access.log";
+    };
+  };
+
+  services.httpd = {
     enable = true;
     adminAddr = "admin@localhost";
-    enablePHP = true;
-    phpOptions = ''
-      display_errors = Off;
-      
+    extraModules = [ "proxy_fcgi" ];
+    virtualHosts.projektwahl = {
+      documentRoot = lib.mkForce "/var/www/projektwahl-php";
+      extraConfig = ''
+        <Directory "/var/www/projektwahl-php">
+          <FilesMatch "\.php$">
+            <If "-f %{REQUEST_FILENAME}">
+              SetHandler "proxy:unix:${config.services.phpfpm.pools.projektwahl.socket}|fcgi://localhost/"
+            </If>
+          </FilesMatch>
+
+          LogLevel notice
+
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteCond %{REQUEST_URI} !/css
+          RewriteCond %{REQUEST_URI} !/js
+          RewriteCond %{REQUEST_URI} !/fontawesome
+          RewriteCond %{REQUEST_URI} !/api
+          RewriteRule ^(.*)$ /index.html [L,QSA]
+
+          DirectoryIndex index.html index.php
+          Require all granted
+          Options +FollowSymLinks
+        </Directory>
       '';
-
-    virtualHosts = {
-        "localhost" = {
-            documentRoot = "/home/moritz/Documents/projektwahl-php";
-
-            extraConfig = ''
-                DirectoryIndex index.html index.php
-
-                RewriteEngine On
-                RewriteCond %{REQUEST_FILENAME} !-f
-                RewriteCond %{REQUEST_FILENAME} !-d
-                RewriteCond %{REQUEST_URI} !/css
-                RewriteCond %{REQUEST_URI} !/js
-                RewriteCond %{REQUEST_URI} !/fontawesome
-                RewriteCond %{REQUEST_URI} !/api
-                RewriteRule ^(.*)$ /index.html [L,QSA]
-            '';
-        };
     };
-};
+  };
