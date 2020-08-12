@@ -32,7 +32,7 @@ $user = Users::findByName($username);
 header('Content-Type: application/json');
 
 if (!$user) {
-  die('{"errors": { "username": "not-found" }}');
+  die('{"errors": { "username": "Nutzer nicht gefunden!", "password": "Nutzer nicht gefunden!" }}');
 } else if (password_verify($password, $user->password_hash)) {
   if (password_needs_rehash($user->password_hash, PASSWORD_ARGON2ID, $options)) {
     $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
@@ -50,7 +50,7 @@ if (!$user) {
   }
   die();
 } else {
-  die('{"errors": { "password": "invalid" }}');
+  die('{"errors": { "password": "Passwort falsch!" }}');
 }
 
 ?>

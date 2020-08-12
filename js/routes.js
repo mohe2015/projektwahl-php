@@ -202,12 +202,12 @@ const loginRoute = new PathRoute(
       }
 
       form.addEventListener('input', event => {
+        console.log("form input")
         for (let element of form.elements) {
-          let element1 = /** @type HTMLInputElement */ (event.target)
+          let element1 = /** @type HTMLInputElement */ (element)
           element1.setCustomValidity('')
-          form.checkValidity()
-         // form.reportValidity()
         }
+        form.checkValidity()
       })
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
