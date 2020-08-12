@@ -1,5 +1,9 @@
 
+https://nixos.wiki/wiki/Phpfpm
 
+
+sudo tail -f /var/log/httpd/access-localhost.log
+sudo tail -f /var/log/httpd/error-localhost.log
 
 
 
