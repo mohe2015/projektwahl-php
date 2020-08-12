@@ -197,19 +197,29 @@ const loginRoute = new PathRoute(
       /** @type HTMLFormElement */
       const form = getElementById('login-form')
 
+      for (let element of form.elements) {
+        element.addEventListener('invalid', event => {
+          console.log("oninvalid")
+          this.onInvalid(/** @type HTMLInputElement */ (event.target));
+        })
+
+      }
+
+      form.addEventListener('input', event => {
+        for (let element of form.elements) {
+          let element1 = /** @type HTMLInputElement */ (event.target)
+          element1.setCustomValidity('')
+          form.checkValidity()
+          form.reportValidity()
+        }
+      })
+
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
       form.addEventListener('submit', event => {
         console.log("onsubmit")
         event.preventDefault()
 
         let formData = new FormData(form)
-
-        for (let element of form.elements) {
-          element.addEventListener('invalid', event => {
-            console.log("oninvalid")
-            this.onInvalid(/** @type HTMLInputElement */ (event.target));
-          })
-        }
 
         let valid = form.checkValidity();
 
