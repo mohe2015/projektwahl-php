@@ -164,8 +164,6 @@ const loginRoute = new PathRoute(
               usernameField.setCustomValidity(json.errors.username)
               
               form.checkValidity();
-              form.reportValidity();
-
             }
 
             if (json.errors.password) {
@@ -174,8 +172,6 @@ const loginRoute = new PathRoute(
               console.log(json.errors.password)
 
               form.checkValidity();
-              form.reportValidity();
-
             }
           }
         } else {
@@ -210,7 +206,7 @@ const loginRoute = new PathRoute(
           let element1 = /** @type HTMLInputElement */ (event.target)
           element1.setCustomValidity('')
           form.checkValidity()
-          form.reportValidity()
+         // form.reportValidity()
         }
       })
 
