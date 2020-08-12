@@ -116,6 +116,80 @@ const indexRoute = new PathRoute(
 const loginRoute = new PathRoute(
   '/login',
   new class extends Route {
+
+    /**
+     * @param {HTMLInputElement} element
+     */
+    onInvalid = (element) => {
+        let parentElement = element.parentElement;
+
+        if (!parentElement) {
+          throw new Error("Could not find parent of input");
+        }
+
+        let invalidFeedback = /** @type {HTMLElement | null} */ (parentElement.querySelector('.invalid-feedback'))
+
+        if (!invalidFeedback) {
+          throw new Error("Could not find feedback element")
+        }
+
+        console.log("jo: " + element.validationMessage)
+        invalidFeedback.innerText = element.validationMessage
+    }
+    
+    /**
+     * @param {HTMLFormElement} form
+     * @param {FormData} formData
+     */
+    asyncSubmit = async (form, formData) => {
+      try {
+        const response = await fetch('/api/v1/login.php', {
+          method: 'POST',
+          body: formData,
+        })
+        if (response.ok) {
+          const json = await response.json()
+  
+          // THIS FIXED IT!!!
+          for (let element of form.elements) {
+            let element1 = /** @type HTMLInputElement */ (element);
+            element1.disabled = false;
+          }
+
+          console.log(json)
+
+          if (json.errors) {
+            if (json.errors.username) {
+              let usernameField = /** @type HTMLInputElement */ (getElementById("login-username"))
+              usernameField.setCustomValidity(json.errors.username)
+              
+              form.checkValidity();
+              form.reportValidity();
+
+            }
+
+            if (json.errors.password) {
+              let passwordField = /** @type HTMLInputElement */ (getElementById("login-password"))
+              passwordField.setCustomValidity(json.errors.password)
+              console.log(json.errors.password)
+
+              form.checkValidity();
+              form.reportValidity();
+
+            }
+          }
+        } else {
+          alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+        }
+
+      } finally {
+        for (let element of form.elements) {
+          let element1 = /** @type HTMLInputElement */ (element);
+          element1.disabled = false;
+        }
+      }
+    }
+
     render = async () => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
@@ -124,31 +198,20 @@ const loginRoute = new PathRoute(
       const form = getElementById('login-form')
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
-      form.addEventListener('submit', async event => {
+      form.addEventListener('submit', event => {
+        console.log("onsubmit")
         event.preventDefault()
 
         let formData = new FormData(form)
 
-        let valid = form.checkValidity();
-
         for (let element of form.elements) {
-          let element1 = /** @type HTMLInputElement */ (element);
-
-          let parentElement = element.parentElement;
-
-          if (!parentElement) {
-            throw new Error("Could not find parent of input");
-          }
-
-          let invalidFeedback = /** @type {HTMLElement | null} */ (parentElement.querySelector('.invalid-feedback'))
-
-          if (!invalidFeedback) {
-            throw new Error("Could not find feedback element")
-          }
-
-          console.log("jo: " + element1.validationMessage)
-          invalidFeedback.innerText = element1.validationMessage
+          element.addEventListener('invalid', event => {
+            console.log("oninvalid")
+            this.onInvalid(/** @type HTMLInputElement */ (event.target));
+          })
         }
+
+        let valid = form.checkValidity();
 
         form.classList.add('was-validated')
 
@@ -162,25 +225,7 @@ const loginRoute = new PathRoute(
           element1.disabled = true;
         }
 
-        try {
-          const response = await fetch('/api/v1/login.php', {
-            method: 'POST',
-            body: formData,
-          })
-          if (response.ok) {
-            const json = await response.json()
-    
-            console.log(json)
-          } else {
-            alert('Serverfehler: ' + response.status + ' ' + response.statusText)
-          }
-
-        } finally {
-          for (let element of form.elements) {
-            let element1 = /** @type HTMLInputElement */ (element);
-            element1.disabled = false;
-          }
-        }
+        this.asyncSubmit(form, formData)
       })
     }
   }()
