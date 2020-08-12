@@ -21,23 +21,21 @@ import { Collapse } from './bootstrap.esm.js'
 import { getElementById } from './utils.js'
 
 export class Route {
-
   /**
    * @returns {Promise<void>}
    */
   render = () => {
-    throw new Error("Route is abstract.")
+    throw new Error('Route is abstract.')
   }
 }
 
 export class Router {
-
   /**
    * @param {Route} route
    */
   constructor (route) {
     this.route = route
-    this.navbar = new Collapse(getElementById("navbarSupportedContent"), {
+    this.navbar = new Collapse(getElementById('navbarSupportedContent'), {
       toggle: false
     })
 
@@ -46,21 +44,20 @@ export class Router {
     })
 
     document.addEventListener('click', (event) => {
-
       if (event.target instanceof Element) {
-        let a = event.target.closest("a")
+        const a = event.target.closest('a')
 
         if (a) {
           console.log(event)
 
           event.preventDefault()
           // @ts-expect-error
-          this.navbar.hide();
+          this.navbar.hide()
           this.navigate(a.href)
         }
       }
     }, {
-      capture: true,
+      capture: true
     })
   }
 

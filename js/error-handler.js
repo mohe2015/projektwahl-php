@@ -18,9 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 window.addEventListener('error', (event) => {
-    alert("Ein unerwarteter Fehler ist aufgetreten: " + event.message + " " + event.filename + ":" + event.lineno + ":" + event.colno)
+  alert('Ein unerwarteter Fehler ist aufgetreten: ' + event.message + ' ' + event.filename + ':' + event.lineno + ':' + event.colno)
 })
 
 window.addEventListener('unhandledrejection', (event) => {
-    alert("Ein unerwarteter Fehler in asynchronem Code ist aufgetreten: " + event.reason)
+  alert('Ein unerwarteter Fehler in asynchronem Code ist aufgetreten: ' + event.reason)
 })

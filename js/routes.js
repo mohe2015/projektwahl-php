@@ -29,21 +29,21 @@ class Routes extends Route {
   /**
    * @param {Route[]} routes
    */
-  constructor(routes) {
-    super();
-    this.routes = routes;
+  constructor (routes) {
+    super()
+    this.routes = routes
   }
 
   render = async () => {
-    for (let route of this.routes) {
+    for (const route of this.routes) {
       try {
         await route.render()
-        return;
+        return
       } catch (e) {
 
       }
     }
-    throw new Error("no matching route found")
+    throw new Error('no matching route found')
   }
 }
 
@@ -62,15 +62,15 @@ class PathRoute extends Route {
    * @param {string} path
    * @param {Route} route
    */
-  constructor(path, route) {
-    super();
-    this.path = path;
-    this.route = route;
+  constructor (path, route) {
+    super()
+    this.path = path
+    this.route = route
   }
 
   render = async () => {
     if (this.path !== document.location.pathname) {
-      throw new Error("path " + document.location.pathname + " does not match " + this.path)
+      throw new Error('path ' + document.location.pathname + ' does not match ' + this.path)
     }
     await this.route.render()
   }
@@ -89,17 +89,16 @@ const setupRoute = new PathRoute(
       if (response.ok) {
         const html = await response.text()
 
-        let tab = getElementById('route-setup');
+        const tab = getElementById('route-setup')
         tab.innerHTML = html
 
-        Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
-        tab.classList.remove("d-none")
-
+        Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
+        tab.classList.remove('d-none')
       } else {
         alert('Serverfehler: ' + response.status + ' ' + response.statusText)
       }
     }
-  }
+  }()
 )
 
 const indexRoute = new PathRoute(
@@ -108,43 +107,35 @@ const indexRoute = new PathRoute(
     render = async () => {
       // TODO FIXME fetch election status
 
-      Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
-      getElementById('route-index').classList.remove("d-none")
+      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
+      getElementById('route-index').classList.remove('d-none')
     }
-  }
+  }()
 )
 
 const loginRoute = new PathRoute(
   '/login',
   new class extends Route {
     render = async () => {
-      Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
-      getElementById('route-login').classList.remove("d-none")
+      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
+      getElementById('route-login').classList.remove('d-none')
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
       /** @type HTMLButtonElement */
-      let form = getElementById('login-form')
+      const form = getElementById('login-form')
 
       /** @type {HTMLButtonElement | null} */
-      let test = document.querySelector("form#login-form")
-      console.log(test);
+      const test = document.querySelector('form#login-form')
+      console.log(test)
       console.log(form)
-      
-      form.addEventListener('submit', event => {
-        event.preventDefault();
 
-        //let formData = new FormData(form)     
+      form.addEventListener('submit', event => {
+        event.preventDefault()
+
+        // let formData = new FormData(form)
       })
     }
-  }
+  }()
 )
-
-const rootRoutfe = {
-  render: async () => {
-    if (document.cookie === "") {
-
-    }
-  }
-}
 
 export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute])
