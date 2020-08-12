@@ -25,3 +25,15 @@ body {
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 100%;
 }
+
+body {
+    overflow-y: scroll;
+}
+
+.container-small {
+    max-width: 25em;
+}
+
+.container-medium {
+    max-width: 50em;
+}

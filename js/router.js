@@ -17,6 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
+import { Collapse } from './bootstrap.esm.js'
+import { getElementById } from './utils.js'
+
 export class Route {
 
   /**
@@ -34,6 +37,9 @@ export class Router {
    */
   constructor (route) {
     this.route = route
+    this.navbar = new Collapse(getElementById("navbarSupportedContent"), {
+      toggle: false
+    })
 
     window.addEventListener('popstate', async (event) => {
       await this.route.render()
@@ -47,6 +53,8 @@ export class Router {
 
         if (a) {
           event.preventDefault()
+          // @ts-expect-error
+          this.navbar.hide();
           this.navigate(a.href)
         }
       }
