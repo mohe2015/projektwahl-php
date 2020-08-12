@@ -19,10 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 session_start();
 
-if (!isset($_SESSION['users'])) {
-    $_SESSION['users'] = array();
-}
-
 require_once __DIR__ . '/config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(
@@ -32,11 +28,5 @@ try {
     ));
 } catch (PDOException $e) {
   die('<div class="alert alert-danger" role="alert">' . $e . '</div>');
-}
-
-try {
-  $settings = Settings::get();
-} catch (PDOException $e) {
-  die('<div class="alert alert-danger" role="alert">' . $e->getMessage() . '</div>');
 }
 ?>

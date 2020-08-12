@@ -120,19 +120,26 @@ const loginRoute = new PathRoute(
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
 
-      // TODO FIXME this wil create multiple listeners when opening the page multiple times
-      /** @type HTMLButtonElement */
+      /** @type HTMLFormElement */
       const form = getElementById('login-form')
 
-      /** @type {HTMLButtonElement | null} */
-      const test = document.querySelector('form#login-form')
-      console.log(test)
-      console.log(form)
-
-      form.addEventListener('submit', event => {
+      // TODO FIXME this wil create multiple listeners when opening the page multiple times
+      form.addEventListener('submit', async event => {
         event.preventDefault()
 
-        // let formData = new FormData(form)
+        let formData = new FormData(form)
+
+        const response = await fetch('/api/v1/login.php', {
+          method: 'POST',
+          body: formData,
+        })
+        if (response.ok) {
+          const json = await response.json()
+  
+          console.log(json)
+        } else {
+          alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+        }
       })
     }
   }()

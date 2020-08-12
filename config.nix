@@ -19,7 +19,10 @@ services.httpd = {
     enable = true;
     adminAddr = "admin@localhost";
     enablePHP = true;
-
+    phpOptions = ''
+      display_errors = Off;
+      
+      '';
 
     virtualHosts = {
         "localhost" = {

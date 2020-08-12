@@ -18,34 +18,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 $allowed_users = array();
-require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/../header.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = $_POST['name'];
-  $password = $_POST['password'];
-  $user = Users::findByName($name);
-  if (!$user) {
-    $invalid_username = true;
-  } else if (password_verify($password, $user->password)) {
-    if (password_needs_rehash($user->password, PASSWORD_ARGON2ID, $options)) {
-      // TODO: needs rehashing
-    }
-    session_regenerate_id(true);
-    $_SESSION['users'][] = $user;
-    if (!$user->password_changed) {
-      $_SESSION['old_password'] = $password;
-      header("Location: $ROOT/update-password.php");
-    } else if ($user->type === "student") {
-      header("Location: $ROOT/election.php");
-    } else {
-      header("Location: $ROOT/");
-    }
-    die();
-  } else {
-    $invalid_password = true;
-  }
-} else {
-  $invalid_password = false;
-  $invalid_username = false;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  die();
 }
+
+$username = $_POST['username'];
+$password = $_POST['password'];
+$user = Users::findByName($username);
+if (!$user) {
+  header('Content-Type: application/json');
+  die('{"errors": { "username": "not-found" }}');
+} else if (password_verify($password, $user->password)) {
+  if (password_needs_rehash($user->password, PASSWORD_ARGON2ID, $options)) {
+    // TODO: needs rehashing
+  }
+  session_regenerate_id(true);
+  $_SESSION['users'][] = $user;
+  if (!$user->password_changed) {
+    $_SESSION['old_password'] = $password;
+    header("Location: $ROOT/update-password.php");
+  } else if ($user->type === "student") {
+    header("Location: $ROOT/election.php");
+  } else {
+    header("Location: $ROOT/");
+  }
+  die();
+} else {
+  $invalid_password = true;
+}
+
 ?>
