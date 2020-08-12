@@ -28,26 +28,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
+
 if (!$user) {
   header('Content-Type: application/json');
   die('{"errors": { "username": "not-found" }}');
 } else if (password_verify($password, $user->password)) {
   if (password_needs_rehash($user->password, PASSWORD_ARGON2ID, $options)) {
-    // TODO: needs rehashing
+    $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
+    $user->save();
   }
   session_regenerate_id(true);
   $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
     $_SESSION['old_password'] = $password;
-    header("Location: $ROOT/update-password.php");
+    die('{"response": "update-password"}');
   } else if ($user->type === "student") {
-    header("Location: $ROOT/election.php");
+    die('{"response": "election"}');
   } else {
-    header("Location: $ROOT/");
+    die('{"response": "index"}');
   }
   die();
 } else {
-  $invalid_password = true;
+  die('{"errors": { "password": "invalid" }}');
 }
 
 ?>

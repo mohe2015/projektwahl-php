@@ -29,4 +29,6 @@ try {
 } catch (PDOException $e) {
   die('<div class="alert alert-danger" role="alert">' . $e . '</div>');
 }
+
+require_once __DIR__ . '/record.php';
 ?>

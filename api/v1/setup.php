@@ -48,7 +48,7 @@ try {
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
   name VARCHAR(64) UNIQUE NOT NULL,
-  password VARCHAR(255),
+  password_hash VARCHAR(255),
   type VARCHAR(8) NOT NULL,
   project_leader INTEGER,
   class VARCHAR(8),
