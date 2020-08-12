@@ -120,6 +120,21 @@ const loginRoute = new PathRoute(
     render = async () => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add("d-none"))
       getElementById('route-login').classList.remove("d-none")
+
+      // TODO FIXME this wil create multiple listeners when opening the page multiple times
+      /** @type HTMLButtonElement */
+      let form = getElementById('login-form')
+
+      /** @type {HTMLButtonElement | null} */
+      let test = document.querySelector("form#login-form")
+      console.log(test);
+      console.log(form)
+      
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+
+        //let formData = new FormData(form)     
+      })
     }
   }
 )

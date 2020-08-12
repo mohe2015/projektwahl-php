@@ -18,11 +18,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 /**
+ * @function
+ * @template {HTMLElement} E
  * @param {string} id
- * @returns {HTMLElement}
+ * @returns {E}
  */
 export const getElementById = (id) => {
-  const element = document.getElementById(id)
+  const element = /** @type {E | null} */ (document.getElementById(id))
   if (element) {
     return element
   } else {

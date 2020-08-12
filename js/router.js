@@ -46,12 +46,13 @@ export class Router {
     })
 
     document.addEventListener('click', (event) => {
-      console.log(event)
 
       if (event.target instanceof Element) {
         let a = event.target.closest("a")
 
         if (a) {
+          console.log(event)
+
           event.preventDefault()
           // @ts-expect-error
           this.navbar.hide();
