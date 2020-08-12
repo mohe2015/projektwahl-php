@@ -32,8 +32,8 @@ $user = Users::findByName($username);
 if (!$user) {
   header('Content-Type: application/json');
   die('{"errors": { "username": "not-found" }}');
-} else if (password_verify($password, $user->password)) {
-  if (password_needs_rehash($user->password, PASSWORD_ARGON2ID, $options)) {
+} else if (password_verify($password, $user->password_hash)) {
+  if (password_needs_rehash($user->password_hash, PASSWORD_ARGON2ID, $options)) {
     $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
     $user->save();
   }

@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 require_once __DIR__ . '/../config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(
-      PDO::ATTR_PERSISTENT => true,
+  //    PDO::ATTR_PERSISTENT => true, // doesn't work with sqlite
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
@@ -44,6 +44,7 @@ try {
   random_assignments BOOLEAN NOT NULL
   );");
   $stmt->closeCursor();
+  $stmt = null;
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
@@ -66,6 +67,7 @@ try {
     ON DELETE RESTRICT
   );");
   $stmt->closeCursor();
+  $stmt = null;
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS choices (
   rank INTEGER NOT NULL,
@@ -82,12 +84,14 @@ try {
     ON DELETE RESTRICT
   );");
   $stmt->closeCursor();
+  $stmt = null;
 
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS settings (
   id INTEGER PRIMARY KEY,
   election_running BOOLEAN NOT NULL
   );");
   $stmt->closeCursor();
+  $stmt = null;
 
   $db->exec("
   DROP TRIGGER IF EXISTS trigger_check_choices_grade;
@@ -134,9 +138,14 @@ try {
 
   $stmt = $db->query("INSERT INTO settings (id, election_running) VALUES (1, false) ON CONFLICT DO NOTHING;");
   $stmt->closeCursor();
+  $stmt = null;
 
-  $stmt = $db->prepare("INSERT INTO users (name, password, type) VALUES (:name, :password, 'admin') ON CONFLICT DO NOTHING");
-  $stmt->execute(array('name' => 'Admin', 'password' => password_hash("password", PASSWORD_DEFAULT, $options)));
+  $stmt = $db->prepare("INSERT INTO users (name, password_hash, type) VALUES (:name, :password_hash, 'admin') ON CONFLICT DO NOTHING");
+  $stmt->execute(array('name' => 'Admin', 'password_hash' => password_hash("password", PASSWORD_ARGON2ID, $options)));
+  $stmt->closeCursor();
+  $stmt = null;
+
+  $db = null;
 
   echo '<div class="alert alert-success" role="alert">Installation erfolgreich! Der Standard-Account lautet:<br />Nutzername: Admin<br />Passwort: password';
   echo "<br /><a href=\"/\" class=\"alert-link\">Zur Startseite</a></div>";

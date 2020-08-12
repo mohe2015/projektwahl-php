@@ -22,7 +22,7 @@ session_start();
 require_once __DIR__ . '/config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(
-      PDO::ATTR_PERSISTENT => true,
+//    PDO::ATTR_PERSISTENT => true, // doesn't work with sqlite
       PDO::ATTR_EMULATE_PREPARES => false,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));

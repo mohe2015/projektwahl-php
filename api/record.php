@@ -45,7 +45,7 @@ class User {
         $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
         $props_arr = array();
         foreach ($props as $prop) {
-            $props_arr[$prop->getName()] = $prop; 
+            $props_arr[$prop->getName()] = $prop->getValue($this); 
         }
         var_dump($props_arr);
         self::getInsertStatement()->execute($props_arr);
