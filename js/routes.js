@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById, getCookies } from './utils.js'
+import { getElementById, getCookies, onInvalid } from './utils.js'
 import { Route, Router } from './router.js'
 
 class RouteNotMatchingError extends Error {
@@ -182,26 +182,6 @@ const loginRoute = new PathRoute(
   new class extends Route {
 
     /**
-     * @param {HTMLInputElement} element
-     */
-    onInvalid = (element) => {
-        let parentElement = element.parentElement;
-
-        if (!parentElement) {
-          throw new Error("Could not find parent of input");
-        }
-
-        let invalidFeedback = /** @type {HTMLElement | null} */ (parentElement.querySelector('.invalid-feedback'))
-
-        if (!invalidFeedback) {
-          throw new Error("Could not find feedback element")
-        }
-
-        console.log("jo: " + element.validationMessage)
-        invalidFeedback.innerText = element.validationMessage
-    }
-
-    /**
      * @param {Router} router 
      */
     render = async (router) => {
@@ -214,7 +194,7 @@ const loginRoute = new PathRoute(
       for (let element of form.elements) {
         element.addEventListener('invalid', event => {
           console.log("oninvalid")
-          this.onInvalid(/** @type HTMLInputElement */ (event.target));
+          onInvalid(/** @type HTMLInputElement */ (event.target));
         })
       }
 
@@ -254,10 +234,12 @@ const loginRoute = new PathRoute(
         }
 
         try {
+          // START
           const response = await fetch('/api/v1/login.php', {
             method: 'POST',
             body: formData,
           })
+          // END
           if (response.ok) {
             const json = await response.json()
     
@@ -285,8 +267,11 @@ const loginRoute = new PathRoute(
                 form.checkValidity();
               }
             } else {
+              // START
               router.navigate(json.redirect)
+              // END
             }
+
             let loginAlert = getElementById('login-alert');
             loginAlert.classList.add('d-none')
           } else {

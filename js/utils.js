@@ -38,3 +38,23 @@ export const getCookies = () => {
     return [ key, decodeURIComponent(v) ];
   }));
 }
+
+/**
+ * @param {HTMLInputElement} element
+ */
+export const onInvalid = (element) => {
+  let parentElement = element.parentElement;
+
+  if (!parentElement) {
+    throw new Error("Could not find parent of input");
+  }
+
+  let invalidFeedback = /** @type {HTMLElement | null} */ (parentElement.querySelector('.invalid-feedback'))
+
+  if (!invalidFeedback) {
+    throw new Error("Could not find feedback element")
+  }
+
+  console.log("jo: " + element.validationMessage)
+  invalidFeedback.innerText = element.validationMessage
+}
