@@ -22,7 +22,7 @@ import { getElementById } from './utils.js'
 
 export class Route {
   /**
-   * @param {Router} router 
+   * @param {Router} router
    * @returns {Promise<void>}
    */
   render = (router) => {

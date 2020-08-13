@@ -18,19 +18,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 import { getElementById, getCookies } from './utils.js'
-import { Route, Router } from './router.js'
-import { setupForm } from './form.js';
-import { router } from './index.js';
+import { Route } from './router.js'
+import { setupForm } from './form.js'
+import { router } from './index.js'
 
 class RouteNotMatchingError extends Error {
-
   /**
-   * 
-   * @param {string} message 
+   *
+   * @param {string} message
    */
-  constructor(message) {
+  constructor (message) {
     super(message)
-    this.name = "RouteNotMatchingError"
+    this.name = 'RouteNotMatchingError'
   }
 }
 
@@ -49,7 +48,7 @@ class Routes extends Route {
   }
 
   /**
-   * @param {Router} router 
+   * @param {Router} router
    */
   render = async (router) => {
     for (const route of this.routes) {
@@ -60,7 +59,7 @@ class Routes extends Route {
         if (error instanceof RouteNotMatchingError) {
           // just not matching
         } else {
-          throw error;
+          throw error
         }
       }
     }
@@ -90,7 +89,7 @@ class PathRoute extends Route {
   }
 
   /**
-   * @param {Router} router 
+   * @param {Router} router
    */
   render = async (router) => {
     if (this.path !== document.location.pathname) {
@@ -106,26 +105,26 @@ class CookieRoute extends Route {
    */
   route
 
-   /**
+  /**
    * @param {Route} route
    */
-   constructor(route) {
-     super()
-     this.route = route
-   }
+  constructor (route) {
+    super()
+    this.route = route
+  }
 
    /**
    * @param {Router} router
    */
    render = async (router) => {
-    if ('username' in getCookies()) {
-      Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => element.classList.remove('d-none'))
-    } else {
-      Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => {
-        element.classList.add('d-none')
-      })
-    }
-    await this.route.render(router)
+     if ('username' in getCookies()) {
+       Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => element.classList.remove('d-none'))
+     } else {
+       Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => {
+         element.classList.add('d-none')
+       })
+     }
+     await this.route.render(router)
    }
 }
 
@@ -174,8 +173,8 @@ const updatePasswordRoute = new PathRoute(
   '/update-password',
   new class extends Route {
     render = async () => {
-      let usernameInput = /** @type HTMLInputElement  */ (getElementById('update-password-username'))
-      usernameInput.value = getCookies()['username']
+      const usernameInput = /** @type HTMLInputElement  */ (getElementById('update-password-username'))
+      usernameInput.value = getCookies().username
 
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-update-password').classList.remove('d-none')
@@ -190,9 +189,8 @@ setupForm(getElementById('login-form'), '/api/v1/login.php', json => {
 const loginRoute = new PathRoute(
   '/login',
   new class extends Route {
-
     /**
-     * @param {Router} router 
+     * @param {Router} router
      */
     render = async (router) => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))

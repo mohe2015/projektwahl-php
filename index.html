@@ -121,7 +121,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
             <form id="update-password-form" novalidate method="post" class="needs-validation">
 
-                <div id="update-password-alert" class="alert alert-danger d-none" role="alert">
+                <div class="alert alert-danger d-none" role="alert">
                     Verbindungfehler!
                 </div>
 
@@ -159,24 +159,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
             <form id="login-form" novalidate method="post" class="needs-validation">
 
-                <div id="login-alert" class="alert alert-danger d-none" role="alert">
+                <div class="alert alert-danger d-none" role="alert">
                     Verbindungfehler!
                 </div>
 
                 <div class="mb-3">
                     <label for="login-username" class="form-label">Nutzername:</label>
                     <input required type="text" class="form-control" id="login-username" name="username" autocomplete="username" placeholder="Nutzername">
-                    <div class="invalid-feedback">
-                        
-                    </div>
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="login-password" class="form-label">Passwort:</label>
                     <input required type="password" class="form-control" id="login-password" name="password" autocomplete="current-password" placeholder="Passwort">
-                    <div class="invalid-feedback">
-                        
-                    </div>
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <button type="submit" class="mt-3 btn btn-primary">Anmelden</button>
