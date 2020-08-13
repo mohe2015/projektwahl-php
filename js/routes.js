@@ -164,6 +164,7 @@ const loginRoute = new PathRoute(
       form.classList.add('was-validated')
 
       form.addEventListener('input', event => {
+
         console.log("form input")
         for (let element of form.elements) {
           let element1 = /** @type HTMLInputElement */ (element)
@@ -175,8 +176,8 @@ const loginRoute = new PathRoute(
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
       form.addEventListener('submit', async event => {
-        console.log("onsubmit")
         event.preventDefault()
+        console.log("onsubmit")
 
         let formData = new FormData(form)
 
@@ -228,10 +229,24 @@ const loginRoute = new PathRoute(
             } else {
               router.navigate(json.redirect)
             }
+            let loginAlert = getElementById('login-alert');
+            loginAlert.classList.add('d-none')
           } else {
-            alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+            let loginAlert = getElementById('login-alert');
+            loginAlert.innerText = 'Serverfehler: ' + response.status + ' ' + response.statusText
+            loginAlert.classList.remove('d-none')
           }
-  
+        } catch (error) {
+          let loginAlert = getElementById('login-alert');
+          if (error instanceof TypeError) {
+            console.log(error)
+            loginAlert.innerText = 'Prüfe deine Verbindung. Eventuell ist der Server auch offline. Details: ' + error.message
+            loginAlert.classList.remove('d-none')
+          } else {
+            console.log(error)
+            loginAlert.innerText = 'Unbekannter Fehler: ' + error
+            loginAlert.classList.remove('d-none')
+          }
         } finally {
           for (let element of form.elements) {
             let element1 = /** @type HTMLInputElement */ (element);
