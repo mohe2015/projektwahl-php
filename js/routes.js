@@ -20,6 +20,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import { getElementById } from './utils.js'
 import { Route, Router } from './router.js'
 
+class RouteNotMatchingError extends Error {
+
+  /**
+   * 
+   * @param {string} message 
+   */
+  constructor(message) {
+    super(message)
+    this.name = "RouteNotMatchingError"
+  }
+}
+
 class Routes extends Route {
   /**
    * @type {Route[]}
@@ -42,11 +54,15 @@ class Routes extends Route {
       try {
         await route.render(router)
         return
-      } catch (e) {
-
+      } catch (error) {
+        if (error instanceof RouteNotMatchingError) {
+          // just not matching
+        } else {
+          throw error;
+        }
       }
     }
-    throw new Error('no matching route found')
+    throw new RouteNotMatchingError('no matching route found')
   }
 }
 
@@ -76,7 +92,7 @@ class PathRoute extends Route {
    */
   render = async (router) => {
     if (this.path !== document.location.pathname) {
-      throw new Error('path ' + document.location.pathname + ' does not match ' + this.path)
+      throw new RouteNotMatchingError('path ' + document.location.pathname + ' does not match ' + this.path)
     }
     await this.route.render(router)
   }
@@ -258,4 +274,11 @@ const loginRoute = new PathRoute(
   }()
 )
 
-export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute])
+const notFoundRoute = new class extends Route {
+  render = async () => {
+    Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
+    getElementById('route-notfound').classList.remove('d-none')
+  }
+}()
+
+export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute, notFoundRoute])
