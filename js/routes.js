@@ -166,6 +166,10 @@ const indexRoute = new PathRoute(
   }()
 )
 
+setupForm(getElementById('update-password-form'), '/api/v1/update-password.php', json => {
+  router.navigate(json.redirect)
+})
+
 const updatePasswordRoute = new PathRoute(
   '/update-password',
   new class extends Route {
@@ -179,11 +183,7 @@ const updatePasswordRoute = new PathRoute(
   }()
 )
 
-
-/** @type HTMLFormElement */
-const form = getElementById('login-form')
-
-setupForm(form, '/api/v1/login.php', json => {
+setupForm(getElementById('login-form'), '/api/v1/login.php', json => {
   router.navigate(json.redirect)
 })
 
