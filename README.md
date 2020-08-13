@@ -1,5 +1,9 @@
 sudo tail -f /var/log/httpd/error-projektwahl.log
 
+# TODO
+
+https://reuse.software
+
 # Type Checking JavaScript Files
 
 https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html

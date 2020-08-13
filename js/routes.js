@@ -98,6 +98,35 @@ class PathRoute extends Route {
   }
 }
 
+class CookieRoute extends Route {
+  /**
+   * @type {Route}
+   */
+  route
+
+   /**
+   * @param {Route} route
+   */
+   constructor(route) {
+     super()
+     this.route = route
+   }
+
+   /**
+   * @param {Router} router
+   */
+   render = async (router) => {
+    if ('username' in getCookies()) {
+      Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => element.classList.remove('d-none'))
+    } else {
+      Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => {
+        element.classList.add('d-none')
+      })
+    }
+    await this.route.render(router)
+   }
+}
+
 /**
  * @type import("./router").Route
  */
@@ -281,6 +310,4 @@ const notFoundRoute = new class extends Route {
   }
 }()
 
-console.log(getCookies())
-
-export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute, notFoundRoute])
+export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, notFoundRoute]))
