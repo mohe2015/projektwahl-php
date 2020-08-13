@@ -1,0 +1,16 @@
+/*
+SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+SPDX-License-Identifier: CC0-1.0
+*/
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "outDir": "./dist",
+      "target": "esnext",
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "strict": true,
+    },
+    "include": ["./js/**/*", "./js/*"]
+  }

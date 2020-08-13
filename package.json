@@ -1,0 +1,22 @@
+{
+  "name": "projektwahl-php",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:mohe2015/projektwahl-php.git",
+  "author": "mohe2015 <Moritz.Hedtke@t-online.de>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "eslint": "^7.6.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "scripts": {
+    "lint": "yarn eslint .",
+    "fix": "yarn eslint . --fix"
+  }
+}

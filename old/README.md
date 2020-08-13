@@ -18,26 +18,24 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
+# projektwahl-php
 
-sudo tail -f /var/log/httpd/error-projektwahl.log
+TODO ADD types to function and classes
 
-# TODO
+## Model classes
 
-nix-env -iA nixos.reuse
-reuse-lint
+have list of fields with types (for generating forms)
 
-https://api.reuse.software/register
-https://reuse.software
+Edit, DELETE, FORM, ... get generated from that list
 
-# Type Checking JavaScript Files
+Validation also adds errors to that list so they can be shown inline
 
-https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html
+Hopefully this will clean up the code
 
-https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html
 
-https://www.typescriptlang.org/docs/handbook/declaration-files/dts-from-js.html
 
-#   projektwahl-php
+
+
 
 ## Installation
 
@@ -55,6 +53,7 @@ add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style
 
 ## PHP config
 
+TODO FIXME this options can now be passed in session_start (probably?)
 ```bash
 sudo nano /etc/php/7.3/fpm/php.ini
 session.cookie_httponly = 1

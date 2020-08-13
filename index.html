@@ -1,0 +1,197 @@
+<!doctype html>
+<!--
+SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
+Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.css">
+
+    <title>Projektwahl</title>
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-print-none">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Projektwahl</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i>
+                                Startseite
+                            </a>
+                        </li>
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/projects">
+                                <i class="fas fa-users"></i>
+                                Projekte
+                            </a>
+                        </li>
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/teachers">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Lehrer
+                            </a>
+                        </li>
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/students">
+                                <i class="fas fa-user"></i>
+                                Schüler
+                            </a>
+                        </li>
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/election.php">
+                                <i class="fas fa-poll"></i>
+                                Wahl
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/update-election-state.php">
+                                <i class="fas fa-ban"></i>
+                                Wahl beenden / starten
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">
+                                <i class="fas fa-sign-out-alt"></i>
+                                anmelden
+                            </a>
+                        </li>
+                        <li class="nav-item hide-logged-out">
+                            <a class="nav-link" href="/update-password.php">
+                                <i class="fas fa-key"></i>
+                                Passwort ändern
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="routes">
+        <div id="route-loading">
+            <div class="d-flex justify-content-center mt-2">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none container container-medium" id="route-index">
+            <h1 class="text-center">Projektwahl</h1>
+        </div>
+
+        <div class="d-none container container-medium" id="route-notfound">
+            <h1 class="text-center">Seite nicht gefunden!</h1>
+
+            <p>Die Seite konnte leider nicht gefunden werden. Vielleicht hast du dich vertippt oder die Seite wurde entfernt oder verschoben.</p>
+        </div>
+
+        <div class="d-none" id="route-setup">
+            
+        </div>
+
+        <div class="d-none container container-small" id="route-update-password">
+            <h1 class="text-center">Passwort ändern</h1>
+
+            <form id="update-password-form" novalidate method="post" class="needs-validation">
+
+                <div class="alert alert-danger d-none" role="alert">
+                    Verbindungfehler!
+                </div>
+
+                <div class="mb-3">
+                    <label for="update-password-username" class="form-label">Nutzername:</label>
+                    <input required type="text" class="form-control" id="update-password-username" name="username" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update-password-old-password" class="form-label">altes Passwort:</label>
+                    <input required type="password" class="form-control" id="update-password-old-password" name="old-password" autocomplete="current-password" placeholder="altes Passwort">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update-password-new-password" class="form-label">neues Passwort:</label>
+                    <input required type="password" class="form-control" id="update-password-new-password" name="new-password" autocomplete="new-password" placeholder="neues Passwort">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update-password-new-password-repeated" class="form-label">neues Passwort wiederholen:</label>
+                    <input required type="password" class="form-control" id="update-password-new-password-repeated" name="new-password-repeated" autocomplete="new-password" placeholder="neues Passwort wiederholen">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <button type="submit" class="mt-3 btn btn-primary">Passwort ändern</button>
+
+            </form>
+        </div>
+
+        <div class="d-none container container-small" id="route-login">
+            
+            <h1 class="text-center">Anmelden</h1>
+
+            <form id="login-form" novalidate method="post" class="needs-validation">
+
+                <div class="alert alert-danger d-none" role="alert">
+                    Verbindungfehler!
+                </div>
+
+                <div class="mb-3">
+                    <label for="login-username" class="form-label">Nutzername:</label>
+                    <input required type="text" class="form-control" id="login-username" name="username" autocomplete="username" placeholder="Nutzername">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="login-password" class="form-label">Passwort:</label>
+                    <input required type="password" class="form-control" id="login-password" name="password" autocomplete="current-password" placeholder="Passwort">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <button type="submit" class="mt-3 btn btn-primary">Anmelden</button>
+            </form>
+
+        </div>
+    </main>
+
+    <footer>
+        Copyright &copy; 2020 Moritz Hedtke <a href="mailto:Moritz.Hedtke@t-online.de">Moritz.Hedtke@t-online.de</a>. Lizensiert unter <a href="https://github.com/mohe2015/projektwahl-php/blob/main/LICENSE">AGPL-3.0</a>. <a href="https://github.com/mohe2015/projektwahl-php">Quellcode</a>
+    </footer>
+
+    <script nomodule>
+        alert("Dein Webbrowser wird nicht unterstützt! Bitte verwende eine aktuelle Version von Mozilla Firefox, Google Chrome, Microsoft Edge oder Safari.");
+    </script>
+    <script type="module" src="/js/error-handler.js"></script>
+    <script type="module" src="/js/index.js"></script>
+</body>
+</html>
