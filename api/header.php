@@ -17,6 +17,14 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+session_set_cookie_params(array(
+  "lifetime" => 6 * 60 * 60, // 6 hours
+  "path" => "/",
+  "secure" => true,
+  "httponly" => true,
+  "samesite" => "Strict",
+));
+
 session_start();
 
 require_once __DIR__ . '/config.php';

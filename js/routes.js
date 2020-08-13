@@ -198,8 +198,10 @@ const loginRoute = new PathRoute(
           console.log("oninvalid")
           this.onInvalid(/** @type HTMLInputElement */ (event.target));
         })
-
       }
+
+      form.checkValidity()
+      form.classList.add('was-validated')
 
       form.addEventListener('input', event => {
         console.log("form input")
@@ -208,6 +210,7 @@ const loginRoute = new PathRoute(
           element1.setCustomValidity('')
         }
         form.checkValidity()
+        form.classList.add('was-validated')
       })
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
