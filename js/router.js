@@ -1,5 +1,8 @@
 /*
-Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
+SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird. 
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 This program is free software: you can redistribute it and/or modify

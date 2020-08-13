@@ -19,20 +19,14 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-function blank($value) {
-    return empty($value) && !is_numeric($value);
-}
-class ValidationError extends Exception { }
 
-abstract class Record {
-
-  abstract function getValidationErrors();
-
-  public function validate() {
-    $validation_errors = $this->getValidationErrors();
-    if (!empty($validation_errors)) {
-      throw new ValidationError(implode("<br>", $validation_errors));
-    }
-  }
+if (isset($allowed_users) && $allowed_users == false) { // array empty but set
+  // Do nothing
+} else if (!isset(end($_SESSION['users'])->name)) {
+  header("Location: $ROOT/login.php");
+  die("Nicht angemeldet!");
+} else if (!in_array(end($_SESSION['users'])->type, $allowed_users)) {
+  http_response_code(403);
+  die("Keine Berechtigung!");
 }
 ?>
