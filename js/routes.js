@@ -164,6 +164,19 @@ const indexRoute = new PathRoute(
   }()
 )
 
+const updatePasswordRoute = new PathRoute(
+  '/update-password',
+  new class extends Route {
+    render = async () => {
+      let usernameInput = /** @type HTMLInputElement  */ (getElementById('update-password-username'))
+      usernameInput.value = getCookies()['username']
+
+      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
+      getElementById('route-update-password').classList.remove('d-none')
+    }
+  }()
+)
+
 const loginRoute = new PathRoute(
   '/login',
   new class extends Route {
@@ -310,4 +323,4 @@ const notFoundRoute = new class extends Route {
   }
 }()
 
-export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, notFoundRoute]))
+export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, notFoundRoute]))
