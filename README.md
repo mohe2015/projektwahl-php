@@ -23,6 +23,9 @@ sudo tail -f /var/log/httpd/error-projektwahl.log
 
 # TODO
 
+nix-env -iA nixos.reuse
+reuse-lint
+
 https://reuse.software
 
 # Type Checking JavaScript Files
