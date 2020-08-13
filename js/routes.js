@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 import { getElementById, getCookies } from './utils.js'
-import { Route } from './router.js'
+import { Route, Router } from './router.js'
 import { setupForm } from './form.js'
 import { router } from './index.js'
 
@@ -165,9 +165,30 @@ const indexRoute = new PathRoute(
   }()
 )
 
-setupForm(getElementById('update-password-form'), '/api/v1/update-password.php', json => {
+let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
+setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
   router.navigate(json.redirect)
-})
+}, ["new-password", "new-password-repeated"])
+
+let newPassword = /** @type HTMLInputElement */ (getElementById('update-password-new-password'))
+let newPasswordRepeated = /** @type HTMLInputElement */ (getElementById('update-password-new-password-repeated'))
+
+/**
+ * @param {Event} event
+ */
+const onPasswordChange = event => {
+  if (newPassword.value !== newPasswordRepeated.value) {
+    newPasswordRepeated.setCustomValidity("Passwörter stimmen nicht überein")
+  } else {
+    newPasswordRepeated.setCustomValidity('')
+  }
+  // validate form
+  updatePasswordForm.checkValidity()
+  updatePasswordForm.classList.add('was-validated')
+}
+
+newPassword.addEventListener('input', onPasswordChange)
+newPasswordRepeated.addEventListener('input', onPasswordChange)
 
 const updatePasswordRoute = new PathRoute(
   '/update-password',
@@ -184,7 +205,7 @@ const updatePasswordRoute = new PathRoute(
 
 setupForm(getElementById('login-form'), '/api/v1/login.php', json => {
   router.navigate(json.redirect)
-})
+}, [])
 
 const loginRoute = new PathRoute(
   '/login',

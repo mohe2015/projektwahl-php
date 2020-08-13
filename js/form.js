@@ -31,8 +31,9 @@ export const onInvalid = (element) => {
  * @param {HTMLFormElement} form
  * @param {string} url
  * @param {jsonCallback} callback
+ * @param {string[]} dontResetValidation
  */
-export const setupForm = (form, url, callback) => {
+export const setupForm = (form, url, callback, dontResetValidation) => {
   const alert = form.querySelector('.alert')
 
   for (const element of form.elements) {
@@ -50,6 +51,9 @@ export const setupForm = (form, url, callback) => {
   form.addEventListener('input', event => {
     // reset server side validation
     for (const element of form.elements) {
+      if (dontResetValidation.includes(element.name)) {
+        continue;
+      }
       const element1 = /** @type HTMLInputElement */ (element)
       element1.setCustomValidity('')
     }
