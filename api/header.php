@@ -26,6 +26,7 @@ session_set_cookie_params(array(
 ));
 
 session_start();
+header('Content-Type: application/json');
 
 require_once __DIR__ . '/config.php';
 try {
@@ -35,7 +36,7 @@ try {
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ));
 } catch (PDOException $e) {
-  die('<div class="alert alert-danger" role="alert">' . $e . '</div>');
+  die (json_encode(array('alert' => "Datenbankfehler: " . strval($e))));
 }
 
 require_once __DIR__ . '/record.php';

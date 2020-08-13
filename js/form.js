@@ -92,7 +92,10 @@ export const setupForm = (form, url, callback) => {
           element1.disabled = false
         }
 
-        if (json.errors) {
+        if (json.alert) {
+          alert.innerText = json.alert
+          alert.classList.remove('d-none')
+        } else if (json.errors) {
           // set server side validation results
           for (const element of form.elements) {
             const element1 = /** @type HTMLInputElement */ (element)
@@ -101,11 +104,11 @@ export const setupForm = (form, url, callback) => {
             }
           }
           form.checkValidity()
+          alert.classList.add('d-none')
         } else {
+          alert.classList.add('d-none')
           callback(json)
         }
-
-        alert.classList.add('d-none')
       } else {
         alert.innerText = 'Serverfehler: ' + response.status + ' ' + response.statusText
         alert.classList.remove('d-none')

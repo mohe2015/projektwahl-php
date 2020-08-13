@@ -29,8 +29,6 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
 
-header('Content-Type: application/json');
-
 if (!$user) {
   die('{"errors": { "username": "Nutzer nicht gefunden!", "password": "Nutzer nicht gefunden!" }}');
 } else if (password_verify($password, $user->password_hash)) {
