@@ -17,8 +17,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById, getCookies, onInvalid } from './utils.js'
+import { getElementById, getCookies } from './utils.js'
 import { Route, Router } from './router.js'
+import { setupForm } from './form.js';
+import { router } from './index.js';
 
 class RouteNotMatchingError extends Error {
 
@@ -177,6 +179,14 @@ const updatePasswordRoute = new PathRoute(
   }()
 )
 
+
+/** @type HTMLFormElement */
+const form = getElementById('login-form')
+
+setupForm(form, '/api/v1/login.php', json => {
+  router.navigate(json.redirect)
+})
+
 const loginRoute = new PathRoute(
   '/login',
   new class extends Route {
@@ -187,116 +197,6 @@ const loginRoute = new PathRoute(
     render = async (router) => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
-
-      /** @type HTMLFormElement */
-      const form = getElementById('login-form')
-
-      for (let element of form.elements) {
-        element.addEventListener('invalid', event => {
-          console.log("oninvalid")
-          onInvalid(/** @type HTMLInputElement */ (event.target));
-        })
-      }
-
-      form.checkValidity()
-      form.classList.add('was-validated')
-
-      form.addEventListener('input', event => {
-
-        console.log("form input")
-        for (let element of form.elements) {
-          let element1 = /** @type HTMLInputElement */ (element)
-          element1.setCustomValidity('')
-        }
-        form.checkValidity()
-        form.classList.add('was-validated')
-      })
-
-      // TODO FIXME this wil create multiple listeners when opening the page multiple times
-      form.addEventListener('submit', async event => {
-        event.preventDefault()
-        console.log("onsubmit")
-
-        let formData = new FormData(form)
-
-        let valid = form.checkValidity();
-
-        form.classList.add('was-validated')
-
-        if (!valid) {
-          event.stopPropagation()
-          return;
-        }
-
-        for (let element of form.elements) {
-          let element1 = /** @type HTMLInputElement */ (element);
-          element1.disabled = true;
-        }
-
-        try {
-          // START
-          const response = await fetch('/api/v1/login.php', {
-            method: 'POST',
-            body: formData,
-          })
-          // END
-          if (response.ok) {
-            const json = await response.json()
-    
-            // THIS FIXED IT!!!
-            for (let element of form.elements) {
-              let element1 = /** @type HTMLInputElement */ (element);
-              element1.disabled = false;
-            }
-  
-            console.log(json)
-  
-            if (json.errors) {
-              if (json.errors.username) {
-                let usernameField = /** @type HTMLInputElement */ (getElementById("login-username"))
-                usernameField.setCustomValidity(json.errors.username)
-                
-                form.checkValidity();
-              }
-  
-              if (json.errors.password) {
-                let passwordField = /** @type HTMLInputElement */ (getElementById("login-password"))
-                passwordField.setCustomValidity(json.errors.password)
-                console.log(json.errors.password)
-  
-                form.checkValidity();
-              }
-            } else {
-              // START
-              router.navigate(json.redirect)
-              // END
-            }
-
-            let loginAlert = getElementById('login-alert');
-            loginAlert.classList.add('d-none')
-          } else {
-            let loginAlert = getElementById('login-alert');
-            loginAlert.innerText = 'Serverfehler: ' + response.status + ' ' + response.statusText
-            loginAlert.classList.remove('d-none')
-          }
-        } catch (error) {
-          let loginAlert = getElementById('login-alert');
-          if (error instanceof TypeError) {
-            console.log(error)
-            loginAlert.innerText = 'Prüfe deine Verbindung. Eventuell ist der Server auch offline. Details: ' + error.message
-            loginAlert.classList.remove('d-none')
-          } else {
-            console.log(error)
-            loginAlert.innerText = 'Unbekannter Fehler: ' + error
-            loginAlert.classList.remove('d-none')
-          }
-        } finally {
-          for (let element of form.elements) {
-            let element1 = /** @type HTMLInputElement */ (element);
-            element1.disabled = false;
-          }
-        }
-      })
     }
   }()
 )
