@@ -39,14 +39,21 @@ if (!$user) {
     $user->save();
   }
   session_regenerate_id(true);
+  setcookie("username", $username, array(
+    "expires" => time() + 6 * 60 * 60, // 6 hours
+    "path" => "/",
+    "secure" => true,
+    "samesite" => "Strict",
+  ));
+
   $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
     $_SESSION['old_password'] = $password;
-    die('{"response": "update-password"}');
+    die('{"redirect": "/update-password"}');
   } else if ($user->type === "student") {
-    die('{"response": "election"}');
+    die('{"redirect": "/election"}');
   } else {
-    die('{"response": "index"}');
+    die('{"redirect": "/"}');
   }
   die();
 } else {

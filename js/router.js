@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { Collapse } from './bootstrap.esm.js'
 import { getElementById } from './utils.js'
+import { rootRoute } from './routes.js'
 
 export class Route {
   /**
@@ -69,3 +70,5 @@ export class Router {
     await this.route.render()
   }
 }
+
+export const router = new Router(rootRoute)

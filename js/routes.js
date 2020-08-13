@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 import { getElementById } from './utils.js'
-import { Route } from './router.js'
+import { Route, router } from './router.js'
 
 class Routes extends Route {
   /**
@@ -173,6 +173,8 @@ const loginRoute = new PathRoute(
 
               form.checkValidity();
             }
+          } else {
+            router.navigate(json.redirect)
           }
         } else {
           alert('Serverfehler: ' + response.status + ' ' + response.statusText)
