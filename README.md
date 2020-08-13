@@ -19,14 +19,16 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
+[![REUSE status](https://api.reuse.software/badge/github.com/mohe2015/projektwahl-php)](https://api.reuse.software/info/github.com/mohe2015/projektwahl-php)
+
 sudo tail -f /var/log/httpd/error-projektwahl.log
 
-# TODO
-
 nix-env -iA nixos.reuse
+
 reuse-lint
 
 https://api.reuse.software/register
+
 https://reuse.software
 
 # Type Checking JavaScript Files
@@ -51,16 +53,6 @@ add_header X-Content-Type-Options nosniff always;
 add_header X-XSS-Protection "1; mode=block" always;
 add_header Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; img-src 'self'; font-src cdnjs.cloudflare.com; upgrade-insecure-requests; block-all-mixed-content; disown-opener; sandbox allow-forms allow-same-origin allow-scripts allow-top-navigation allow-popups; reflected-xss block; referrer no-referrer" always;
 # TODO FIXME inline styles
-```
-
-## PHP config
-
-```bash
-sudo nano /etc/php/7.3/fpm/php.ini
-session.cookie_httponly = 1
-session.cookie_secure = 1 # if using ssl
-session.cookie_samesite = Strict
-session.use_only_cookies = 1
 ```
 
 ## Logging sql queries
