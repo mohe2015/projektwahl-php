@@ -19,13 +19,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { Collapse } from './bootstrap.esm.js'
 import { getElementById } from './utils.js'
-import { rootRoute } from './routes.js'
 
 export class Route {
   /**
+   * @param {Router} router 
    * @returns {Promise<void>}
    */
-  render = () => {
+  render = (router) => {
     throw new Error('Route is abstract.')
   }
 }
@@ -41,7 +41,7 @@ export class Router {
     })
 
     window.addEventListener('popstate', async (event) => {
-      await this.route.render()
+      await this.route.render(this)
     })
 
     document.addEventListener('click', (event) => {
@@ -67,8 +67,6 @@ export class Router {
    */
   navigate = async (url) => {
     history.pushState(null, document.title, url)
-    await this.route.render()
+    await this.route.render(this)
   }
 }
-
-export const router = new Router(rootRoute)

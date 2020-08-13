@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // @ts-check
 
 import { getElementById } from './utils.js'
-import { Route, router } from './router.js'
+import { Route, Router } from './router.js'
 
 class Routes extends Route {
   /**
@@ -34,10 +34,13 @@ class Routes extends Route {
     this.routes = routes
   }
 
-  render = async () => {
+  /**
+   * @param {Router} router 
+   */
+  render = async (router) => {
     for (const route of this.routes) {
       try {
-        await route.render()
+        await route.render(router)
         return
       } catch (e) {
 
@@ -68,11 +71,14 @@ class PathRoute extends Route {
     this.route = route
   }
 
-  render = async () => {
+  /**
+   * @param {Router} router 
+   */
+  render = async (router) => {
     if (this.path !== document.location.pathname) {
       throw new Error('path ' + document.location.pathname + ' does not match ' + this.path)
     }
-    await this.route.render()
+    await this.route.render(router)
   }
 }
 
@@ -136,59 +142,11 @@ const loginRoute = new PathRoute(
         console.log("jo: " + element.validationMessage)
         invalidFeedback.innerText = element.validationMessage
     }
-    
+
     /**
-     * @param {HTMLFormElement} form
-     * @param {FormData} formData
+     * @param {Router} router 
      */
-    asyncSubmit = async (form, formData) => {
-      try {
-        const response = await fetch('/api/v1/login.php', {
-          method: 'POST',
-          body: formData,
-        })
-        if (response.ok) {
-          const json = await response.json()
-  
-          // THIS FIXED IT!!!
-          for (let element of form.elements) {
-            let element1 = /** @type HTMLInputElement */ (element);
-            element1.disabled = false;
-          }
-
-          console.log(json)
-
-          if (json.errors) {
-            if (json.errors.username) {
-              let usernameField = /** @type HTMLInputElement */ (getElementById("login-username"))
-              usernameField.setCustomValidity(json.errors.username)
-              
-              form.checkValidity();
-            }
-
-            if (json.errors.password) {
-              let passwordField = /** @type HTMLInputElement */ (getElementById("login-password"))
-              passwordField.setCustomValidity(json.errors.password)
-              console.log(json.errors.password)
-
-              form.checkValidity();
-            }
-          } else {
-            router.navigate(json.redirect)
-          }
-        } else {
-          alert('Serverfehler: ' + response.status + ' ' + response.statusText)
-        }
-
-      } finally {
-        for (let element of form.elements) {
-          let element1 = /** @type HTMLInputElement */ (element);
-          element1.disabled = false;
-        }
-      }
-    }
-
-    render = async () => {
+    render = async (router) => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
 
@@ -216,7 +174,7 @@ const loginRoute = new PathRoute(
       })
 
       // TODO FIXME this wil create multiple listeners when opening the page multiple times
-      form.addEventListener('submit', event => {
+      form.addEventListener('submit', async event => {
         console.log("onsubmit")
         event.preventDefault()
 
@@ -236,7 +194,50 @@ const loginRoute = new PathRoute(
           element1.disabled = true;
         }
 
-        this.asyncSubmit(form, formData)
+        try {
+          const response = await fetch('/api/v1/login.php', {
+            method: 'POST',
+            body: formData,
+          })
+          if (response.ok) {
+            const json = await response.json()
+    
+            // THIS FIXED IT!!!
+            for (let element of form.elements) {
+              let element1 = /** @type HTMLInputElement */ (element);
+              element1.disabled = false;
+            }
+  
+            console.log(json)
+  
+            if (json.errors) {
+              if (json.errors.username) {
+                let usernameField = /** @type HTMLInputElement */ (getElementById("login-username"))
+                usernameField.setCustomValidity(json.errors.username)
+                
+                form.checkValidity();
+              }
+  
+              if (json.errors.password) {
+                let passwordField = /** @type HTMLInputElement */ (getElementById("login-password"))
+                passwordField.setCustomValidity(json.errors.password)
+                console.log(json.errors.password)
+  
+                form.checkValidity();
+              }
+            } else {
+              router.navigate(json.redirect)
+            }
+          } else {
+            alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+          }
+  
+        } finally {
+          for (let element of form.elements) {
+            let element1 = /** @type HTMLInputElement */ (element);
+            element1.disabled = false;
+          }
+        }
       })
     }
   }()
