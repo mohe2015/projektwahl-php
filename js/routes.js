@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 // @ts-check
 
-import { getElementById } from './utils.js'
+import { getElementById, getCookies } from './utils.js'
 import { Route, Router } from './router.js'
 
 class RouteNotMatchingError extends Error {
@@ -280,5 +280,7 @@ const notFoundRoute = new class extends Route {
     getElementById('route-notfound').classList.remove('d-none')
   }
 }()
+
+console.log(getCookies())
 
 export const rootRoute = new Routes([indexRoute, setupRoute, loginRoute, notFoundRoute])

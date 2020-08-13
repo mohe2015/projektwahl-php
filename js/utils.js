@@ -31,3 +31,7 @@ export const getElementById = (id) => {
     throw new Error('getElementById could not find element with id: ' + id)
   }
 }
+
+export const getCookies = () => {
+  return Object.fromEntries(document.cookie.split(/; */).map(cookie => cookie.split("=", 2)))
+}
