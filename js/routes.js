@@ -219,6 +219,36 @@ const loginRoute = new PathRoute(
     render = async (router) => {
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
+
+      // maybe still use this if supported to simplify relogin
+     /* let passwordCredential = await navigator.credentials.create({
+        // @ts-expect-error
+        "password": {
+          id: "Admin",
+          name: "Admin",
+          password: "password",
+        }
+      })
+
+      if (!passwordCredential) {
+        console.log("failed")
+        return;
+      }
+
+      console.log(passwordCredential)
+
+      await navigator.credentials.store(passwordCredential)
+
+      let passwordCredential2 = await navigator.credentials.get({
+        mediation: "silent",
+        // @ts-expect-error
+        password: true,
+      })
+
+      console.log(passwordCredential2)
+      */
+
+
     }
   }()
 )

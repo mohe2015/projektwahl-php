@@ -91,10 +91,13 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
     const valid = form.checkValidity()
     form.classList.add('was-validated')
 
+    // Credential Management API not supported by firefox
+    // Web Authentication API
+
     // prevent submitting when form is invalid
     if (!valid) {
       event.stopPropagation()
-      return
+      return false
     }
 
     // prevent user from changing while the request is in progress
@@ -152,6 +155,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
         const element1 = /** @type HTMLInputElement */ (element)
         element1.disabled = false
       }
+      return false
     }
   })
 }

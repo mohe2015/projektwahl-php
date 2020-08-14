@@ -31,6 +31,57 @@ https://api.reuse.software/register
 
 https://reuse.software
 
+# WebAuthn
+
+https://github.com/herrjemand/awesome-webauthn
+
+https://github.com/MasterKale/SimpleWebAuthn/tree/master/example
+https://github.com/speakeasyjs/speakeasy
+
+https://github.com/duo-labs/webauthn
+https://github.com/pquerna/otp # recovery codes
+
+
+https://webauthn.guide/
+
+libraries according to https://marmelab.com/blog/2019/06/24/web-authn-fido2-open-source-package.html pretty bad ones:
+https://webauthn.io/
+
+https://marmelab.com/blog/2019/06/24/web-authn-fido2-open-source-package.html
+npm i @webauthn/server
+
+TODO
+https://github.com/herrjemand/awesome-webauthn
+
+go
+https://www.herbie.dev/blog/webauthn-basic-web-client-server/
+
+php https://thephp.cc/presentations/2019-international-php-conference-spring-edition-the-future-of-authentication-webauthn-with-php.pdf
+
+https://github.com/web-auth/webauthn-framework 
+omes with a ready to use Symfony Bundles
+
+https://github.com/asbiin/laravel-webauthn
+LaravelWebauthn is an adapter to use Webauthn on Laravel
+Uses the above library
+
+https://github.com/Firehed/u2f-php
+An implementation of the FIDO U2F server protocol in PHP
+
+https://github.com/lbuchs/WebAuthn
+A simple PHP WebAuthn (FIDO2) server library
+
+https://github.com/madwizard-thomas/webauthn-server
+Early stage of development
+
+
+https://github.com/solokeys/solo
+
+
+https://medium.com/@herrjemand/introduction-to-webauthn-api-5fd1fb46c285
+
+I need a key with some kind of authentication
+
 # Type Checking JavaScript Files
 
 https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html
