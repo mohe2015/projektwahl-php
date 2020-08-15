@@ -43,8 +43,8 @@ if ($new_password !== $new_password_repeated) {
   die (json_encode(array('errors' => array(
     "new-password-repeated" => "Passwörter nicht gleich!",
   ))));
-} else if (password_verify($old_password, $user->password)) {
-  $user->password = password_hash($new_password, PASSWORD_ARGON2ID, $options);
+} else if (password_verify($old_password, $user->password_hash)) {
+  $user->password_hash = password_hash($new_password, PASSWORD_ARGON2ID, $options);
   $user->password_changed = true;
   $user->save();
   array_pop($_SESSION['users']);

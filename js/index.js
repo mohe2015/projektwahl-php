@@ -25,4 +25,4 @@ import { Router } from './router.js'
 import { rootRoute } from './routes.js'
 
 export const router = new Router(rootRoute)
-router.route.render(router)
+router.route.render(router, null)

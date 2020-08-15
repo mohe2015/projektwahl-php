@@ -20,6 +20,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+require_once __DIR__ . '/record.php';
+
 session_set_cookie_params(array(
   "lifetime" => 6 * 60 * 60, // 6 hours
   "path" => "/",
@@ -46,5 +48,5 @@ try {
   die (json_encode(array('alert' => "Datenbankfehler: " . strval($e))));
 }
 
-require_once __DIR__ . '/record.php';
+require_once __DIR__ . '/permissions.php';
 ?>

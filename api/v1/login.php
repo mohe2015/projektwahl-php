@@ -50,16 +50,14 @@ if (!$user) {
     "samesite" => "Strict",
   ));
 
-  error_log(print_r($_SESSION, true), 0);
   $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
-    die (json_encode(array('redirect' => "/update-password")));
+    die (json_encode(array('custom' => true, 'redirect' => "/update-password")));
   } else if ($user->type === "student") {
     die (json_encode(array('redirect' => "/election")));
   } else {
     die (json_encode(array('redirect' => "/")));
   }
-  die();
 } else {
   die (json_encode(array('errors' => array(
     "password" => "Passwort falsch!",

@@ -245,7 +245,6 @@ const loginRoute = new PathRoute(
      * @param {any|null} state
      */
     render = async (router, state) => {
-      let params = new URLSearchParams(location.search);
       var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-login')).content.cloneNode(true));
       let loginPasswordField = /** @type HTMLInputElement */ (clone.getElementById('login-password'))
       let loginForm = /** @type HTMLFormElement */ (clone.getElementById('login-form'))
@@ -255,15 +254,6 @@ const loginRoute = new PathRoute(
           router.navigate(json.redirect, {
             "oldPassword": loginPasswordField.value,
           })
-        } else if (params.has("redirect")) {
-          let url = new URL(/** @type string */ (params.get("redirect")), window.location.origin)
-          if (url.origin === window.location.origin) {
-            router.navigate(url.href, null)
-          } else {
-            alert("BAD HACKER!!!")
-          }
-        } else {
-          router.navigate(json.redirect, null)
         }
       }, [])
 

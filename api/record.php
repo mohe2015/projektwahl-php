@@ -47,7 +47,7 @@ class User {
     protected static function getInsertStatement() {
         global $db;
         if (null === self::$insert_stmt) {
-            self::$insert_stmt = $db->prepare('INSERT INTO users (name, password, type, password_changed, project_leader, class, grade, away, in_project) VALUES (:name, :password, :type, :password_changed, :project_leader, :class, :grade, :away, :in_project)');
+            self::$insert_stmt = $db->prepare('INSERT INTO users (name, password_hash, type, password_changed, project_leader, class, grade, away, in_project) VALUES (:name, :password_hash, :type, :password_changed, :project_leader, :class, :grade, :away, :in_project)');
         }
         return self::$insert_stmt;
     }
@@ -55,14 +55,14 @@ class User {
     protected static function getUpdateStatement() {
         global $db;
         if (null === self::$update_stmt) {
-        self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password = :password, type = :type, password_changed = :password_changed, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
+            self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password_hash = :password_hash, type = :type, password_changed = :password_changed, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
         }
         return self::$update_stmt;
     }
 
     public function save() {
         $reflect = new ReflectionClass($this);
-        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
         $props_arr = array();
         foreach ($props as $prop) {
             $props_arr[$prop->getName()] = $prop->getValue($this); 

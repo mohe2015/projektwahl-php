@@ -20,13 +20,17 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+//error_log(print_r($allowed_users, true), 0);
+
 if (isset($allowed_users) && $allowed_users == false) { // array empty but set
   // Do nothing
-} else if (!isset(end($_SESSION['users'])->name)) {
-  header("Location: $ROOT/login.php");
-  die("Nicht angemeldet!");
+} else if (count($_SESSION['users']) === 0) { // allowed user not empty, not logged in
+  die (json_encode(array(
+    "redirect" => "/login", 
+    "redirect_back" => true,
+    "alert" => "Nicht angemeldet!"
+  )));
 } else if (!in_array(end($_SESSION['users'])->type, $allowed_users)) {
-  http_response_code(403);
-  die("Keine Berechtigung!");
+  die (json_encode(array('alert' => "Keine Berechtigung!")));
 }
 ?>

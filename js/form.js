@@ -123,9 +123,10 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
           element1.disabled = false
         }
 
-        if (json.alert) {
-          alert.innerText = json.alert
-          alert.classList.remove('d-none')
+        let params = new URLSearchParams(location.search);
+
+        if (json.custom) {
+          callback(json)
         } else if (json.errors) {
           // set server side validation results
           for (const element of form.elements) {
@@ -137,10 +138,29 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
           }
           form.checkValidity()
           alert.classList.add('d-none')
-        } else {
-          alert.classList.add('d-none')
-          callback(json)
-        }
+        } else if (json.redirect) {
+          let state;
+          if (json.alert) {
+            state = { alert: json.alert }
+          } else {
+            state = null
+          }
+          if (json.redirect_back) {
+            router.navigate(json.redirect + "?redirect=" + window.location.href, state)
+          } else {
+            router.navigate(json.redirect, state)
+          }
+        } else if (json.alert) {
+          alert.innerText = json.alert
+          alert.classList.remove('d-none')
+        } else if (params.has("redirect")) {
+          let url = new URL(/** @type string */ (params.get("redirect")), window.location.origin)
+          if (url.origin === window.location.origin) {
+            router.navigate(url.href, null)
+          } else {
+            alert("BAD HACKER!!!")
+          }
+        }  
       } else {
         alert.innerText = 'Serverfehler: ' + response.status + ' ' + response.statusText
         alert.classList.remove('d-none')
