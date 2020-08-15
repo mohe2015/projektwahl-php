@@ -52,12 +52,12 @@ export class Router {
         const a = event.target.closest('a')
 
         if (a) {
-          console.log(event)
-
-          event.preventDefault()
-          // @ts-expect-error
-          this.navbar.hide()
-          this.navigate(a.href)
+          if (a.hostname === location.hostname) {
+            event.preventDefault()
+            // @ts-expect-error
+            this.navbar.hide()
+            this.navigate(a.href)
+          }
         }
       }
     }, {
