@@ -35,8 +35,18 @@ body {
 
 .container-small {
     max-width: 25em;
+    width: 100%;
+    padding-right: .5rem;
+    padding-left: .5rem;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .container-medium {
     max-width: 50em;
+    width: 100%;
+    padding-right: .5rem;
+    padding-left: .5rem;
+    margin-right: auto;
+    margin-left: auto;
 }
