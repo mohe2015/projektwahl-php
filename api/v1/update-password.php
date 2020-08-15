@@ -20,31 +20,34 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  die();
+}
+
 $allowed_users = array();
 require_once __DIR__ . '/header.php';
 
 $user = end($_SESSION['users']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $old_password = $_POST['old_password'];
-  $new_password = $_POST['new_password'];
-  $new_password_repeated = $_POST['new_password_repeated'];
+$old_password = $_POST['old-password'];
+$new_password = $_POST['new-password'];
+$new_password_repeated = $_POST['new-password-repeated'];
 
-  if ($new_password !== $new_password_repeated) {
-    echo "Passwörter nicht identisch!";
-  } else if (password_verify($old_password, $user->password)) {
-    $user->password = password_hash($new_password, PASSWORD_ARGON2ID, $options);
-    $user->password_changed = true;
-    $user->save();
-    array_pop($_SESSION['users']);
-    $_SESSION['users'][] = $user;
-    if ($user->type === "student") {
-      header("Location: $ROOT/election.php");
-    } else {
-      header("Location: $ROOT/");
-    }
-    die();
+if ($new_password !== $new_password_repeated) {
+  echo "Passwörter nicht identisch!";
+} else if (password_verify($old_password, $user->password)) {
+  $user->password = password_hash($new_password, PASSWORD_ARGON2ID, $options);
+  $user->password_changed = true;
+  $user->save();
+  array_pop($_SESSION['users']);
+  $_SESSION['users'][] = $user;
+  if ($user->type === "student") {
+    header("Location: $ROOT/election.php");
   } else {
-    echo "Altes Passwort ist falsch!";
+    header("Location: $ROOT/");
   }
+  die();
+} else {
+  echo "Altes Passwort ist falsch!";
 }

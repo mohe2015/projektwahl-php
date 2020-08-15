@@ -20,6 +20,11 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  die();
+}
+
 require_once __DIR__ . '/../config.php';
 try {
     $db = new PDO($database['url'], $database['username'], $database['password'], array(

@@ -20,20 +20,24 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-$allowed_users = array();
-require_once __DIR__ . '/../header.php';
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   die();
 }
+
+$allowed_users = array();
+require_once __DIR__ . '/../header.php';
+
 
 $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
 
 if (!$user) {
-  die('{"errors": { "username": "Nutzer nicht gefunden!", "password": "Nutzer nicht gefunden!" }}');
+  die (json_encode(array('errors' => array(
+    "username" => "Nutzer nicht gefunden!",
+    "password" => "Nutzer nicht gefunden!",
+  ))));
 } else if (password_verify($password, $user->password_hash)) {
   if (password_needs_rehash($user->password_hash, PASSWORD_ARGON2ID, $options)) {
     $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
@@ -50,15 +54,17 @@ if (!$user) {
   $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
     $_SESSION['old_password'] = $password;
-    die('{"redirect": "/update-password"}');
+    die (json_encode(array('redirect' => "/update-password")));
   } else if ($user->type === "student") {
-    die('{"redirect": "/election"}');
+    die (json_encode(array('redirect' => "/election")));
   } else {
-    die('{"redirect": "/"}');
+    die (json_encode(array('redirect' => "/")));
   }
   die();
 } else {
-  die('{"errors": { "password": "Passwort falsch!" }}');
+  die (json_encode(array('errors' => array(
+    "password" => "Passwort falsch!",
+  ))));
 }
 
 ?>
