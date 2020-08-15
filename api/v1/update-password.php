@@ -26,9 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $allowed_users = array();
-require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/../header.php';
 
 $user = end($_SESSION['users']);
+if (!$user) {
+  die (json_encode(array('alert' => "Nicht angemeldet!")));
+}
 
 $old_password = $_POST['old-password'];
 $new_password = $_POST['new-password'];

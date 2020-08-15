@@ -29,6 +29,10 @@ session_set_cookie_params(array(
 ));
 
 session_start();
+if (!isset($_SESSION['users'])) {
+  $_SESSION['users'] = array();
+}
+
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/config.php';

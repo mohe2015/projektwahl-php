@@ -1,0 +1,36 @@
+https://caniuse.com/#index
+
+90% goal? e.g. SameSite
+tls 1.3 has 88.17%
+
+https://caniuse.com/#feat=css-grid
+https://caniuse.com/#feat=es6-module
+https://caniuse.com/#feat=unhandledrejection
+https://caniuse.com/#feat=classlist
+https://caniuse.com/#feat=history
+https://caniuse.com/#feat=same-site-cookie-attribute
+https://caniuse.com/#feat=tls1-3
+https://caniuse.com/#feat=stricttransportsecurity
+https://caniuse.com/#feat=contentsecuritypolicy2
+https://caniuse.com/#feat=element-closest
+https://caniuse.com/#feat=promises
+https://caniuse.com/#feat=object-entries
+https://caniuse.com/#feat=es6-class
+https://caniuse.com/#feat=template-literals
+https://caniuse.com/#feat=async-functions
+https://caniuse.com/#feat=fetch
+https://caniuse.com/#feat=constraint-validation
+https://caniuse.com/#feat=http2
+
+
+
+https://caniuse.com/#feat=wasm
+https://caniuse.com/#feat=broadcastchannel
+https://caniuse.com/#feat=channel-messaging
+https://caniuse.com/#feat=indexeddb2
+https://caniuse.com/#feat=serviceworkers
+https://caniuse.com/#feat=web-share
+https://caniuse.com/#feat=http3
+https://caniuse.com/#feat=mutationobserver
+https://caniuse.com/#feat=u2f
+https://caniuse.com/#feat=credential-management

@@ -168,13 +168,17 @@ const indexRoute = new PathRoute(
   }()
 )
 
-let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
-setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
-  router.navigate(json.redirect)
-}, ["new-password", "new-password-repeated"])
-
+let oldPasswordField = /** @type HTMLInputElement */ (getElementById('update-password-old-password'))
 let newPassword = /** @type HTMLInputElement */ (getElementById('update-password-new-password'))
 let newPasswordRepeated = /** @type HTMLInputElement */ (getElementById('update-password-new-password-repeated'))
+
+let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
+setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
+  oldPasswordField.value = ""
+  newPassword.value = ""
+  newPasswordRepeated.value = ""
+  router.navigate(json.redirect)
+}, ["new-password", "new-password-repeated"])
 
 /**
  * @param {Event} event
@@ -206,7 +210,13 @@ const updatePasswordRoute = new PathRoute(
   }()
 )
 
+let loginPasswordField = /** @type HTMLInputElement */ (getElementById('login-password'))
+
 setupForm(getElementById('login-form'), '/api/v1/login.php', json => {
+  if (json.redirect === "/update-password") {
+    oldPasswordField.value = loginPasswordField.value
+  }
+  loginPasswordField.value = ""
   router.navigate(json.redirect)
 }, [])
 
@@ -217,38 +227,11 @@ const loginRoute = new PathRoute(
      * @param {Router} router
      */
     render = async (router) => {
+      // TODO FIXME reset fields
+      // I think the better approach may be to use a template as otherwise there is so much state
+
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-login').classList.remove('d-none')
-
-      // maybe still use this if supported to simplify relogin
-     /* let passwordCredential = await navigator.credentials.create({
-        // @ts-expect-error
-        "password": {
-          id: "Admin",
-          name: "Admin",
-          password: "password",
-        }
-      })
-
-      if (!passwordCredential) {
-        console.log("failed")
-        return;
-      }
-
-      console.log(passwordCredential)
-
-      await navigator.credentials.store(passwordCredential)
-
-      let passwordCredential2 = await navigator.credentials.get({
-        mediation: "silent",
-        // @ts-expect-error
-        password: true,
-      })
-
-      console.log(passwordCredential2)
-      */
-
-
     }
   }()
 )

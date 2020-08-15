@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $allowed_users = array();
 require_once __DIR__ . '/../header.php';
 
-
 $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
@@ -51,9 +50,9 @@ if (!$user) {
     "samesite" => "Strict",
   ));
 
+  error_log(print_r($_SESSION, true), 0);
   $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
-    $_SESSION['old_password'] = $password;
     die (json_encode(array('redirect' => "/update-password")));
   } else if ($user->type === "student") {
     die (json_encode(array('redirect' => "/election")));
