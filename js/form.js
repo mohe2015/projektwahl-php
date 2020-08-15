@@ -57,6 +57,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
   const alert = form.querySelector('.alert')
 
   for (const element of form.elements) {
+    if (element.getAttribute("data-keep-disabled")) continue;
     element.addEventListener('invalid', event => {
       console.log('oninvalid')
       onInvalid(/** @type HTMLInputElement */ (event.target))
@@ -70,14 +71,13 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
   // on any input change
   form.addEventListener('input', event => {
     console.log("input")
-    console.log(event.target)
-    console.log(event.target.value)
 
     // reset server side validation
     for (const element of form.elements) {
       if (dontResetValidation.includes(element.name)) {
         continue;
       }
+      if (element.getAttribute("data-keep-disabled")) continue;
       const element1 = /** @type HTMLInputElement */ (element)
       element1.setCustomValidity('')
     }
@@ -105,6 +105,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
     // prevent user from changing while the request is in progress
     for (const element of form.elements) {
       const element1 = /** @type HTMLInputElement */ (element)
+      if (element.getAttribute("data-keep-disabled")) continue;
       element1.disabled = true
     }
 
@@ -118,6 +119,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
 
         for (const element of form.elements) {
           const element1 = /** @type HTMLInputElement */ (element)
+          if (element.getAttribute("data-keep-disabled")) continue;
           element1.disabled = false
         }
 
@@ -128,6 +130,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
           // set server side validation results
           for (const element of form.elements) {
             const element1 = /** @type HTMLInputElement */ (element)
+            if (element.getAttribute("data-keep-disabled")) continue;
             if (element1.name in json.errors) {
               element1.setCustomValidity(json.errors[element1.name])
             }
@@ -155,6 +158,7 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
     } finally {
       for (const element of form.elements) {
         const element1 = /** @type HTMLInputElement */ (element)
+        if (element.getAttribute("data-keep-disabled")) continue;
         element1.disabled = false
       }
       return false
