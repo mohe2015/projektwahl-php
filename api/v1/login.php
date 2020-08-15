@@ -32,6 +32,8 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
 
+error_log(print_r($user->password_hash, true), 0);
+
 if (!$user) {
   die (json_encode(array('errors' => array(
     "username" => "Nutzer nicht gefunden!",

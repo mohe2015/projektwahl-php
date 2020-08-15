@@ -53,7 +53,7 @@ export const onInvalid = (element) => {
  * @param {jsonCallback} callback
  * @param {string[]} dontResetValidation
  */
-export const setupForm = (form, url, callback, dontResetValidation) => {
+export const setupForm = (router, form, url, callback, dontResetValidation) => {
   const alert = form.querySelector('.alert')
 
   for (const element of form.elements) {

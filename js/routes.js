@@ -205,7 +205,7 @@ const updatePasswordRoute = new PathRoute(
       }
 
       let updatePasswordForm = /** @type HTMLFormElement */ (clone.getElementById('update-password-form'))
-      setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
+      setupForm(router, updatePasswordForm, '/api/v1/update-password.php', json => {
         oldPasswordField.value = ""
         newPassword.value = ""
         newPasswordRepeated.value = ""
@@ -249,7 +249,7 @@ const loginRoute = new PathRoute(
       let loginPasswordField = /** @type HTMLInputElement */ (clone.getElementById('login-password'))
       let loginForm = /** @type HTMLFormElement */ (clone.getElementById('login-form'))
 
-      setupForm(loginForm, '/api/v1/login.php', json => {
+      setupForm(router, loginForm, '/api/v1/login.php', json => {
         if (json.redirect === "/update-password") {
           router.navigate(json.redirect, {
             "oldPassword": loginPasswordField.value,

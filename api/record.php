@@ -41,13 +41,19 @@ class User {
     public string $type;
     public bool $password_changed;
 
+    public ?int $project_leader;
+    public ?string $class;
+    public ?int $age;
+    public ?bool $away;
+    public ?int $in_project;
+
     protected static $insert_stmt = null;
     protected static $update_stmt = null;
 
     protected static function getInsertStatement() {
         global $db;
         if (null === self::$insert_stmt) {
-            self::$insert_stmt = $db->prepare('INSERT INTO users (name, password_hash, type, password_changed, project_leader, class, grade, away, in_project) VALUES (:name, :password_hash, :type, :password_changed, :project_leader, :class, :grade, :away, :in_project)');
+            self::$insert_stmt = $db->prepare('INSERT INTO users (name, password_hash, type, password_changed, project_leader, class, age, away, in_project) VALUES (:name, :password_hash, :type, :password_changed, :project_leader, :class, :age, :away, :in_project)');
         }
         return self::$insert_stmt;
     }
@@ -55,7 +61,7 @@ class User {
     protected static function getUpdateStatement() {
         global $db;
         if (null === self::$update_stmt) {
-            self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password_hash = :password_hash, type = :type, password_changed = :password_changed, project_leader = :project_leader, class = :class, grade = :grade, away = :away, in_project = :in_project WHERE id = :id');
+            self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password_hash = :password_hash, type = :type, password_changed = :password_changed, project_leader = :project_leader, class = :class, age = :age, away = :away, in_project = :in_project WHERE id = :id');
         }
         return self::$update_stmt;
     }
@@ -67,9 +73,9 @@ class User {
         foreach ($props as $prop) {
             $props_arr[$prop->getName()] = $prop->getValue($this); 
         }
-        var_dump($props_arr);
-        self::getInsertStatement()->execute($props_arr);
-        $this->id = $db->lastInsertId();
+        error_log(print_r($props_arr, true), 0);
+        self::getUpdateStatement()->execute($props_arr);
+        //$this->id = $db->lastInsertId();
     }
 }
 

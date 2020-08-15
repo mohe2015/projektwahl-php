@@ -107,8 +107,8 @@ try {
   BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN     (SELECT min_age FROM projects WHERE id = NEW.project) > (SELECT age FROM users WHERE id = NEW.student)
-            OR (SELECT max_age FROM projects WHERE id = NEW.project) < (SELECT age FROM users WHERE id = NEW.student) THEN
+    SELECT CASE WHEN     (SELECT min_age FROM projects WHERE id = NEW.project) > (SELECT age FROM users WHERE id = NEW.user)
+            OR (SELECT max_age FROM projects WHERE id = NEW.project) < (SELECT age FROM users WHERE id = NEW.user) THEN
       RAISE(ABORT, 'Der Nutzer passt nicht in die Altersbegrenzung des Projekts!')
     END;
   END;");
@@ -119,7 +119,7 @@ try {
   BEFORE UPDATE ON projects
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.age < NEW.min_age OR users.age > NEW.max_age)) > 0 THEN
+    SELECT CASE WHEN (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.user AND (users.age < NEW.min_age OR users.age > NEW.max_age)) > 0 THEN
       RAISE(ABORT, 'Geänderte Altersbegrenzung würde Wahlen ungültig machen!')
     END;
   END;");
@@ -130,7 +130,7 @@ try {
   CREATE TRIGGER trigger_check_project_leader_voted_own_project BEFORE UPDATE ON users
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.student = NEW.id) > 0 THEN
+    SELECT CASE WHEN (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.user = NEW.id) > 0 THEN
       RAISE(ABORT, 'Nutzer kann nicht Projektleiter in einem Projekt sein, das er gewählt hat!')
     END;
   END;
@@ -139,7 +139,7 @@ try {
   CREATE TRIGGER trigger_check_project_leader_choices BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.student) > 0 THEN
+    SELECT CASE WHEN (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.user) > 0 THEN
       RAISE(ABORT, 'Nutzer kann Projekt nicht wählen, in dem er Projektleiter ist!')
     END;
   END;");
