@@ -22,7 +22,10 @@ https://caniuse.com/#feat=fetch
 https://caniuse.com/#feat=constraint-validation
 https://caniuse.com/#feat=http2
 
-
+https://caniuse.com/#feat=custom-elementsv1
+would they help? with the routes etc.?
+maybe because you just instantiate them and they can setup the event listeners etc.?
+browser support? I think we could drop older browsers as school should have recent chrome
 
 https://caniuse.com/#feat=wasm
 https://caniuse.com/#feat=broadcastchannel
