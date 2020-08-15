@@ -96,30 +96,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </nav>
     </header>
 
-    <main id="routes">
-        <div id="route-loading">
-            <div class="d-flex justify-content-center mt-2">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-none container container-medium" id="route-index">
+    <template id="route-index">
+        <div class="d-none container container-medium">
             <h1 class="text-center">Projektwahl</h1>
         </div>
+    </template>
 
-        <div class="d-none container container-medium" id="route-notfound">
+    <template id="route-notfound">
+        <div class="d-none container container-medium">
             <h1 class="text-center">Seite nicht gefunden!</h1>
 
             <p>Die Seite konnte leider nicht gefunden werden. Vielleicht hast du dich vertippt oder die Seite wurde entfernt oder verschoben.</p>
         </div>
+    </template>
 
-        <div class="d-none mt-2 container-medium" id="route-setup">
+    <template id="route-setup">
+        <div class="d-none mt-2 container-medium">
             
         </div>
+    </template>
 
-        <div class="d-none container container-small" id="route-update-password">
+    <template id="route-update-password">
+        <div class="d-none container container-small">
             <h1 class="text-center">Passwort ändern</h1>
 
             <form id="update-password-form" novalidate method="post" class="needs-validation">
@@ -155,8 +153,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
             </form>
         </div>
+    </template>
 
-        <div class="d-none container container-small" id="route-login">
+    <template id="route-login">
+        <div class="d-none container container-small">
             
             <h1 class="text-center">Anmelden</h1>
 
@@ -181,6 +181,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 <button type="submit" class="mt-3 btn btn-primary">Anmelden</button>
             </form>
 
+        </div>
+    </template>
+
+    <template id="route-loading">
+        <div>
+            <div class="d-flex justify-content-center mt-2">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <main id="routes">
+        <div id="route-loading">
+            <div class="d-flex justify-content-center mt-2">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
     </main>
 
