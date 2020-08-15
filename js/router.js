@@ -52,7 +52,7 @@ export class Router {
         const a = event.target.closest('a')
 
         if (a) {
-          if (a.hostname === location.hostname) {
+          if (a.origin === window.location.origin) {
             event.preventDefault()
             // @ts-expect-error
             this.navbar.hide()

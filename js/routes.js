@@ -234,6 +234,8 @@ const loginRoute = new PathRoute(
      * @param {Router} router
      */
     render = async (router) => {
+      let params = new URLSearchParams(location.search);
+
       var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-login')).content.cloneNode(true));
 
       let loginPasswordField = /** @type HTMLInputElement */ (clone.getElementById('login-password'))
@@ -242,9 +244,16 @@ const loginRoute = new PathRoute(
       setupForm(loginForm, '/api/v1/login.php', json => {
         if (json.redirect === "/update-password") {
           oldPasswordField.value = loginPasswordField.value
+        } else if (params.has("redirect")) {
+          let url = new URL(/** @type string */ (params.get("redirect")), window.location.origin)
+          if (url.origin === window.location.origin) {
+            router.navigate(url.href)
+          } else {
+            alert("BAD HACKER!!!")
+          }
+        } else {
+          router.navigate(json.redirect)
         }
-        loginPasswordField.value = ""
-        router.navigate(json.redirect)
       }, [])
 
       routesElement.children[0].replaceWith(clone)

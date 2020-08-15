@@ -1,5 +1,3 @@
-// the problem is how to store this. maybe store it in history state object?
-// this would not work if you share url but it would probably work with reloading because the browser should store state???
 
 // alternatively this could be a url parameter
 // this would make the most sense on login as there usually is a redirect url
