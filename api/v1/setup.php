@@ -43,8 +43,8 @@ try {
   info VARCHAR(4096) NOT NULL,
   place VARCHAR(256) NOT NULL,
   costs DECIMAL(4,2) NOT NULL,
-  min_grade INTEGER NOT NULL,
-  max_grade INTEGER NOT NULL,
+  min_age INTEGER NOT NULL,
+  max_age INTEGER NOT NULL,
   min_participants INTEGER NOT NULL,
   max_participants INTEGER NOT NULL,
   presentation_type VARCHAR(512) NOT NULL,
@@ -58,10 +58,10 @@ try {
   id INTEGER PRIMARY KEY,
   name VARCHAR(64) UNIQUE NOT NULL,
   password_hash VARCHAR(255),
-  type VARCHAR(8) NOT NULL,
+  type VARCHAR(16) NOT NULL,
   project_leader INTEGER,
   class VARCHAR(8),
-  grade INTEGER,
+  age INTEGER,
   away BOOLEAN,
   password_changed BOOLEAN NOT NULL DEFAULT FALSE,
   in_project INTEGER,
@@ -80,13 +80,13 @@ try {
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS choices (
   rank INTEGER NOT NULL,
   project INTEGER NOT NULL,
-  student INTEGER NOT NULL,
-  PRIMARY KEY(project,student),
+  user INTEGER NOT NULL,
+  PRIMARY KEY(project,user),
   FOREIGN KEY (project)
     REFERENCES projects(id)
     ON UPDATE RESTRICT
     ON DELETE RESTRICT,
-  FOREIGN KEY (student)
+  FOREIGN KEY (user)
     REFERENCES users(id)
     ON UPDATE RESTRICT
     ON DELETE RESTRICT
@@ -102,45 +102,45 @@ try {
   $stmt = null;
 
   $db->exec("
-  DROP TRIGGER IF EXISTS trigger_check_choices_grade;
-  CREATE TRIGGER trigger_check_choices_grade
+  DROP TRIGGER IF EXISTS trigger_check_choices_age;
+  CREATE TRIGGER trigger_check_choices_age
   BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN     (SELECT min_grade FROM projects WHERE id = NEW.project) > (SELECT grade FROM users WHERE id = NEW.student)
-            OR (SELECT max_grade FROM projects WHERE id = NEW.project) < (SELECT grade FROM users WHERE id = NEW.student) THEN
-      RAISE(ABORT, 'Der Schüler passt nicht in die Altersbegrenzung des Projekts!')
+    SELECT CASE WHEN     (SELECT min_age FROM projects WHERE id = NEW.project) > (SELECT age FROM users WHERE id = NEW.student)
+            OR (SELECT max_age FROM projects WHERE id = NEW.project) < (SELECT age FROM users WHERE id = NEW.student) THEN
+      RAISE(ABORT, 'Der Nutzer passt nicht in die Altersbegrenzung des Projekts!')
     END;
   END;");
 
   $db->exec("
-  DROP TRIGGER IF EXISTS trigger_update_project_check_choices_grade;
-  CREATE TRIGGER trigger_update_project_check_choices_grade
+  DROP TRIGGER IF EXISTS trigger_update_project_check_choices_age;
+  CREATE TRIGGER trigger_update_project_check_choices_age
   BEFORE UPDATE ON projects
   FOR EACH ROW
   BEGIN
-    SELECT CASE WHEN (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.grade < NEW.min_grade OR users.grade > NEW.max_grade)) > 0 THEN
+    SELECT CASE WHEN (SELECT COUNT(*) FROM choices, users WHERE choices.project = NEW.id AND users.id = choices.student AND (users.age < NEW.min_age OR users.age > NEW.max_age)) > 0 THEN
       RAISE(ABORT, 'Geänderte Altersbegrenzung würde Wahlen ungültig machen!')
     END;
   END;");
 
 
   $db->exec("
-  DROP TRIGGER IF EXISTS trigger_check_project_leader;
-  CREATE TRIGGER trigger_check_project_leader BEFORE UPDATE ON users
+  DROP TRIGGER IF EXISTS trigger_check_project_leader_voted_own_project;
+  CREATE TRIGGER trigger_check_project_leader_voted_own_project BEFORE UPDATE ON users
   FOR EACH ROW
   BEGIN
     SELECT CASE WHEN (SELECT COUNT(*) FROM choices WHERE choices.project = NEW.project_leader AND choices.student = NEW.id) > 0 THEN
-      RAISE(ABORT, 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!')
+      RAISE(ABORT, 'Nutzer kann nicht Projektleiter in einem Projekt sein, das er gewählt hat!')
     END;
   END;
 
-  DROP TRIGGER IF EXISTS trigger_check_roject_leader_choices;
-  CREATE TRIGGER trigger_check_roject_leader_choices BEFORE INSERT ON choices
+  DROP TRIGGER IF EXISTS trigger_check_project_leader_choices;
+  CREATE TRIGGER trigger_check_project_leader_choices BEFORE INSERT ON choices
   FOR EACH ROW
   BEGIN
     SELECT CASE WHEN (SELECT COUNT(*) FROM users WHERE users.project_leader = NEW.project AND users.id = NEW.student) > 0 THEN
-      RAISE(ABORT, 'Schüler kann Projekt nicht wählen, in dem er Projektleiter ist!')
+      RAISE(ABORT, 'Nutzer kann Projekt nicht wählen, in dem er Projektleiter ist!')
     END;
   END;");
 
