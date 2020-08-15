@@ -25,9 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   die();
 }
 
-$allowed_users = array();
+$allowed_users = array("admin", "project-manager", "user");
 require_once __DIR__ . '/../header.php';
 
+// TODO FIXME get this from the database as changes are important, just store id here
+// store whole session in database, so forced logout is possible?
 $user = end($_SESSION['users']);
 if (!$user) {
   die (json_encode(array('alert' => "Nicht angemeldet!")));
@@ -38,19 +40,23 @@ $new_password = $_POST['new-password'];
 $new_password_repeated = $_POST['new-password-repeated'];
 
 if ($new_password !== $new_password_repeated) {
-  echo "Passwörter nicht identisch!";
+  die (json_encode(array('errors' => array(
+    "new-password-repeated" => "Passwörter nicht gleich!",
+  ))));
 } else if (password_verify($old_password, $user->password)) {
   $user->password = password_hash($new_password, PASSWORD_ARGON2ID, $options);
   $user->password_changed = true;
   $user->save();
   array_pop($_SESSION['users']);
   $_SESSION['users'][] = $user;
+  // TODO FIXME logout all other sessions of this user
   if ($user->type === "student") {
-    header("Location: $ROOT/election.php");
+    die (json_encode(array('redirect' => "/election")));
   } else {
-    header("Location: $ROOT/");
+    die (json_encode(array('redirect' => "/")));
   }
-  die();
 } else {
-  echo "Altes Passwort ist falsch!";
+  die (json_encode(array('errors' => array(
+    "old-password" => "Altes Passwort ist falsch!",
+  ))));
 }

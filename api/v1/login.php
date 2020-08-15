@@ -42,7 +42,7 @@ if (!$user) {
     $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
     $user->save();
   }
-  session_regenerate_id(true);
+  session_regenerate_id(true); // is this even needed?
   setcookie("username", $username, array(
     "expires" => time() + 6 * 60 * 60, // 6 hours
     "path" => "/",
