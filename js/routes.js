@@ -131,6 +131,8 @@ class CookieRoute extends Route {
    }
 }
 
+let routesElement = getElementById('routes')
+
 /**
  * @type import("./router").Route
  */
@@ -168,35 +170,6 @@ const indexRoute = new PathRoute(
   }()
 )
 
-let oldPasswordField = /** @type HTMLInputElement */ (getElementById('update-password-old-password'))
-let newPassword = /** @type HTMLInputElement */ (getElementById('update-password-new-password'))
-let newPasswordRepeated = /** @type HTMLInputElement */ (getElementById('update-password-new-password-repeated'))
-
-let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
-setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
-  oldPasswordField.value = ""
-  newPassword.value = ""
-  newPasswordRepeated.value = ""
-  router.navigate(json.redirect)
-}, ["new-password", "new-password-repeated"])
-
-/**
- * @param {Event} event
- */
-const onPasswordChange = event => {
-  if (newPassword.value !== newPasswordRepeated.value) {
-    newPasswordRepeated.setCustomValidity("Passwörter stimmen nicht überein")
-  } else {
-    newPasswordRepeated.setCustomValidity('')
-  }
-  // validate form
-  updatePasswordForm.checkValidity()
-  updatePasswordForm.classList.add('was-validated')
-}
-
-newPassword.addEventListener('input', onPasswordChange)
-newPasswordRepeated.addEventListener('input', onPasswordChange)
-
 const updatePasswordRoute = new PathRoute(
   '/update-password',
   new class extends Route {
@@ -204,21 +177,55 @@ const updatePasswordRoute = new PathRoute(
       const usernameInput = /** @type HTMLInputElement  */ (getElementById('update-password-username'))
       usernameInput.value = getCookies().username
 
+
+
+
+
+      let oldPasswordField = /** @type HTMLInputElement */ (getElementById('update-password-old-password'))
+      let newPassword = /** @type HTMLInputElement */ (getElementById('update-password-new-password'))
+      let newPasswordRepeated = /** @type HTMLInputElement */ (getElementById('update-password-new-password-repeated'))
+      
+      let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
+      setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
+        oldPasswordField.value = ""
+        newPassword.value = ""
+        newPasswordRepeated.value = ""
+        router.navigate(json.redirect)
+      }, ["new-password", "new-password-repeated"])
+      
+      /**
+       * @param {Event} event
+       */
+      const onPasswordChange = event => {
+        if (newPassword.value !== newPasswordRepeated.value) {
+          newPasswordRepeated.setCustomValidity("Passwörter stimmen nicht überein")
+        } else {
+          newPasswordRepeated.setCustomValidity('')
+        }
+        // validate form
+        updatePasswordForm.checkValidity()
+        updatePasswordForm.classList.add('was-validated')
+      }
+      
+      newPassword.addEventListener('input', onPasswordChange)
+      newPasswordRepeated.addEventListener('input', onPasswordChange)
+
+
+
+
+
+
+
+
+
+
+
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
       getElementById('route-update-password').classList.remove('d-none')
     }
   }()
 )
 
-let loginPasswordField = /** @type HTMLInputElement */ (getElementById('login-password'))
-
-setupForm(getElementById('login-form'), '/api/v1/login.php', json => {
-  if (json.redirect === "/update-password") {
-    oldPasswordField.value = loginPasswordField.value
-  }
-  loginPasswordField.value = ""
-  router.navigate(json.redirect)
-}, [])
 
 const loginRoute = new PathRoute(
   '/login',
@@ -227,11 +234,20 @@ const loginRoute = new PathRoute(
      * @param {Router} router
      */
     render = async (router) => {
-      // TODO FIXME reset fields
-      // I think the better approach may be to use a template as otherwise there is so much state
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-login')).content.cloneNode(true));
 
-      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
-      getElementById('route-login').classList.remove('d-none')
+      let loginPasswordField = /** @type HTMLInputElement */ (clone.getElementById('login-password'))
+      let loginForm = /** @type HTMLFormElement */ (clone.getElementById('login-form'))
+
+      setupForm(loginForm, '/api/v1/login.php', json => {
+        if (json.redirect === "/update-password") {
+          oldPasswordField.value = loginPasswordField.value
+        }
+        loginPasswordField.value = ""
+        router.navigate(json.redirect)
+      }, [])
+
+      routesElement.children[0].replaceWith(clone)
     }
   }()
 )
