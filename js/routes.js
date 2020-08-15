@@ -52,11 +52,12 @@ class Routes extends Route {
 
   /**
    * @param {Router} router
+   * @param {any|null} state
    */
-  render = async (router) => {
+  render = async (router, state) => {
     for (const route of this.routes) {
       try {
-        await route.render(router)
+        await route.render(router, state)
         return
       } catch (error) {
         if (error instanceof RouteNotMatchingError) {
@@ -93,12 +94,13 @@ class PathRoute extends Route {
 
   /**
    * @param {Router} router
+   * @param {any|null} state
    */
-  render = async (router) => {
+  render = async (router, state) => {
     if (this.path !== document.location.pathname) {
       throw new RouteNotMatchingError('path ' + document.location.pathname + ' does not match ' + this.path)
     }
-    await this.route.render(router)
+    await this.route.render(router, state)
   }
 }
 
@@ -118,8 +120,9 @@ class CookieRoute extends Route {
 
    /**
    * @param {Router} router
+   * @param {any|null} state
    */
-   render = async (router) => {
+   render = async (router, state) => {
      if ('username' in getCookies()) {
        Array.from(document.getElementsByClassName('hide-logged-out')).forEach(element => element.classList.remove('d-none'))
      } else {
@@ -127,19 +130,21 @@ class CookieRoute extends Route {
          element.classList.add('d-none')
        })
      }
-     await this.route.render(router)
+     await this.route.render(router, state)
    }
 }
 
 let routesElement = getElementById('routes')
 
-/**
- * @type import("./router").Route
- */
 const setupRoute = new PathRoute(
   '/setup',
   new class extends Route {
-    render = async () => {
+
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
       const response = await fetch('/api/v1/setup.php', {
         method: 'POST'
       })
@@ -161,7 +166,12 @@ const setupRoute = new PathRoute(
 const indexRoute = new PathRoute(
   '/',
   new class extends Route {
-    render = async () => {
+
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
       // TODO FIXME fetch election status
 
       Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
@@ -173,30 +183,41 @@ const indexRoute = new PathRoute(
 const updatePasswordRoute = new PathRoute(
   '/update-password',
   new class extends Route {
-    render = async () => {
-      const usernameInput = /** @type HTMLInputElement  */ (getElementById('update-password-username'))
+
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
+      console.log("render")
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-update-password')).content.cloneNode(true));
+      
+      const usernameInput = /** @type HTMLInputElement  */ (clone.getElementById('update-password-username'))
       usernameInput.value = getCookies().username
 
-
-
-
-
-      let oldPasswordField = /** @type HTMLInputElement */ (getElementById('update-password-old-password'))
-      let newPassword = /** @type HTMLInputElement */ (getElementById('update-password-new-password'))
-      let newPasswordRepeated = /** @type HTMLInputElement */ (getElementById('update-password-new-password-repeated'))
+      let oldPasswordField = /** @type HTMLInputElement */ (clone.getElementById('update-password-old-password'))
+      let newPassword = /** @type HTMLInputElement */ (clone.getElementById('update-password-new-password'))
+      let newPasswordRepeated = /** @type HTMLInputElement */ (clone.getElementById('update-password-new-password-repeated'))
       
-      let updatePasswordForm = /** @type HTMLFormElement */ (getElementById('update-password-form'))
+      if (state && "oldPassword" in state) {
+        oldPasswordField.setAttribute("value", state.oldPassword)
+        //oldPasswordField.value = state.oldPassword
+      }
+
+      let updatePasswordForm = /** @type HTMLFormElement */ (clone.getElementById('update-password-form'))
       setupForm(updatePasswordForm, '/api/v1/update-password.php', json => {
         oldPasswordField.value = ""
         newPassword.value = ""
         newPasswordRepeated.value = ""
-        router.navigate(json.redirect)
+        router.navigate(json.redirect, null)
       }, ["new-password", "new-password-repeated"])
       
       /**
        * @param {Event} event
        */
       const onPasswordChange = event => {
+        console.log("password-input")
+        
         if (newPassword.value !== newPasswordRepeated.value) {
           newPasswordRepeated.setCustomValidity("Passwörter stimmen nicht überein")
         } else {
@@ -210,18 +231,7 @@ const updatePasswordRoute = new PathRoute(
       newPassword.addEventListener('input', onPasswordChange)
       newPasswordRepeated.addEventListener('input', onPasswordChange)
 
-
-
-
-
-
-
-
-
-
-
-      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
-      getElementById('route-update-password').classList.remove('d-none')
+      routesElement.children[0].replaceWith(clone)
     }
   }()
 )
@@ -232,27 +242,28 @@ const loginRoute = new PathRoute(
   new class extends Route {
     /**
      * @param {Router} router
+     * @param {any|null} state
      */
-    render = async (router) => {
+    render = async (router, state) => {
       let params = new URLSearchParams(location.search);
-
       var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-login')).content.cloneNode(true));
-
       let loginPasswordField = /** @type HTMLInputElement */ (clone.getElementById('login-password'))
       let loginForm = /** @type HTMLFormElement */ (clone.getElementById('login-form'))
 
       setupForm(loginForm, '/api/v1/login.php', json => {
         if (json.redirect === "/update-password") {
-          oldPasswordField.value = loginPasswordField.value
+          router.navigate(json.redirect, {
+            "oldPassword": loginPasswordField.value,
+          })
         } else if (params.has("redirect")) {
           let url = new URL(/** @type string */ (params.get("redirect")), window.location.origin)
           if (url.origin === window.location.origin) {
-            router.navigate(url.href)
+            router.navigate(url.href, null)
           } else {
             alert("BAD HACKER!!!")
           }
         } else {
-          router.navigate(json.redirect)
+          router.navigate(json.redirect, null)
         }
       }, [])
 
@@ -262,7 +273,12 @@ const loginRoute = new PathRoute(
 )
 
 const notFoundRoute = new class extends Route {
-  render = async () => {
+
+  /**
+   * @param {Router} router
+   * @param {any|null} state
+   */
+  render = async (router, state) => {
     Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
     getElementById('route-notfound').classList.remove('d-none')
   }

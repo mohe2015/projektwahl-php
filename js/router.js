@@ -26,9 +26,10 @@ import { getElementById } from './utils.js'
 export class Route {
   /**
    * @param {Router} router
+   * @param {any|null} state
    * @returns {Promise<void>}
    */
-  render = (router) => {
+  render = (router, state) => {
     throw new Error('Route is abstract.')
   }
 }
@@ -44,7 +45,7 @@ export class Router {
     })
 
     window.addEventListener('popstate', async (event) => {
-      await this.route.render(this)
+      await this.route.render(this, event.state)
     })
 
     document.addEventListener('click', (event) => {
@@ -56,7 +57,7 @@ export class Router {
             event.preventDefault()
             // @ts-expect-error
             this.navbar.hide()
-            this.navigate(a.href)
+            this.navigate(a.href, null)
           }
         }
       }
@@ -67,9 +68,10 @@ export class Router {
 
   /**
    * @param {string} url
+   * @param {any|null} state
    */
-  navigate = async (url) => {
-    history.pushState(null, document.title, url)
-    await this.route.render(this)
+  navigate = async (url, state) => {
+    history.pushState(state, document.title, url)
+    await this.route.render(this, state)
   }
 }

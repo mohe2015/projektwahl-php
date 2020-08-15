@@ -69,6 +69,10 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
 
   // on any input change
   form.addEventListener('input', event => {
+    console.log("input")
+    console.log(event.target)
+    console.log(event.target.value)
+
     // reset server side validation
     for (const element of form.elements) {
       if (dontResetValidation.includes(element.name)) {
@@ -84,15 +88,13 @@ export const setupForm = (form, url, callback, dontResetValidation) => {
 
   form.addEventListener('submit', async event => {
     event.preventDefault()
+    console.log("submit")
 
     const formData = new FormData(form)
 
     // validate before submitting
     const valid = form.checkValidity()
     form.classList.add('was-validated')
-
-    // Credential Management API not supported by firefox
-    // Web Authentication API
 
     // prevent submitting when form is invalid
     if (!valid) {
