@@ -99,10 +99,10 @@ class Sessions {
         return self::$find_stmt;
     }
 
-    public function find($session_id): Session {
-        $stmt = getFindStatement();
+    public static function find($session_id): Session {
+        $stmt = self::getFindStatement();
         $stmt->execute(array('session_id' => $session_id));
-        $result = $stmt->fetchObject('Session');
+        $result = $stmt->fetchObject('Session', array(null));
         $result->new = false;
         return $result;
     }
@@ -126,6 +126,26 @@ class UserSession extends Record {
 
     protected static function getUpdateStatement() {
         throw new Error("not implemented");
+    }
+}
+
+class UserSessions {
+    protected static $find_current_stmt = null;
+
+    protected static function getFindCurrentStatement() {
+        global $db;
+        if (null === self::$find_current_stmt) {
+            self::$find_current_stmt = $db->prepare('SELECT users.* FROM session_users, users WHERE session_users.session_id = :session_id and session_users.user_id = users.id ORDER BY session_users.id DESC LIMIT 1;');
+        }
+        return self::$find_current_stmt;
+    }
+
+    public static function getCurrent($session_id): User {
+        $stmt = self::getFindCurrentStatement();
+        $stmt->execute(array('session_id' => $session_id));
+        $result = $stmt->fetchObject('User', array(null));
+        $result->new = false;
+        return $result;
     }
 }
 
@@ -163,7 +183,7 @@ class User extends Record {
 }
 
 class Users {
-    public function find($id) {
+    public static function find($id) {
         global $db;
         $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(array('id' => $id));
@@ -172,7 +192,7 @@ class Users {
         return $result;
     }
 
-    public function findByName($name) {
+    public static function findByName($name) {
         global $db;
         $stmt = $db->prepare("SELECT * FROM users WHERE name = :name");
         $stmt->execute(array('name' => $name));
@@ -181,7 +201,7 @@ class Users {
         return $result;
     }
 
-    public function all() {
+    public static function all() {
         global $db;
         $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
         $stmt->execute();

@@ -20,17 +20,47 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-//error_log(print_r($allowed_users, true), 0);
+error_log(print_r($_COOKIE["id"], true), 0);
 
-if (isset($allowed_users) && $allowed_users == false) { // array empty but set
+
+
+if (isset($allowed_users) && $allowed_users == false) { // array empty but set - everybody is allowed to access this
   // Do nothing
-} else if (count($_SESSION['users']) === 0) { // allowed user not empty, not logged in
+} else if (!isset($_COOKIE["id"])) { // allowed user not empty, not logged in
   die (json_encode(array(
     "redirect" => "/login", 
     "redirect_back" => true,
     "alert" => "Nicht angemeldet!"
   )));
-} else if (!in_array(end($_SESSION['users'])->type, $allowed_users)) {
-  die (json_encode(array('alert' => "Keine Berechtigung!")));
+} else {
+  $id = hex2bin($_COOKIE["id"]);
+  $session = Sessions::find($id);
+
+  // keep in mind that closing the browser should also end the session
+  // but maybe a keep me logged in should be added
+  if ($session->created_at + 6 * 60 * 60 < time()) { // 6 hours max lifetime
+    die (json_encode(array(
+      "redirect" => "/login", 
+      "redirect_back" => true,
+      "alert" => "Bitte erneut anmelden!"
+    )));
+  }
+  if ($session->updated_at + 60 * 60 < time()) { // 1 hour idle lifetime
+    die (json_encode(array(
+      "redirect" => "/login", 
+      "redirect_back" => true,
+      "alert" => "Bitte erneut anmelden!"
+    )));
+  }
+  if ($session->updated_at + 5 * 60 < time()) { // after five minutes update updated_at
+    $session->updated_at = time();
+    $session->save();
+  }
+
+  $user = UserSessions::getCurrent($id);
+
+  if (!in_array($user->type, $allowed_users)) {
+     die (json_encode(array('alert' => "Keine Berechtigung!")));
+  }
 }
 ?>

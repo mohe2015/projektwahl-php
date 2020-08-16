@@ -28,13 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $allowed_users = array("admin", "project-manager", "user");
 require_once __DIR__ . '/../header.php';
 
-// TODO FIXME get this from the database as changes are important, just store id here
-// store whole session in database, so forced logout is possible?
-$user = end($_SESSION['users']);
-if (!$user) {
-  die (json_encode(array('alert' => "Nicht angemeldet!")));
-}
-
 $old_password = $_POST['old-password'];
 $new_password = $_POST['new-password'];
 $new_password_repeated = $_POST['new-password-repeated'];
@@ -47,9 +40,10 @@ if ($new_password !== $new_password_repeated) {
   $user->password_hash = password_hash($new_password, PASSWORD_ARGON2ID, $options);
   $user->password_changed = true;
   $user->save();
-  array_pop($_SESSION['users']);
-  $_SESSION['users'][] = $user;
+
+  // TODO FIXME change session_id
   // TODO FIXME logout all other sessions of this user
+  
   if ($user->type === "student") {
     die (json_encode(array('redirect' => "/election")));
   } else {
