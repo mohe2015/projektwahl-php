@@ -85,7 +85,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             </a>
                         </li>
                         <li class="nav-item hide-logged-out">
-                            <a class="nav-link" href="/update-password.php">
+                            <a class="nav-link" href="/update-password">
                                 <i class="fas fa-key"></i>
                                 Passwort ändern
                             </a>
@@ -101,6 +101,47 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <h1 class="text-center">Projektwahl</h1>
         </div>
     </template>
+
+    <template id="route-projects">
+        <div class="container container-medium">
+            <h1 class="text-center">Projekte</h1>
+
+            <a class="btn btn-primary mb-2" href="/add-project" role="button">Projekt hinzufügen</a>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">First</th>
+                          <th scope="col">Last</th>
+                          <th scope="col">Handle</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Jacob</td>
+                          <td>Thornton</td>
+                          <td>@fat</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td colspan="2">Larry the Bird</td>
+                          <td>@twitter</td>
+                        </tr>
+                      </tbody>
+                </table>
+              </div>
+        </div>
+    </template>
+
 
     <template id="route-notfound">
         <div class="container container-medium">

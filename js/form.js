@@ -92,8 +92,16 @@ export const setupForm = (router, form, url, callback, dontResetValidation) => {
 
     const formData = new FormData(form)
 
-    // validate before submitting
-    const valid = form.checkValidity()
+    for (const element of form.elements) {
+      if (dontResetValidation.includes(element.name)) {
+        continue;
+      }
+      if (element.getAttribute("data-keep-disabled")) continue;
+      const element1 = /** @type HTMLInputElement */ (element)
+      element1.setCustomValidity('')
+    }
+    // validate form
+    let valid = form.checkValidity()
     form.classList.add('was-validated')
 
     // prevent submitting when form is invalid

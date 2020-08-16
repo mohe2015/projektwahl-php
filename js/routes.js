@@ -175,8 +175,23 @@ const indexRoute = new PathRoute(
     render = async (router, state) => {
       // TODO FIXME fetch election status
 
-      Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
-      getElementById('route-index').classList.remove('d-none')
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-index')).content.cloneNode(true));
+      routesElement.children[0].replaceWith(clone)
+    }
+  }()
+)
+
+const projectsRoute = new PathRoute(
+  '/projects',
+  new class extends Route {
+
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-projects')).content.cloneNode(true));
+      routesElement.children[0].replaceWith(clone)
     }
   }()
 )
@@ -269,9 +284,9 @@ const notFoundRoute = new class extends Route {
    * @param {any|null} state
    */
   render = async (router, state) => {
-    Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
-    getElementById('route-notfound').classList.remove('d-none')
+    var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-notfound')).content.cloneNode(true));
+    routesElement.children[0].replaceWith(clone)
   }
 }()
 
-export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, notFoundRoute]))
+export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, projectsRoute, notFoundRoute]))
