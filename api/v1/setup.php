@@ -37,10 +37,11 @@ try {
 }
 
 try {
+  // (strftime('%s','now'))
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS sessions (
-  session_id STRING PRIMARY KEY,
-  created_at INTEGER NOT NULL default (strftime('%s','now')),
-  updated_at INTEGER NOT NULL default (strftime('%s','now'))
+  session_id BLOB PRIMARY KEY,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
   );");
   $stmt->closeCursor();
   $stmt = null;

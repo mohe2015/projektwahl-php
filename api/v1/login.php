@@ -49,21 +49,22 @@ if (!$user) {
 
   $session = new Session(array(
     "session_id" => $bytes,
+    "created_at" => time(),
+    "updated_at" => time(),
   ));
+  $session->save();
 
   // SELECT strftime('%s', 'now');  returns current unix time
   // DATETIME(0, 'unixepoch');
   // just compare the seconds
 
   setcookie("id", bin2hex($bytes), array(
-    "expires" => time() + 6 * 60 * 60, // 6 hours
     "path" => "/",
     "secure" => true,
     "httponly" => true,
     "samesite" => "Strict",
   ));
   setcookie("username", $username, array(
-    "expires" => time() + 6 * 60 * 60, // 6 hours
     "path" => "/",
     "secure" => true,
     "samesite" => "Strict",

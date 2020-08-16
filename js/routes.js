@@ -145,17 +145,18 @@ const setupRoute = new PathRoute(
      * @param {any|null} state
      */
     render = async (router, state) => {
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-loading')).content.cloneNode(true));
+      routesElement.children[0].replaceWith(clone)
+      
       const response = await fetch('/api/v1/setup.php', {
         method: 'POST'
       })
       if (response.ok) {
         const html = await response.text()
 
-        const tab = getElementById('route-setup')
-        tab.innerHTML = html
-
-        Array.from(getElementById('routes').children).forEach(child => child.classList.add('d-none'))
-        tab.classList.remove('d-none')
+        var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-setup')).content.cloneNode(true));
+        /** @type Element */ (clone.firstElementChild).innerHTML = html
+        routesElement.children[0].replaceWith(clone)
       } else {
         alert('Serverfehler: ' + response.status + ' ' + response.statusText)
       }

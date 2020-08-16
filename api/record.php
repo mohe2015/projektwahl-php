@@ -23,6 +23,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Record {
     private bool $new;
 
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
+
+    protected static function getInsertStatement() {
+        throw new Error("not implemented");
+    }
+
+    protected static function getUpdateStatement() {
+        throw new Error("not implemented");
+    }
+
     public function __construct(?array $data) {
         if ($data !== null) {
             foreach ($data as $key => $value) {
@@ -40,13 +51,13 @@ class Record {
             $props_arr[$prop->getName()] = $prop->getValue($this); 
         }
         if ($this->new) {
-            self::getInsertStatement()->execute($props_arr);
+            static::getInsertStatement()->execute($props_arr);
             if (property_exists($this, 'id')) {
                 $this->id = $db->lastInsertId();
             }
             $this->new = false;
         } else {
-            self::getUpdateStatement()->execute($props_arr);
+            static::getUpdateStatement()->execute($props_arr);
         }
     }
 }
@@ -55,9 +66,6 @@ class Session extends Record {
     public string $session_id;
     public int $created_at;
     public int $updated_at;
-
-    protected static $insert_stmt = null;
-    protected static $update_stmt = null;
 
     protected static function getInsertStatement() {
         global $db;
@@ -99,9 +107,6 @@ class User extends Record {
     public ?int $age;
     public ?bool $away;
     public ?int $in_project;
-
-    protected static $insert_stmt = null;
-    protected static $update_stmt = null;
 
     protected static function getInsertStatement() {
         global $db;
