@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
 SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 SPDX-License-Identifier: AGPL-3.0-or-later
@@ -45,6 +46,10 @@ if (!$user) {
   
   // TODO create session
   $bytes = random_bytes(32);
+
+  $session = new Session(array(
+    "session_id" => $bytes,
+  ));
 
   // SELECT strftime('%s', 'now');  returns current unix time
   // DATETIME(0, 'unixepoch');

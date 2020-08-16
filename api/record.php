@@ -21,21 +21,74 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 class Record {
-    public $types = array();
+    private bool $new;
 
-    public $members = array();
-
-    public function __get($item) {
-        return $this->members[$item];
+    public function __construct(?array $data) {
+        if ($data !== null) {
+            foreach ($data as $key => $value) {
+                $this->$key = $value;
+            }
+        }
+        $this->new = $data !== null;
     }
 
-    public function __set($item, $value) {
-        $this->members[$item] = $value;
+    public function save() {
+        $reflect = new ReflectionClass($this);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
+        $props_arr = array();
+        foreach ($props as $prop) {
+            $props_arr[$prop->getName()] = $prop->getValue($this); 
+        }
+        if ($this->new) {
+            self::getInsertStatement()->execute($props_arr);
+            if (property_exists($this, 'id')) {
+                $this->id = $db->lastInsertId();
+            }
+            $this->new = false;
+        } else {
+            self::getUpdateStatement()->execute($props_arr);
+        }
     }
 }
 
-class User {
-    public int $id;
+class Session extends Record {
+    public string $session_id;
+    public int $created_at;
+    public int $updated_at;
+
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
+
+    protected static function getInsertStatement() {
+        global $db;
+        if (null === self::$insert_stmt) {
+            self::$insert_stmt = $db->prepare('INSERT INTO sessions (session_id, created_at, updated_at) VALUES (:session_id, :created_at, :updated_at)');
+        }
+        return self::$insert_stmt;
+    }
+
+    protected static function getUpdateStatement() {
+        global $db;
+        if (null === self::$update_stmt) {
+            self::$update_stmt = $db->prepare('UPDATE sessions SET created_at = :created_at, updated_at = :updated_at WHERE session_id = :session_id');
+        }
+        return self::$update_stmt;
+    }
+}
+
+class Sessions {
+    public function find($session_id): Session {
+        global $db;
+        $stmt = $db->prepare("SELECT * FROM sessions WHERE session_id = :session_id");
+        $stmt->execute(array('session_id' => $session_id));
+        $result = $stmt->fetchObject('Session');
+        $result->new = false;
+        return $result;
+    }
+}
+
+class User extends Record {
+    public ?int $id;
     public string $name;
     public string $password_hash;
     public string $type;
@@ -65,18 +118,6 @@ class User {
         }
         return self::$update_stmt;
     }
-
-    public function save() {
-        $reflect = new ReflectionClass($this);
-        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
-        $props_arr = array();
-        foreach ($props as $prop) {
-            $props_arr[$prop->getName()] = $prop->getValue($this); 
-        }
-        error_log(print_r($props_arr, true), 0);
-        self::getUpdateStatement()->execute($props_arr);
-        //$this->id = $db->lastInsertId();
-    }
 }
 
 class Users {
@@ -84,7 +125,8 @@ class Users {
         global $db;
         $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(array('id' => $id));
-        $result = $stmt->fetchObject('User');
+        $result = $stmt->fetchObject('User', array(null));
+        $result->new = false;
         return $result;
     }
 
@@ -92,7 +134,8 @@ class Users {
         global $db;
         $stmt = $db->prepare("SELECT * FROM users WHERE name = :name");
         $stmt->execute(array('name' => $name));
-        $result = $stmt->fetchObject('User');
+        $result = $stmt->fetchObject('User', array(null));
+        $result->new = false;
         return $result;
     }
 
@@ -101,6 +144,7 @@ class Users {
         $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+        $result->new = false;
         return $result;
     }
 }
