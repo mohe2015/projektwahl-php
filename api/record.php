@@ -48,9 +48,12 @@ class Record {
         $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
         $props_arr = array();
         foreach ($props as $prop) {
+            if ($this->new && $prop->getName() === "id") continue;
             $props_arr[$prop->getName()] = $prop->getValue($this); 
         }
         if ($this->new) {
+            error_log(print_r($props_arr, true), 0);
+            error_log(print_r(static::getInsertStatement(), true), 0);
             static::getInsertStatement()->execute($props_arr);
             if (property_exists($this, 'id')) {
                 $this->id = $db->lastInsertId();
@@ -85,13 +88,36 @@ class Session extends Record {
 }
 
 class Sessions {
-    public function find($session_id): Session {
+    protected static $find_stmt = null;
+
+    protected static function getFindStatement() {
         global $db;
-        $stmt = $db->prepare("SELECT * FROM sessions WHERE session_id = :session_id");
+        if (null === self::$find_stmt) {
+            self::$find_stmt = $db->prepare('SELECT * FROM sessions WHERE session_id = :session_id');
+        }
+        return self::$find_stmt;
+    }
+
+    public function find($session_id): Session {
+        $stmt = getFindStatement();
         $stmt->execute(array('session_id' => $session_id));
         $result = $stmt->fetchObject('Session');
         $result->new = false;
         return $result;
+    }
+}
+
+class UserSession extends Record {
+    public ?int $id;
+    public string $session_id;
+    public int $user_id;
+
+    protected static function getInsertStatement() {
+        global $db;
+        if (null === self::$insert_stmt) {
+            self::$insert_stmt = $db->prepare("INSERT INTO session_users (session_id, user_id) VALUES (:session_id, :user_id)");
+        }
+        return self::$insert_stmt;
     }
 }
 

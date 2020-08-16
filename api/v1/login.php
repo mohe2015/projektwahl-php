@@ -54,6 +54,12 @@ if (!$user) {
   ));
   $session->save();
 
+  $userSession = new UserSession(array(
+    "session_id" => $bytes,
+    "user_id" => $user->id,
+  ));
+  $userSession->save();
+
   // SELECT strftime('%s', 'now');  returns current unix time
   // DATETIME(0, 'unixepoch');
   // just compare the seconds

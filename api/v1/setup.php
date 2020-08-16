@@ -49,13 +49,21 @@ try {
   // this second table is needed to allow sudoing into accounts as admin
   // maybe combine the two tables but idk
 
-  // id is autoincrement
+  // id is autoincrement, needed for the order
   // session_id cryptographically random string
   // user_id the user as which you are logged in
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS session_users (
   id INTEGER PRIMARY KEY NOT NULL,
-  session_id STRING NOT NULL,
-  user_id INTEGER NOT NULL
+  session_id BLOB NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (session_id)
+    REFERENCES sessions(session_id)
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT,
+  FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT
   );");
   $stmt->closeCursor();
   $stmt = null;
