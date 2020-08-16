@@ -23,9 +23,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class Record {
     private bool $new;
 
-    protected static $insert_stmt = null;
-    protected static $update_stmt = null;
-
     protected static function getInsertStatement() {
         throw new Error("not implemented");
     }
@@ -44,6 +41,7 @@ class Record {
     }
 
     public function save() {
+        global $db;
         $reflect = new ReflectionClass($this);
         $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
         $props_arr = array();
@@ -69,6 +67,9 @@ class Session extends Record {
     public string $session_id;
     public int $created_at;
     public int $updated_at;
+
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
 
     protected static function getInsertStatement() {
         global $db;
@@ -112,12 +113,19 @@ class UserSession extends Record {
     public string $session_id;
     public int $user_id;
 
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
+
     protected static function getInsertStatement() {
         global $db;
         if (null === self::$insert_stmt) {
             self::$insert_stmt = $db->prepare("INSERT INTO session_users (session_id, user_id) VALUES (:session_id, :user_id)");
         }
         return self::$insert_stmt;
+    }
+
+    protected static function getUpdateStatement() {
+        throw new Error("not implemented");
     }
 }
 
@@ -133,6 +141,9 @@ class User extends Record {
     public ?int $age;
     public ?bool $away;
     public ?int $in_project;
+
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
 
     protected static function getInsertStatement() {
         global $db;
