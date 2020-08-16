@@ -277,6 +277,26 @@ const loginRoute = new PathRoute(
   }()
 )
 
+const addProjectRoute = new PathRoute(
+  '/add-project',
+  new class extends Route {
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-add-project')).content.cloneNode(true));
+      let addProjectForm = /** @type HTMLFormElement */ (clone.getElementById('add-project-form'))
+
+      setupForm(router, addProjectForm, '/api/v1/login.php', json => {
+        router.navigate(json.redirect, null)
+      }, [])
+
+      routesElement.children[0].replaceWith(clone)
+    }
+  }()
+)
+
 const notFoundRoute = new class extends Route {
 
   /**
@@ -289,4 +309,4 @@ const notFoundRoute = new class extends Route {
   }
 }()
 
-export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, projectsRoute, notFoundRoute]))
+export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, projectsRoute, addProjectRoute, notFoundRoute]))

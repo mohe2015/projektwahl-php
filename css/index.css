@@ -57,7 +57,7 @@ body {
         color: #fff;
     }
 
-    .form-control, .form-control:focus {
+    .form-control, .form-control:focus, .input-group-text {
         background-color: #495057;
         color: #fff;
     }
@@ -80,5 +80,9 @@ body {
         --bs-table-hover-color: #fff;
         color: #fff;
         border-color: #484e53;
+    }
+
+    .input-group-text {
+        border: 1px solid #6c757d;
     }
 }

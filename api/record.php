@@ -211,4 +211,39 @@ class Users {
     }
 }
 
+class Project extends Record {
+
+    public ?int $id;
+    public string $title;
+    public string $info;
+    public string $place;
+    public int $costs;
+    public int $min_age;
+    public int $max_age;
+    public int $min_participants;
+    public int $max_participants;
+    public string $presentation_type;
+    public string $requirements;
+    public bool $random_assignments;
+
+    protected static $insert_stmt = null;
+    protected static $update_stmt = null;
+
+    protected static function getInsertStatement() {
+        global $db;
+        if (null === self::$insert_stmt) {
+            self::$insert_stmt = $stmt = $db->prepare('INSERT INTO projects (title, info, place, costs, min_grade, max_grade, min_participants, max_participants, presentation_type, requirements, random_assignments) VALUES (:title, :info, :place, :costs, :min_grade, :max_grade, :min_participants, :max_participants, :presentation_type, :requirements, :random_assignments)');
+        }
+        return self::$insert_stmt;
+    }
+
+    protected static function getUpdateStatement() {
+        global $db;
+        if (null === self::$update_stmt) {
+            self::$update_stmt = $db->prepare('UPDATE projects SET title = :title, info = :info, place = :place, costs = :costs, min_grade = :min_grade, max_grade = :max_grade, min_participants = :min_participants, max_participants = :max_participants, presentation_type = :presentation_type, requirements = :requirements, random_assignments = :random_assignments WHERE id = :id');
+        }
+        return self::$update_stmt;
+    }
+}
+
 ?>
