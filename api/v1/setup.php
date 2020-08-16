@@ -37,6 +37,28 @@ try {
 }
 
 try {
+  $stmt = $db->query("CREATE TABLE IF NOT EXISTS sessions (
+  session_id STRING PRIMARY KEY,
+  created_at INTEGER NOT NULL default (strftime('%s','now')),
+  updated_at INTEGER NOT NULL default (strftime('%s','now'))
+  );");
+  $stmt->closeCursor();
+  $stmt = null;
+
+  // this second table is needed to allow sudoing into accounts as admin
+  // maybe combine the two tables but idk
+
+  // id is autoincrement
+  // session_id cryptographically random string
+  // user_id the user as which you are logged in
+  $stmt = $db->query("CREATE TABLE IF NOT EXISTS session_users (
+  id INTEGER PRIMARY KEY NOT NULL,
+  session_id STRING NOT NULL,
+  user_id INTEGER NOT NULL
+  );");
+  $stmt->closeCursor();
+  $stmt = null;
+
   $stmt = $db->query("CREATE TABLE IF NOT EXISTS projects (
   id INTEGER PRIMARY KEY,
   title VARCHAR(255) UNIQUE NOT NULL,

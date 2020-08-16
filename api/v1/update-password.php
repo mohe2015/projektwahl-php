@@ -39,10 +39,6 @@ $old_password = $_POST['old-password'];
 $new_password = $_POST['new-password'];
 $new_password_repeated = $_POST['new-password-repeated'];
 
-error_log(print_r($old_password, true), 0);
-error_log(print_r($user->password_hash, true), 0);
-
-
 if ($new_password !== $new_password_repeated) {
   die (json_encode(array('errors' => array(
     "new-password-repeated" => "Passwörter nicht gleich!",

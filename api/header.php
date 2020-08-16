@@ -22,19 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 require_once __DIR__ . '/record.php';
 
-session_set_cookie_params(array(
-  "lifetime" => 6 * 60 * 60, // 6 hours
-  "path" => "/",
-  "secure" => true,
-  "httponly" => true,
-  "samesite" => "Strict",
-));
-
-session_start();
-if (!isset($_SESSION['users'])) {
-  $_SESSION['users'] = array();
-}
-
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/config.php';

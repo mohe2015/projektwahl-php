@@ -32,8 +32,6 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $user = Users::findByName($username);
 
-error_log(print_r($user->password_hash, true), 0);
-
 if (!$user) {
   die (json_encode(array('errors' => array(
     "username" => "Nutzer nicht gefunden!",
@@ -44,7 +42,21 @@ if (!$user) {
     $user->password_hash = password_hash($password, PASSWORD_ARGON2ID, $options);
     $user->save();
   }
-  session_regenerate_id(true); // is this even needed?
+  
+  // TODO create session
+  $bytes = random_bytes(32);
+
+  // SELECT strftime('%s', 'now');  returns current unix time
+  // DATETIME(0, 'unixepoch');
+  // just compare the seconds
+
+  setcookie("id", bin2hex($bytes), array(
+    "expires" => time() + 6 * 60 * 60, // 6 hours
+    "path" => "/",
+    "secure" => true,
+    "httponly" => true,
+    "samesite" => "Strict",
+  ));
   setcookie("username", $username, array(
     "expires" => time() + 6 * 60 * 60, // 6 hours
     "path" => "/",
@@ -52,7 +64,6 @@ if (!$user) {
     "samesite" => "Strict",
   ));
 
-  $_SESSION['users'][] = $user;
   if (!$user->password_changed) {
     die (json_encode(array('custom' => true, 'redirect' => "/update-password")));
   } else if ($user->type === "student") {

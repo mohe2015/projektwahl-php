@@ -200,8 +200,7 @@ const updatePasswordRoute = new PathRoute(
       let newPasswordRepeated = /** @type HTMLInputElement */ (clone.getElementById('update-password-new-password-repeated'))
       
       if (state && "oldPassword" in state) {
-        oldPasswordField.setAttribute("value", state.oldPassword)
-        //oldPasswordField.value = state.oldPassword
+        oldPasswordField.value = state.oldPassword
       }
 
       let updatePasswordForm = /** @type HTMLFormElement */ (clone.getElementById('update-password-form'))
