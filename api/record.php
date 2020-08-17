@@ -149,18 +149,26 @@ class UserSessions {
     }
 }
 
+class Participant extends User {
+
+    public function __construct(?array $array) {
+        parent::__construct($array);
+        $this->type = "user";
+    }
+}
+
 class User extends Record {
     public ?int $id;
     public string $name;
-    public string $password_hash;
+    public ?string $password_hash = null;
     public string $type;
-    public bool $password_changed;
+    public bool $password_changed = false;
 
-    public ?int $project_leader;
+    public ?int $project_leader = null;
     public ?string $class;
     public ?int $age;
-    public ?bool $away;
-    public ?int $in_project;
+    public ?bool $away = false;
+    public ?int $in_project = null;
 
     protected static $insert_stmt = null;
     protected static $update_stmt = null;
@@ -179,6 +187,10 @@ class User extends Record {
             self::$update_stmt = $db->prepare('UPDATE users SET name = :name, password_hash = :password_hash, type = :type, password_changed = :password_changed, project_leader = :project_leader, class = :class, age = :age, away = :away, in_project = :in_project WHERE id = :id');
         }
         return self::$update_stmt;
+    }
+
+    public function __construct(?array $array) {
+        parent::__construct($array);
     }
 }
 
