@@ -205,8 +205,21 @@ const usersRoute = new PathRoute(
      * @param {any|null} state
      */
     render = async (router, state) => {
-      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-users')).content.cloneNode(true));
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-loading')).content.cloneNode(true));
       routesElement.children[0].replaceWith(clone)
+      
+      const response = await fetch('/api/v1/users.php', {
+        method: 'GET'
+      })
+      if (response.ok) {
+        const json = await response.json()
+
+        var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-users')).content.cloneNode(true));
+        /** @type Element */ (clone.firstElementChild).innerHTML = json
+        routesElement.children[0].replaceWith(clone)
+      } else {
+        alert('Serverfehler: ' + response.status + ' ' + response.statusText)
+      }
     }
   }()
 )

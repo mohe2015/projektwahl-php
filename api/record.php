@@ -153,7 +153,7 @@ class Participant extends User {
 
     public function __construct(?array $array) {
         parent::__construct($array);
-        $this->type = "user";
+        $this->type = "participant";
     }
 }
 
@@ -215,9 +215,9 @@ class Users {
 
     public static function all() {
         global $db;
-        $stmt = $db->prepare("SELECT * FROM users WHERE type = 'teacher' OR type = 'student';");
+        $stmt = $db->prepare("SELECT * FROM users WHERE type = 'project-manager' OR type = 'participant';");
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
+        $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'User', array(null));
         $result->new = false;
         return $result;
     }
