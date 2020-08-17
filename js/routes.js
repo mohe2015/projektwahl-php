@@ -196,6 +196,21 @@ const projectsRoute = new PathRoute(
   }()
 )
 
+const usersRoute = new PathRoute(
+  '/users',
+  new class extends Route {
+
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-users')).content.cloneNode(true));
+      routesElement.children[0].replaceWith(clone)
+    }
+  }()
+)
+
 const updatePasswordRoute = new PathRoute(
   '/update-password',
   new class extends Route {
@@ -288,7 +303,27 @@ const addProjectRoute = new PathRoute(
       var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-add-project')).content.cloneNode(true));
       let addProjectForm = /** @type HTMLFormElement */ (clone.getElementById('add-project-form'))
 
-      setupForm(router, addProjectForm, '/api/v1/login.php', json => {
+      setupForm(router, addProjectForm, '/api/v1/add-project.php', json => {
+        router.navigate(json.redirect, null)
+      }, [])
+
+      routesElement.children[0].replaceWith(clone)
+    }
+  }()
+)
+
+const addUserRoute = new PathRoute(
+  '/add-user',
+  new class extends Route {
+    /**
+     * @param {Router} router
+     * @param {any|null} state
+     */
+    render = async (router, state) => {
+      var clone = /** @type DocumentFragment */ (/** @type HTMLTemplateElement */ (getElementById('route-add-user')).content.cloneNode(true));
+      let addUserForm = /** @type HTMLFormElement */ (clone.getElementById('add-user-form'))
+
+      setupForm(router, addUserForm, '/api/v1/add-user.php', json => {
         router.navigate(json.redirect, null)
       }, [])
 
@@ -309,4 +344,4 @@ const notFoundRoute = new class extends Route {
   }
 }()
 
-export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, projectsRoute, addProjectRoute, notFoundRoute]))
+export const rootRoute = new CookieRoute(new Routes([indexRoute, setupRoute, loginRoute, updatePasswordRoute, projectsRoute, addProjectRoute, usersRoute, addUserRoute, notFoundRoute]))
