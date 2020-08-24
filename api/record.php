@@ -20,6 +20,113 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+class PermissionException extends Exception
+{
+    public function __construct($message, $code = 0, Exception $previous = null) {
+        parent::__construct($message, $code, $previous);
+    }
+}
+
+class UnknownFieldException extends Exception
+{
+    public function __construct($message, $code = 0, Exception $previous = null) {
+        parent::__construct($message, $code, $previous);
+    }
+}
+
+abstract class UserRole
+{
+    const Admin = 0;
+    const ProjectManager = 1;
+    const Participant = 2;
+}
+
+class User {
+    private ?int $id;
+    private string $name;
+    private ?string $password_hash;
+    private UserRole $role;
+    private bool $password_changed;
+
+    private ?int $project_leader;
+    private ?string $class;
+    private ?int $age;
+    private ?bool $away;
+    private ?int $in_project;
+
+    // create a new one
+    public function __construct(User $current_user, array $data) {
+        // defaults
+        $this->id = null;
+        $this->password_hash = null;
+        $this->password_changed = false;
+
+        edit($current_user, $data);
+        // TODO FIXME check if $data set all required elements
+
+    }
+
+    public function edit(User $current_user, array $data) {
+        if ($current_user->role !== UserRole::Admin) {
+            throw new PermissionException("Nur Administratoren können Nutzer erstellen/bearbeiten!");
+        }
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case "name": 
+                    // TODO FIXME empty
+                    $this->name = $value;
+                break;
+                case "role":
+                    // TODO FIXME validate input
+                    $this->role = $value;
+                 break;
+                case "project_leader": 
+                    // TODO FIXME check if project exists / the insert on save should do that    
+                    $this->project_leader = $value;
+                break;
+                case "class": 
+                    // TODO FIXME empty
+                    $this->class = $value;
+                break;
+                case "age": 
+                    // TODO FIXME invalid range
+                    // TODO test string
+                    $this->age = $value;
+                break;
+                case "away": 
+                    // TODO test other type
+                    $this->away = $value;
+                break;
+                case "in_project": 
+                    // TODO FIXME check if project exists / the insert on save should do that    
+                    $this->in_project = $value;
+                break;
+                case "id":
+                case "password_hash":
+                case "password_changed":
+                    throw new PermissionException("Admin darf das Feld $key nicht setzen!");
+                break;
+                default:
+                    throw new UnknownFieldException("Unbekanntes Feld $key!");
+            }
+        }
+        // TODO FIXME autosave?
+    }
+
+    public function to_json(User $current_user) {
+        if ($current_user->role !== UserRole::Admin) {
+            throw new PermissionException("Nur Administratoren können Nutzer erstellen/bearbeiten!");
+        }
+        return json_encode($this);
+    }
+}
+
+
+
+
+
+
+/*
 class Record {
     private bool $new;
 
@@ -256,6 +363,6 @@ class Project extends Record {
         }
         return self::$update_stmt;
     }
-}
+}*/
 
 ?>
