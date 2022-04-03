@@ -1,1 +1,1 @@
-See https://github.com/projektwahl/projektwahl-sveltekit
+See https://github.com/projektwahl/projektwahl-lit
